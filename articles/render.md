@@ -1,5 +1,7 @@
 # Drawing to Console
 
+NEEDS LOTS OF IMAGES
+
 This article goes over the motivation behind the parts of the rendering
 system. It builds up from simple console printing to rendering
 animations ingame.
@@ -33,6 +35,8 @@ square pixels.
 
 Printing to the console like this is quite simple. Strings like this are
 quickly interpreted by users as imagery:
+
+**Example**
 
 ``` r
 cat('
@@ -71,6 +75,8 @@ Instead, we can write a function,
 [`render.matrix()`](https://gbkorr.github.io/rcade/reference/render.matrix.md),
 to convert directly from a bitmap matrix to a drawable string:
 
+`render.matrix`
+
 ``` r
 render.matrix = function(M, palette = c('  ', '[]', '  ')){
   #we assume the bitmap to be positive integers
@@ -106,6 +112,8 @@ So
 lets us print pixel art to the console if we have a matrix that encodes
 it. This package calls such a matrix a **sprite**.
 
+**Example**
+
 ``` r
 #A sprite is anything that can be printed by render.matrix():
 sprite = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
@@ -137,6 +145,8 @@ this function is to remove the need for confusing matrix manipulation,
 and to follow the principle of WYSIWYG for maximal convenience: “what
 you see is what you get”.
 
+**Example**\`
+
 ``` r
 sprite = render.makesprite('
   OOO
@@ -165,6 +175,8 @@ useful.
 Sometimes, it’s easier to create a sprite manually as a matrix. This is
 especially useful for geometric or procedural shapes:
 
+**Example**
+
 ``` r
 box = matrix(1,8,16)
 box[2:(nrow(box) - 1), 2:(ncol(box) - 1)] = 0
@@ -189,6 +201,8 @@ one image.
 
 The general approach to this is to take a big, empty, rectangular
 ‘background’ sprite, and edit in our sprites:
+
+**Example**
 
 ``` r
 sprite = render.makesprite('
@@ -233,6 +247,8 @@ around this with code like this:
   matrix[a:b,c:d] = overwrite
 ```
 
+**Example**
+
 ``` r
 circle = render.makesprite('
   OOO
@@ -268,6 +284,8 @@ This whole process is automated by
 [`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md),
 which also clips the sprite to ensure that everything is kept within the
 bounds of the matrix.
+
+**Example**
 
 ``` r
 background = matrix(0,9,14)
@@ -441,6 +459,8 @@ left/right/center.[⁴](#fn4)
 Here’s an example of
 [`render.text()`](https://gbkorr.github.io/rcade/reference/render.text.md)’s
 stitching:
+
+**Example**
 
 ``` r
 #manually stitching letters with a 1-wide gap between

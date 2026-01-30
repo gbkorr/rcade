@@ -1002,7 +1002,7 @@ You can see me:
     [`ram.init()`](https://gbkorr.github.io/rcade/reference/ram.init.md)
 2.  start running the game with
     [`ram.run()`](https://gbkorr.github.io/rcade/reference/ram.run.md)
-3.  pull up the listener session
+3.  pull up the input session
 4.  start recording and inputting inputs with
     [`inputs.listen()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
 
