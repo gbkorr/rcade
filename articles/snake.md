@@ -6,6 +6,15 @@ gamelogic functionality of the package, and it doesn’t require fancy
 graphics; graphical capabilities are explored in
 `vignette("rcade.super_rrio")`.
 
+This article includes all of the code in the `Snake` ROM, in collapsible
+chunks like this:
+
+`Example Code [click to expand]`
+
+``` r
+library(rcade)
+```
+
 ## 1. Engine Structure
 
 A ROM is an object (list) made with
@@ -104,6 +113,8 @@ environment— the RAM would have no way to access it in its environment.
 So instead we make it a part of the ROM. Then, the RAM can run it with
 `RAM$ROM$set_direction()`, since the RAM has access to a copy of ROM.
 
+`Snake$set_direction`
+
 ``` r
 Snake$set_direction = function(RAM){
   #name of the actions pressed on this tick, or NULL
@@ -122,6 +133,8 @@ Snake$set_direction = function(RAM){
 ### 3.3 Movement
 
 Now we move the head based on its direction.
+
+`Snake$move_head`
 
 ``` r
 Snake$move_head = function(RAM){
@@ -192,6 +205,8 @@ want to make the sprite dynamically like this so that the game can be
 played at different resolutions— if we hard-coded a sprite, it wouldn’t
 always fit!
 
+`Snake$make_border`
+
 ``` r
 Snake$make_border = function(RAM){
   #make border sprite
@@ -238,6 +253,8 @@ We use
 [`ram.new_object()`](https://gbkorr.github.io/rcade/reference/ram.new_object.md)
 to add nameless objects to `RAM$objects`.
 
+`Snake$spawn_segment`
+
 ``` r
 Snake$spawn_segment = function(RAM){
   #spawn new tail segment
@@ -262,6 +279,8 @@ Snake$spawn_segment = function(RAM){
 
 Then we can loop through the objects, find the oldest segment, and
 remove it.
+
+`Snake$remove_tail`
 
 ``` r
 Snake$remove_tail = function(RAM){
@@ -442,6 +461,8 @@ overlapping a segment (hit itself).
 We’ll make another function to help check for that overlap. (We’ll also
 be reusing this function to see when the Snake touches an apple!)
 
+`Snake$overlap`
+
 ``` r
 #returns true if both objects are at the same coordinates
 Snake$overlap = function(obj1, obj2){
@@ -451,6 +472,8 @@ Snake$overlap = function(obj1, obj2){
 ```
 
 Now we can check for collisions like so:
+
+`Snake$check_game_end`
 
 ``` r
 Snake$check_game_end = function(RAM){
@@ -492,6 +515,8 @@ Snake$end_game = function(RAM){
 First we have to make the Apple object in `Snake$startup`. All it needs
 is coordinates and a sprite!
 
+`inside Snake$startup:`
+
 ``` r
 RAM$objects$apple = list(
     x = sample(2:(RAM$ROM$screen.width - 1),1), #random location
@@ -512,6 +537,8 @@ The game logic for the apple should be this:
 
 We’ll do that like this in `Snake$custom`:
 
+`inside Snake$custom:`
+
 ``` r
 if (RAM$ROM$overlap(RAM$objects$head,RAM$objects$apple)){
     RAM = RAM$ROM$eat_apple(RAM) #eat apple
@@ -522,6 +549,8 @@ if (RAM$ROM$overlap(RAM$objects$head,RAM$objects$apple)){
 
 And now we have to define `Snake$eat_apple`. All this has to do is move
 the apple to a new, unoccupied location.
+
+`Snake$eat_apple`
 
 ``` r
 #moves the apple
@@ -639,6 +668,8 @@ Currently, there’s nothing stopping you from going back in the direction
 you just came from, which would make you instantly collide and lose. We
 can add a check in `Snake$set_direction()` to prevent this:
 
+`Snake$set_direction`
+
 ``` r
 Snake$set_direction = function(RAM){
   #name of the actions pressed on this tick, or NULL
@@ -673,6 +704,8 @@ It would be neat to display some stats about the game when it ends, like
 how big the snake is and how long you survived for. We can record the
 snake length by incrementing a counter, `RAM$segments`, in
 `Snake$add_segment()`, and decrementing it in `Snake$remove_segment`.
+
+`Snake$spawn_segment`
 
 ``` r
 Snake$spawn_segment = function(RAM){
@@ -733,6 +766,8 @@ RAM$ticks_survived = 0
 
 And we can add these variables to the Game Over message:
 
+`Snake$end_game`
+
 ``` r
 Snake$end_game = function(RAM){
         cat('Game over! Size: ', 
@@ -750,6 +785,8 @@ We also want to make a check for when the player has completely filled
 the space with the snake, to prevent that while loop from earlier from
 hanging. We can do this by adding a check at the beginning of
 `Snake$eat_apple()`:
+
+`Snake$eat_apple`
 
 ``` r
 Snake$eat_apple = function(RAM){
@@ -815,6 +852,8 @@ So this function will go in `Snake$starup()`, *before* we generate the
 border with `Snake$make_border()`. It asks the player if they want to
 change the settings from the default, and if so, gives them three
 prompts to enter custom settings.
+
+`Snake$set_difficulty`
 
 ``` r
 Snake$set_difficulty = function(RAM){
@@ -982,6 +1021,8 @@ RAM$data = list(x = numeric(0), y = numeric(0), direction = character(0), segmen
 And then stick a function to record them in `Snake$custom()` once the
 snake starts moving.
 
+`Snake$record_data`
+
 ``` r
 Snake$record_data = function(RAM){
     #position
@@ -998,6 +1039,8 @@ Snake$record_data = function(RAM){
 
 And now let’s make some graphs. We’ll call this inside
 `Snake$end_game()`: here’s a demo with a round I played.
+
+`Snake$view_data`
 
 ``` r
 Snake$view_data = function(RAM){
@@ -1041,7 +1084,7 @@ Snake$view_data = function(RAM){
 }
 ```
 
-![](snake_files/figure-html/unnamed-chunk-32-1.png)
+![](snake_files/figure-html/unnamed-chunk-33-1.png)
 
 I only got to 20 (out of 84 max) segments, so these graphs represent
 data for the early stages of the game.
