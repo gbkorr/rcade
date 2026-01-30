@@ -1,0 +1,27 @@
+Package: rcade
+Type: Package
+Title: Play Games in RStudio
+Version: 1.0.0
+Authors@R: 
+    person("Gabriel", "Broussard Korr", , "mantis9877@gmail.com", role = c("aut", "cre"))
+Description: Runs games in vanilla RStudio, rendered live on the console. 
+    The player can interact with games with live input using a second RStudio sessison.
+    Also allows users to create and play their own games using the package.
+License: MIT + file LICENSE
+URL: [pkgdown url here]
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
+Roxygen: list(markdown = TRUE)
+Imports:
+		evaluate,
+		utils,
+		tools
+Suggests: 
+    knitr,
+    rmarkdown,
+    diagram,
+    devtools
+VignetteBuilder: knitr
+Depends: 
+    R (>= 4.0)

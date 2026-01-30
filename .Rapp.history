@@ -1,0 +1,6 @@
+cat('\f')
+cat('\c')
+cat('\u')
+cat('\a')
+setwd('~/rcade')
+devtools::load_all()

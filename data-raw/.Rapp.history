@@ -1,0 +1,13 @@
+?usethis
+setwd('~/rcade')
+devtools::load_all(".")
+Snake
+RAM = ram.init(Snake)
+RAM = ram.run(RAM)
+source('R/Snake')
+source('data_raw/Snake')
+source('data-raw/Snake')
+source('~/rcade/data-raw/Snake')
+ls
+setwd('data-raw')
+source('Snake.r')

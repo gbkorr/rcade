@@ -1,0 +1,74 @@
+---
+title: "Input Handling"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{inputs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This article aims to explain the motivation behind how the inputs system works, as well as giving an understanding of its structure; the documentation for `inputs.process()` has a more specific (and concise) explanation of the input pipeline.
+
+### 1. Overview
+
+The Input system has the tall task of communicating live with the game process. Trouble is, R doesn't make this easy!
+
+R Games in the past were thwarted by the fact that R's only native method of taking user input, `base::readline()`, fully suspends the R process until an input is given[^1]. The natural way around this, of course, is to just use two processes!
+
+[^1]: So games typically used shiny or similar packages which let them capture user events without suspending the process.
+
+And that's what the input system does. We use one Rstudio session to run and draw the main game constantly, without interruption, and use a second session to interact with the player. All this second session has to do is relay inputs to the first.
+
+### 2. Recording Inputs
+Getting input from a user isn't very hard in R— looping `readline()` lets us capture the full text string input by the user between every Enter press. We actually use `readLines(n=1)` instead, which does the exact same thing but doesn't remove leading and trailing whitespace. This lets us use SPACE (' ') as a valid key for actions.
+
+
+### 3. Transmitting Inputs
+The listening session sends these inputs to the game session by adding them to the end of a dataframe stored in a .csv file, using `utils::write.table(append=TRUE)`. R can read and write to .csvs quite quickly—--much faster than it can print text, for example--—so we can have the game read the .csv file every tick to see if any new inputs have been created.
+
+But where should this file be located? Luckily, R provides a dedicated folder for storing local data for a package: `tools::R_user_dir()`. Since the player can only type in one window at a time, we're not really going to have multiple input sessions going on, so we can just reuse the same .csv file each time we play a game; `ram.init()` wipes the file at the start of each game.
+
+Now, on every tick, the game reads the contents of that .csv file and has to figure out what to do with them.
+
+
+### 4. Interpreting Inputs
+Ultimately, we want an input to convey a certain set of keyboard keys that should be interpreted as pressed on a certain tick. That's what the player is 'expecting' an input system to do.
+
+The keys are easy—-- we're already storing a string of characters that we can split up to see the individual keys the player pressed. But how do we get from the exact `time.sec()` (absolute time in seconds) of the input, which our listener records, to the tick the input should happen on?
+
+This can be accomplished in a few ways that all do basically the same thing. For convenience, I settled on the approach of converting the timestamp directly into a tick number---the tick the input should occur on---before being interpreted by the game.
+
+So the game reads the inputs from the .csv file, determines which ones it hasn't seen before, converts their timestamps to ticks, and saves the new inputs to `RAM$inputs`. All this is done in `inputs.get()`.
+
+### 5. Timestamp-to-Frame Conversion
+How do we get from a timestamp to the tick it should occur on?
+
+This is tied to how the game accomplishes frame Timing (see `vignette("timing")`) in general. The timing system will sync itself to have a tick occur every `1/framerate` seconds from when it last resumed, so we can manually calculate what time corresponds to what tick if we record the time the game resumed. The math for this is in `?inputs.get`.
+
+We also want to add a slight amount of **input delay**--— pretending all inputs were made a little later than they really were---because inputs aren't transmitted and read instantly. If they were, every input would be received slightly after it was made, and every input would be late![^2]
+
+[^2]: Input delay is determined by `ROM$input_delay`, and is fine at 1/60th. Even at 0 input delay, many inputs arrive on time because they're snapped to the start of the next tick (which is often after they arrive). This variable becomes more useful online, where higher input delays can compensate for slower connections—-- reducing the frequency of rollbacks (late inputs) at the cost of slightly less responsive controls. 1/10th of a second is reasonable in those contexts, with higher values being passable but sluggish.
+
+### 6. Processing Inputs
+This whole process leaves us with `RAM$inputs`, a dataframe of input strings and the corresponding ticks they should occur on.
+
+Now the game can, on every tick, just look at which inputs correspond to the current tick, and apply the input as such.
+
+Inputs are applied by using each character of the input string to key `ROM$keybinds`, which stores the *action* each keypress should correspond to--- this then updates `RAM$actions`, which the game logic can read to see if, for example, the player pressed the key for JUMP this frame. This process is detailed in `?inputs.process`. 
+
+### 7. Late Inputs
+What if, because of computer lag or online latency, the game receives an input *after* it was supposed to happen? The game is designed to be able to smoothly handle this scenario— something many engines struggle with.
+
+Because the RAM constantly backs itself up, we can just `ram.rollback()` to a previous version and rerun the game. RAM$inputs is *not* rolled back, so when the game reruns itself, it'll now have access to the inputs that it missed before!
+
+
+
