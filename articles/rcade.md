@@ -49,8 +49,6 @@ details everything that goes into **drawing the game** to the console.
 
 \[COPY SECTIONS FROM GUIDE VIGNETTE?\]
 
-\[git integration test \#2\]
-
 ### 3.1 Snake
 
 [`vignette("snake")`](https://gbkorr.github.io/rcade/articles/snake.md)
