@@ -49,7 +49,7 @@ details everything that goes into **drawing the game** to the console.
 
 \[COPY SECTIONS FROM GUIDE VIGNETTE?\]
 
-\[git integration test\]
+\[git integration test \#2\]
 
 ### 3.1 Snake
 
@@ -216,6 +216,5 @@ to do the port.
     concepts are generalizable to other languages and might actually be
     a good resource for making an engine like this.
 
-5.  Except, of course, when the Google results suggested the right
-    function before I could click on a stackexchange link saying the
-    same thing.
+5.  Except for when Google results suggested a function before I could
+    click on Stackexchgange, of course.
