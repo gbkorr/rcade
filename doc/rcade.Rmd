@@ -48,8 +48,6 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 ## 3. Prebuilt Games
 [COPY SECTIONS FROM GUIDE VIGNETTE?]
 
-[git integration test #2]
-
 ### 3.1 Snake
 `vignette("snake")`
 
@@ -145,7 +143,7 @@ Both packages are obscure and nearly a decade old— may the R gods be merciful 
 ### 6.3 AI Disclaimer
 **No LLMs**[^11] were used in the making of this package. All writing and code was done by me!
 
-[^11]: Except, of course, when the Google results suggested the right function before I could click on a stackexchange link saying the same thing.
+[^11]: Except for when Google results suggested a function before I could click on Stackexchgange, of course.
 
 ## 7. But Can it Run Doom?
 Absolutely, but I’m not good at making 3D games. Someone else will have to do the port.
