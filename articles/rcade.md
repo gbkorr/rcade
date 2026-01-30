@@ -183,7 +183,7 @@ merciful on my usurping of the name.
 
 ### 6.3 AI Disclaimer
 
-**No LLMs**[⁵](#fn5) were used in the making of this package. All
+**No LLMs** were used[⁵](#fn5) in the making of this package. All
 writing and code was done by me!
 
 ## 7. But Can it Run Doom?
