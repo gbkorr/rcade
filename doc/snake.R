@@ -8,10 +8,13 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ----class.source = 'fold-show'-----------------------------------------------
+## ----eval=F-------------------------------------------------------------------
+# library(rcade)
+
+## -----------------------------------------------------------------------------
 Snake = rom.init(16,8,framerate=2,sprites=list(pixel=matrix(1)))
 
-## ----class.source = 'fold-show'-----------------------------------------------
+## -----------------------------------------------------------------------------
 #Snake$keybinds = c(w = 'up', a = 'left', s = 'down', d = 'right')
 
 ## -----------------------------------------------------------------------------
@@ -409,10 +412,10 @@ Snake$remove_tail = function(RAM){
 	return(RAM)
 }
 
-## ----eval=F, class.source = 'fold-show'---------------------------------------
+## ----eval=F-------------------------------------------------------------------
 # RAM$ticks_survived = RAM$ticks_survived + 1
 
-## ----eval=F, class.source = 'fold-show'---------------------------------------
+## ----eval=F-------------------------------------------------------------------
 # RAM$segments = 0
 # RAM$ticks_survived = 0
 
@@ -462,7 +465,7 @@ Snake$eat_apple = function(RAM){
 	return(RAM)
 }
 
-## ----eval=F, class.source = 'fold-show'---------------------------------------
+## ----eval=F-------------------------------------------------------------------
 # if (RAM$segments > RAM$starting_segments) RAM = RAM$ROM$remove_tail(RAM)
 
 ## -----------------------------------------------------------------------------
@@ -753,7 +756,7 @@ data = data = list(x = c(9, 10, 10, 10, 9, 8, 7, 7, 7, 7, 8, 9, 9, 10, 11,
 	for (d in 1:(length(data$direction) - 1)) hand_direction = c(hand_direction,handedness[[data$direction[d]]][data$direction[d + 1]])
 	hand_table = data.frame("direction" = data$direction[1:(length(data$direction)-1)], "turn" = hand_direction)
 	barplot(t(table(hand_table)), beside=TRUE, main = 'Turning Handedness\nPreference', xlab = 'Facing Direction', ylab = 'Frequency')
-	legend('bottomleft', title= '\nTurn\nDirection', legend=c('Left','Right'), fill=gray.colors(2),cex=0.8)
+	legend('bottomleft', title= '\nTurn\nDirection', legend=c('Left','Right'), fill=gray.colors(2), bg='white',cex=0.8)
 	
 	#plot 4: tile frequency
 	tile_heatmap = matrix(0,8,16)

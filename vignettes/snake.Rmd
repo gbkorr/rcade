@@ -23,6 +23,15 @@ knitr::opts_chunk$set(
 
 This article goes through the full process of making and testing the `Snake` ROM. Snake is a good game to demonstrate the basic input and gamelogic functionality of the package, and it doesn't require fancy graphics; graphical capabilities are explored in `vignette("rcade.super_rrio")`.
 
+This article includes all of the code in the `Snake` ROM, in collapsible chunks like this:
+
+<details>
+  <summary>`Example Code [click to expand]`</summary>
+```{r eval=F}
+library(rcade)
+```
+</details>
+
 ## 1. Engine Structure
 
 A ROM is an object (list) made with `rom.init()` that the package can use to play a game. A ROM contains all the *static* data of the game--- game logic, sprites, and so on. This is what we're building in this article.
@@ -43,7 +52,7 @@ Before we start, we have to make some decisions about how the game will work.
 
 To start, we create the ROM object.
 
-```{r class.source = 'fold-show'}
+```{r}
 Snake = rom.init(16,8,framerate=2,sprites=list(pixel=matrix(1)))
 ```
 
@@ -57,7 +66,7 @@ So far, we've:
 
 And the game automatically uses the default WASD controls:[^1]
 
-```{r class.source = 'fold-show'}
+```{r}
 #Snake$keybinds = c(w = 'up', a = 'left', s = 'down', d = 'right')
 ```
 
@@ -96,6 +105,8 @@ We'll control the snakehead by changing its `$direction`. We can do this by chec
 
 We want this code to run every tick in `Snake$custom()`, but instead of cluttering that function, we can make a new function and call it in `Snake$custom()`. We can't just define this new function in the basic R environment--- the RAM would have no way to access it in its environment. So instead we make it a part of the ROM. Then, the RAM can run it with `RAM$ROM$set_direction()`, since the RAM has access to a copy of ROM.
 
+<details>
+  <summary>`Snake$set_direction`</summary>
 ```{r}
 Snake$set_direction = function(RAM){
   #name of the actions pressed on this tick, or NULL
@@ -110,11 +121,14 @@ Snake$set_direction = function(RAM){
   return(RAM)
 }
 ```
+</details>
 
 ### 3.3 Movement
 
 Now we move the head based on its direction.
 
+<details>
+  <summary>`Snake$move_head`</summary>
 ```{r}
 Snake$move_head = function(RAM){
   head = RAM$objects$head #for typing convenience
@@ -137,12 +151,14 @@ Snake$move_head = function(RAM){
 	return(RAM)
 }
 ```
+</details>
 
 ### 3.4 Testing
 
 Putting this all together, we already have a working prototype where we can control the head!
 
-**FULL CODE SO FAR:**
+<details>
+  <summary>**FULL CODE SO FAR:**</summary>
 ```{r eval=FALSE}
 Snake = rom.init(16,8,framerate=2,sprites=list(pixel=matrix(1)))
 
@@ -171,6 +187,7 @@ Snake$custom = function(RAM){
 RAM = ram.init(Snake) #initialize RAM
 RAM = ram.run(RAM) #run game with RAM
 ```
+</details>
 
 ![](snake_1.gif)
 
@@ -178,6 +195,8 @@ RAM = ram.run(RAM) #run game with RAM
 Next, let's make a nice border for the game so we know where the play area ends. We can do this by generating a sprite in `Snake$startup`:
 We want to make the sprite dynamically like this so that the game can be played at different resolutions--- if we hard-coded a sprite, it wouldn't always fit!
 
+<details>
+  <summary>`Snake$make_border`</summary>
 ```{r}
 Snake$make_border = function(RAM){
   #make border sprite
@@ -201,6 +220,7 @@ box[4,8] = 1
 
 render.matrix(box)
 ```
+</details>
 
 ## 5. Segments
 
@@ -216,6 +236,9 @@ This produces exactly the behavior we want, since the "tail" of the snake always
 
 New segments are spawned each frame in `Snake$custom` before moving the head:  
 We use `ram.new_object()` to add nameless objects to `RAM$objects`.
+
+<details>
+  <summary>`Snake$spawn_segment`</summary>
 ```{r}
 Snake$spawn_segment = function(RAM){
   #spawn new tail segment
@@ -235,11 +258,13 @@ Snake$spawn_segment = function(RAM){
   return(RAM)  
 }
 ```
-
+</details>
 
 ### 5.2 Remove Tail
 Then we can loop through the objects, find the oldest segment, and remove it.
 
+<details>
+  <summary>`Snake$remove_tail`</summary>
 ```{r}
 Snake$remove_tail = function(RAM){
   oldest_time = Inf
@@ -260,6 +285,7 @@ Snake$remove_tail = function(RAM){
   return(RAM)
 }
 ```
+</details>
 
 WARNING: Because of how R handles nested objects, `RAM$objects` always has to be iterated by `for (i in 1:length(RAM$objects))`. Attempting `for (obj in RAM$objects)` will NOT work.
 
@@ -267,7 +293,8 @@ WARNING: Because of how R handles nested objects, `RAM$objects` always has to be
 
 To test the segments, we'll have to make code for the snake to grow. The snake will grow any time we don't delete the tail segment, so let's prevent that code from running every, say, 5 ticks. Let's also speed up the game a little so it's easier to test.
 
-**FULL CODE SO FAR:**
+<details>
+  <summary>**FULL CODE SO FAR:**</summary>
 ```{r eval=FALSE}
 Snake = rom.init(16,8,framerate=5,sprites=list(pixel=matrix(1)))
 
@@ -311,6 +338,7 @@ Snake$custom = function(RAM){
 
 quickload(Snake)
 ```
+</details>
 
 ![](snake_2.gif)
 
@@ -384,6 +412,8 @@ It's time to check for when the player loses. This is fairly simple--- we just h
 
 We'll make another function to help check for that overlap. (We'll also be reusing this function to see when the Snake touches an apple!) 
 
+<details>
+  <summary>`Snake$overlap`</summary>
 ```{r}
 #returns true if both objects are at the same coordinates
 Snake$overlap = function(obj1, obj2){
@@ -391,8 +421,11 @@ Snake$overlap = function(obj1, obj2){
 	else return(FALSE)
 }
 ```
+</details>
 
 Now we can check for collisions like so:
+<details>
+  <summary>`Snake$check_game_end`</summary>
 ```{r}
 Snake$check_game_end = function(RAM){
 	end_game = FALSE
@@ -425,12 +458,16 @@ Snake$end_game = function(RAM){
 		ram.end() #stops the game
 }
 ```
+</details>
 
 ## 8. Apple
 
 
 ### 8.1 Initialization
 First we have to make the Apple object in `Snake$startup`. All it needs is coordinates and a sprite!  
+
+<details>
+  <summary>`inside Snake$startup:`</summary>
 ```{r eval=F}
 RAM$objects$apple = list(
 	x = sample(2:(RAM$ROM$screen.width - 1),1), #random location
@@ -439,7 +476,7 @@ RAM$objects$apple = list(
 	spritename = 'pixel'
 )
 ```
-
+</details>
 
 ### 8.2 Logic
 The game logic for the apple should be this:
@@ -449,6 +486,9 @@ The game logic for the apple should be this:
 - Repeat.
 
 We'll do that like this in `Snake$custom`:
+
+<details>
+  <summary>`inside Snake$custom:`</summary>
 ```{r eval=F}
 if (RAM$ROM$overlap(RAM$objects$head,RAM$objects$apple)){
 	RAM = RAM$ROM$eat_apple(RAM) #eat apple
@@ -456,9 +496,12 @@ if (RAM$ROM$overlap(RAM$objects$head,RAM$objects$apple)){
 	RAM = RAM$ROM$remove_tail(RAM)
 }
 ```
+</details>
 
 And now we have to define `Snake$eat_apple`. All this has to do is move the apple to a new, unoccupied location.
 
+<details>
+  <summary>`Snake$eat_apple`</summary>
 ```{r}
 #moves the apple
 Snake$eat_apple = function(RAM){
@@ -488,6 +531,7 @@ Snake$eat_apple = function(RAM){
 	return(RAM)
 }
 ```
+</details>
 
 Later we'll put in a little code to check if the player has filled the area and won, since that would hang this `while` loop.
 
@@ -495,7 +539,8 @@ Later we'll put in a little code to check if the player has filled the area and 
 
 Now our code looks like this:
 
-**FULL CODE SO FAR:**
+<details>
+  <summary>**FULL CODE SO FAR:**</summary>
 ```{r, eval=FALSE}
 Snake = rom.init(16,8,framerate=5,sprites=list(pixel=matrix(1)))
 
@@ -558,6 +603,8 @@ Snake$custom = function(RAM){
 
 quickload(Snake)
 ```
+</details>
+
 ![Working great!](snake_3.gif)
 
 
@@ -567,6 +614,8 @@ Time for a bunch of cleanup and QoL.
 ### 9.1 U-Turn Prevention
 Currently, there's nothing stopping you from going back in the direction you just came from, which would make you instantly collide and lose. We can add a check in `Snake$set_direction()` to prevent this:
 
+<details>
+  <summary>`Snake$set_direction`</summary>
 ```{r}
 Snake$set_direction = function(RAM){
   #name of the actions pressed on this tick, or NULL
@@ -591,12 +640,15 @@ Snake$set_direction = function(RAM){
   return(RAM)
 }
 ```
+</details>
 
 I've also gotten rid of the action echo, since we're confident it works at this point.
 
 ### 9.2 Counting Segments and Survival
 It would be neat to display some stats about the game when it ends, like how big the snake is and how long you survived for. We can record the snake length by incrementing a counter, `RAM$segments`, in `Snake$add_segment()`, and decrementing it in `Snake$remove_segment`.
 
+<details>
+  <summary>`Snake$spawn_segment`</summary>
 ```{r}
 Snake$spawn_segment = function(RAM){
 	RAM$segments = RAM$segments + 1 #increment segments
@@ -639,21 +691,24 @@ Snake$remove_tail = function(RAM){
 	return(RAM)
 }
 ```
+</details>
 
 Similarly, we can track the number of ticks survived by incrementing a counter every tick once the player starts moving, in `Snake$custom()`.
 
-```{r eval=F, class.source = 'fold-show'}
+```{r eval=F}
 RAM$ticks_survived = RAM$ticks_survived + 1
 ```
 
 We just have to initialize both counters in `Snake$startup()` like so:
-```{r eval=F, class.source = 'fold-show'}
+```{r eval=F}
 RAM$segments = 0
 RAM$ticks_survived = 0
 ```
 
 And we can add these variables to the Game Over message:
 
+<details>
+  <summary>`Snake$end_game`</summary>
 ```{r}
 Snake$end_game = function(RAM){
 		cat('Game over! Size: ', 
@@ -666,9 +721,12 @@ Snake$end_game = function(RAM){
 		ram.end() #stops the game
 }
 ```
+</details>
 
 We also want to make a check for when the player has completely filled the space with the snake, to prevent that while loop from earlier from hanging. We can do this by adding a check at the beginning of `Snake$eat_apple()`:
 
+<details>
+  <summary>`Snake$eat_apple`</summary>
 ```{r eval}
 Snake$eat_apple = function(RAM){
 	# check for game win
@@ -703,13 +761,14 @@ Snake$eat_apple = function(RAM){
 	return(RAM)
 }
 ```
+</details>
 
 This will end the game before the while loop has a chance to start.
 
 ### 9.3 Starting Segments
 It's nice to start with a few segments. We can do this by suppressing `Snake$remove_tail()` in `Snake$custom()` until the desired amount of segments is reached, which we'll define with `RAM$starting_segments`.
 
-``` {r eval=F, class.source = 'fold-show'}
+``` {r eval=F}
 if (RAM$segments > RAM$starting_segments) RAM = RAM$ROM$remove_tail(RAM)
 ```
 
@@ -722,6 +781,8 @@ We can do this by putting `readline()` in `Snake$startup`, which will prompt the
 
 So this function will go in `Snake$starup()`, *before* we generate the border with `Snake$make_border()`. It asks the player if they want to change the settings from the default, and if so, gives them three prompts to enter custom settings.
 
+<details>
+  <summary>`Snake$set_difficulty`</summary>
 ```{r}
 Snake$set_difficulty = function(RAM){
 	use_defaults = readline('Use default game settings? y/n ')
@@ -769,6 +830,7 @@ Snake$set_difficulty = function(RAM){
 	return(RAM)
 }
 ```
+</details>
 
 I'm also changing the defaults of the final ROM to 32x16 @ 5fps. We had it smaller before for ease of testing.  
 For the framerate: 5fps is a nice, mildly challenging pace, 2 gives plenty of time to think, and 10 is rather intense and breakneck, especially as the snake gets long.
@@ -776,7 +838,8 @@ For the framerate: 5fps is a nice, mildly challenging pace, 2 gives plenty of ti
 ## 10. Game Demo
 Here's the (almost) final code for the `Snake` ROM, and a GIF of a complete game session.
 
-**FULL CODE SO FAR:**
+<details>
+  <summary>**FULL CODE SO FAR:**</summary>
 ```{r eval=F}
 Snake = rom.init(32,16,framerate=5,sprites=list(pixel=matrix(1)))
 
@@ -854,6 +917,7 @@ Snake$custom = function(RAM){
 
 quickload(Snake)
 ```
+</details>
 
 ![](snake_4.gif)
 
@@ -875,6 +939,8 @@ RAM$data = list(x = numeric(0), y = numeric(0), direction = character(0), segmen
 
 And then stick a function to record them in `Snake$custom()` once the snake starts moving.
 
+<details>
+  <summary>`Snake$record_data`</summary>
 ```{r eval=F}
 Snake$record_data = function(RAM){
 	#position
@@ -888,10 +954,13 @@ Snake$record_data = function(RAM){
 	return(RAM)	
 }
 ```
+</details>
 
 And now let's make some graphs.
 We'll call this inside `Snake$end_game()`: here's a demo with a round I played.
 
+<details>
+  <summary>`Snake$view_data`</summary>
 ```{r eval=F}
 Snake$view_data = function(RAM){
 	if (readline("View graphs? y/n ") != 'y') return()
@@ -933,6 +1002,7 @@ Snake$view_data = function(RAM){
 	par(op) #restore original settings
 }
 ```
+</details>
 
 ```{r echo=F, fig.width=6, fig.height=5}
 #----
@@ -1041,7 +1111,7 @@ data = data = list(x = c(9, 10, 10, 10, 9, 8, 7, 7, 7, 7, 8, 9, 9, 10, 11,
 	for (d in 1:(length(data$direction) - 1)) hand_direction = c(hand_direction,handedness[[data$direction[d]]][data$direction[d + 1]])
 	hand_table = data.frame("direction" = data$direction[1:(length(data$direction)-1)], "turn" = hand_direction)
 	barplot(t(table(hand_table)), beside=TRUE, main = 'Turning Handedness\nPreference', xlab = 'Facing Direction', ylab = 'Frequency')
-	legend('bottomleft', title= '\nTurn\nDirection', legend=c('Left','Right'), fill=gray.colors(2),cex=0.8)
+	legend('bottomleft', title= '\nTurn\nDirection', legend=c('Left','Right'), fill=gray.colors(2), bg='white',cex=0.8)
 	
 	#plot 4: tile frequency
 	tile_heatmap = matrix(0,8,16)
