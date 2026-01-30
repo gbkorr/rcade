@@ -48,6 +48,7 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 ## 3. Prebuilt Games
 [COPY SECTIONS FROM GUIDE VIGNETTE?]
 
+
 ### 3.1 Snake
 `vignette("snake")`
 
@@ -141,7 +142,7 @@ The name “rcade” was too perfect to pass up for a host of reasons. Two packa
 Both packages are obscure and nearly a decade old— may the R gods be merciful on my usurping of the name.
 
 ### 6.3 AI Disclaimer
-**No LLMs**[^11] were used in the making of this package. All writing and code was done by me!
+**No LLMs** were used[^11] in the making of this package. All writing and code was done by me!
 
 [^11]: Except for when Google results suggested a function before I could click on Stackexchgange, of course.
 

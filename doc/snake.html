@@ -466,6 +466,7 @@ player controls.</p>
 <p>We’ll initialize this object in <code>Snake$startup</code>, which
 runs once when the RAM is initialized. This is where we want to create
 objects that will be used later— it’s like the top of a code file.</p>
+<div class="callout-note">
 <details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>Snake<span class="sc">$</span>startup <span class="ot">=</span> <span class="cf">function</span>(RAM){</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  RAM<span class="sc">$</span>objects<span class="sc">$</span>head <span class="ot">=</span> <span class="fu">list</span>(</span>
@@ -479,6 +480,7 @@ objects that will be used later— it’s like the top of a code file.</p>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="fu">return</span>(RAM)</span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>}</span></code></pre></div>
 </details>
+</div>
 <p>The snake (<code>head</code> object) starts at the center of the
 screen and has the direction ‘neutral’ to indicate it hasn’t started
 moving yet.</p>
