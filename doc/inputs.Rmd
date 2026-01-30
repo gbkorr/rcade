@@ -47,12 +47,12 @@ The keys are easy—-- we're already storing a string of characters that we can 
 
 This can be accomplished in a few ways that all do basically the same thing. For convenience, I settled on the approach of converting the timestamp directly into a tick number---the tick the input should occur on---before being interpreted by the game.
 
-So the game reads the inputs from the .csv file, determines which ones it hasn't seen before, converts their timestamps to ticks, and saves the new inputs to `RAM$inputs`. All this is done in `inputs.convert()`.
+So the game reads the inputs from the .csv file, determines which ones it hasn't seen before, converts their timestamps to ticks, and saves the new inputs to `RAM$inputs`. All this is done in `inputs.get()`.
 
 ### 5. Timestamp-to-Frame Conversion
 How do we get from a timestamp to the tick it should occur on?
 
-This is tied to how the game accomplishes frame Timing (see `vignette("timing")`) in general. The timing system will sync itself to have a tick occur every `1/framerate` seconds from when it last resumed, so we can manually calculate what time corresponds to what tick if we record the time the game resumed. The math for this is in `?inputs.convert`.
+This is tied to how the game accomplishes frame Timing (see `vignette("timing")`) in general. The timing system will sync itself to have a tick occur every `1/framerate` seconds from when it last resumed, so we can manually calculate what time corresponds to what tick if we record the time the game resumed. The math for this is in `?inputs.get`.
 
 We also want to add a slight amount of **input delay**--— pretending all inputs were made a little later than they really were---because inputs aren't transmitted and read instantly. If they were, every input would be received slightly after it was made, and every input would be late![^2]
 

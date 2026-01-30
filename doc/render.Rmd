@@ -50,7 +50,7 @@ cat('
 
 But we run into an issue. Art can be printed to the console, but there's no guarantee it shows up in the right position... 
 
-Luckily, clearning the console means that the next message will always show up in the same place--- we can just clear the console every time we draw. RStudio supports this with the escape character `cat('\f')`[^1], though R unfortunately doesn't; this prevents the rendering system from working in pure R.app--- a small cost to pay for these graphics.
+Luckily, clearning the console means that the next message will always show up in the same place--- we can just clear the console every time we draw. RStudio supports this with the escape character `cat('\f')`[^1], though R.app unfortunately doesn't.
 
 [^1]: Try it! It's very useful in general R work along with cat('\r'), which overwrites the current line (and is how things like loading bars are animated).
 

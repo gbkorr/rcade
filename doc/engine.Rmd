@@ -25,7 +25,7 @@ To run a game, we'll use two objects: the ROM and RAM.[^1]
 
 [^1]: Named after the equivalent concepts in retro games!
 
-The ROM (`rom.init()`) contains everything static for the game--- code, images, and information about how to draw the screen.
+The ROM (`rom.init()`) contains everything static for the game--- code, images, and information about how to draw the game.
 
 The RAM (`ram.init()`) stores everything dynamic--- player coordinates, game timer, current inputs--- and is constantly updated as the game is run.
 
@@ -38,8 +38,8 @@ The other convenience is that, by storing all dynamic info in one object (the RA
 The basic usage of the engine is structured like this:
 
 1. game dev creates and adds game code, art, etc. to ROM object
-2. player uses ROM object to initialize RAM object for playing
-3. player runs the game using this RAM object[^2]
+2. player uses ROM to initialize RAM object for playing
+3. player runs the game using this RAM[^2]
 4. player starts an additional R session to send inputs to the game
 
 The two R sessions are referred to as the **display session**, where most of the code happens and the game is drawn, and the **input session**, where the player sends inputs to the game.
@@ -66,7 +66,7 @@ The game then runs constantly and responds to any inputs by the player in the in
 
 From here, the player can `^C` in the display session to interrupt (pause) the game and inspect the RAM object, continue the game, or even edit the ROM.[^3]
 
-[^3]: Note: since the ROM is loaded into the RAM, changes to the ROM will have to pushed to the RAM with RAM$ROM = newrom. It's almost always better to just restart the game by rerunning `ram.init()`.
+[^3]: Note: since the ROM is loaded into the RAM, changes to the ROM will have to pushed to the RAM with `RAM$ROM = newrom`. It's almost always better to just restart the game by rerunning `ram.init()`.
 
 ## 3. The Gameloop
 Once the RAM is run, it executes the **gameloop** over and over. This is where all the code dedicated to running the engine, drawing the game, running game logic, etc. is called. 
@@ -93,12 +93,12 @@ Game code is run in `ROM$custom()` and is made by the game dev. It reads and wri
 
 The Input system serves to let the player interact with the game live as it runs. It consists of a **listener** to record player inputs and code to interact with the listener, as well as code to turn recorded inputs into something usable by the Game Code.
 
-The documentation for `inputs.convert()` has a good description of the input pipeline, from the player pressing keyboard keys to the input being interpreted by game code.
+The documentation for `inputs.get()` has a good description of the input pipeline, from the player pressing keyboard keys to the input being interpreted by game code.
 
 ### 3.3 Timing
 `vignette("timing")`
 
-The Timing system ensures that the game runs and draws at the correct speed. This involves speeding up or slowing down when the game is ahead or behind of where it "should" be (according to the desired speed, determined by `ROM$framerate`), and handling whether or not to draw a given tick--- for the game to look smooth, drawing must only happen when the game is "caught up".
+The Timing system ensures that the game runs and draws at the correct speed. This involves speeding up or slowing down when the game is ahead or behind of where it "should" be (according to the desired speed, determined by `ROM$framerate`), and deciding whether or not to draw a given tick--- for the game to look smooth, drawing must only happen when the game is "caught up".
 
 ### 3.4 Rendering
 `vignette("render")`
@@ -117,7 +117,7 @@ This involves:
 While the default way of interacting with the game is using `ram.run()` and `inputs.listen()`, a couple other options are available.
 
 ### 4.1 Listener Frame Advance
-The live game can be suspended at any time by inputting `/pause` in the listening session. Then:
+The live game can be suspended at any time by inputting `/pause` in the input session. Then:
 
 * The player can input `/tick` to advance one tick forward (and draw the scene again).
 
@@ -160,11 +160,13 @@ The gameloop consists of the following nesting of functions in order:
         
          - **Inputs**:
          
-         * `inputs.convert()`
+         * `inputs.get()`
 
             * `inputs.read()` 
         
             * `inputs.command()` if any commands are sent
+            
+            * `inputs.rollback()` if any inputs were received late
 
         * `inputs.process()`
         
@@ -174,12 +176,14 @@ The gameloop consists of the following nesting of functions in order:
 
             * `RAM$ROM$custom()`  
             
-        - **Rendering**
+        - **Rendering**:
 
         * `render.ram()` if `RAM$time >` `time.sec()`  
 
             * `render.object()` for every object in `RAM$objects`  
-
+            
+                * `render.animate()` if the object's sprite is animated
+            
                 * `render.sprite()` or custom `obj$draw()`
                 
                     * `render.overlay()`
@@ -190,3 +194,4 @@ The gameloop consists of the following nesting of functions in order:
 
             * `render.matrix()`  
 
+This tree can also be found in the documentation in `?ram.run`.

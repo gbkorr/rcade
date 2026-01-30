@@ -372,7 +372,7 @@ For a walkthrough of creating a game, see
 <h2>1. ROM and RAM</h2>
 <p>To run a game, we’ll use two objects: the ROM and RAM.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <p>The ROM (<code>rom.init()</code>) contains everything static for the
-game— code, images, and information about how to draw the screen.</p>
+game— code, images, and information about how to draw the game.</p>
 <p>The RAM (<code>ram.init()</code>) stores everything dynamic— player
 coordinates, game timer, current inputs— and is constantly updated as
 the game is run.</p>
@@ -394,8 +394,8 @@ correctly.</p>
 <p>The basic usage of the engine is structured like this:</p>
 <ol style="list-style-type: decimal">
 <li>game dev creates and adds game code, art, etc. to ROM object</li>
-<li>player uses ROM object to initialize RAM object for playing</li>
-<li>player runs the game using this RAM object<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></li>
+<li>player uses ROM to initialize RAM object for playing</li>
+<li>player runs the game using this RAM<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></li>
 <li>player starts an additional R session to send inputs to the
 game</li>
 </ol>
@@ -452,7 +452,7 @@ inputs, move characters around, and trigger events like game end.</p>
 as it runs. It consists of a <strong>listener</strong> to record player
 inputs and code to interact with the listener, as well as code to turn
 recorded inputs into something usable by the Game Code.</p>
-<p>The documentation for <code>inputs.convert()</code> has a good
+<p>The documentation for <code>inputs.get()</code> has a good
 description of the input pipeline, from the player pressing keyboard
 keys to the input being interpreted by game code.</p>
 </div>
@@ -462,7 +462,7 @@ keys to the input being interpreted by game code.</p>
 <p>The Timing system ensures that the game runs and draws at the correct
 speed. This involves speeding up or slowing down when the game is ahead
 or behind of where it “should” be (according to the desired speed,
-determined by <code>ROM$framerate</code>), and handling whether or not
+determined by <code>ROM$framerate</code>), and deciding whether or not
 to draw a given tick— for the game to look smooth, drawing must only
 happen when the game is “caught up”.</p>
 </div>
@@ -493,7 +493,7 @@ options are available.</p>
 <div id="listener-frame-advance" class="section level3">
 <h3>4.1 Listener Frame Advance</h3>
 <p>The live game can be suspended at any time by inputting
-<code>/pause</code> in the listening session. Then:</p>
+<code>/pause</code> in the input session. Then:</p>
 <ul>
 <li><p>The player can input <code>/tick</code> to advance one tick
 forward (and draw the scene again).</p></li>
@@ -547,10 +547,12 @@ order:</p>
 <code>vignette(&quot;timing&quot;)</code>)</p>
 <ul>
 <li><p><strong>Inputs</strong>:</p></li>
-<li><p><code>inputs.convert()</code></p>
+<li><p><code>inputs.get()</code></p>
 <ul>
 <li><p><code>inputs.read()</code></p></li>
 <li><p><code>inputs.command()</code> if any commands are sent</p></li>
+<li><p><code>inputs.rollback()</code> if any inputs were received
+late</p></li>
 </ul></li>
 <li><p><code>inputs.process()</code></p></li>
 <li><p><strong>Game Code</strong>:</p></li>
@@ -558,13 +560,15 @@ order:</p>
 <ul>
 <li><code>RAM$ROM$custom()</code></li>
 </ul></li>
-<li><p><strong>Rendering</strong></p></li>
+<li><p><strong>Rendering</strong>:</p></li>
 <li><p><code>render.ram()</code> if <code>RAM$time &gt;</code>
 <code>time.sec()</code></p>
 <ul>
 <li><p><code>render.object()</code> for every object in
 <code>RAM$objects</code></p>
 <ul>
+<li><p><code>render.animate()</code> if the object’s sprite is
+animated</p></li>
 <li><p><code>render.sprite()</code> or custom
 <code>obj$draw()</code></p>
 <ul>
@@ -581,6 +585,8 @@ order:</p>
 </ul></li>
 </ul></li>
 </ul>
+<p>This tree can also be found in the documentation in
+<code>?ram.run</code>.</p>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />
@@ -589,9 +595,9 @@ order:</p>
 <li id="fn2"><p>Steps 2 and 3 are usually combined and run together with
 <code>quickload()</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p>Note: since the ROM is loaded into the RAM, changes to
-the ROM will have to pushed to the RAM with RAM$ROM = newrom. It’s
-almost always better to just restart the game by rerunning
-<code>ram.init()</code>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+the ROM will have to pushed to the RAM with
+<code>RAM$ROM = newrom</code>. It’s almost always better to just restart
+the game by rerunning <code>ram.init()</code>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

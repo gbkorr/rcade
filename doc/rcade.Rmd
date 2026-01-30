@@ -48,6 +48,8 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 ## 3. Prebuilt Games
 [COPY SECTIONS FROM GUIDE VIGNETTE?]
 
+[git integration test]
+
 ### 3.1 Snake
 `vignette("snake")`
 
@@ -126,7 +128,7 @@ I’m happy to say that this project achieved every goal, and it was a pleasure 
 ### 6.1 Style
 I choose to write R code in a way that's slightly easier for people unfamiliar with R to understand;[^10] mainly forgoing the use of <- and declaring function returns explicitly.
 
-Additionally, for the sake of organization, function names are prefixed by general context--- e.g., functions pertaining to “the rendering process” take the form render.foo(). This is against S3 conventions (where the prefix indicates what class a function operates on) but I find it to be an immensely valuable tool for writing understandable code.
+Additionally, for the sake of organization, function names are prefixed by general context--- e.g., functions pertaining to “the rendering process” take the form `render.foo()`. This is against S3 conventions (where the prefix indicates what class a function operates on) but I find it to be an immensely valuable tool for writing understandable code.
 
 [^10]: Which is particularly important for this project; the systems and concepts are generalizable to other languages and might actually be a good resource for making an engine like this.
 

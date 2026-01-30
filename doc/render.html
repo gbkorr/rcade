@@ -439,9 +439,7 @@ there’s no guarantee it shows up in the right position…</p>
 <p>Luckily, clearning the console means that the next message will
 always show up in the same place— we can just clear the console every
 time we draw. RStudio supports this with the escape character
-<code>cat(&#39;\f&#39;)</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, though R unfortunately doesn’t; this
-prevents the rendering system from working in pure R.app— a small cost
-to pay for these graphics.</p>
+<code>cat(&#39;\f&#39;)</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, though R.app unfortunately doesn’t.</p>
 <p>Redrawing the canvas with <code>cat</code> works quite well, but
 takes long enough to cause flickering at higher resolutions. This is
 sadly unavoidable. Games can still be played and enjoyed with this
