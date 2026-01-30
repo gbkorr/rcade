@@ -11,8 +11,7 @@ for more info; the x-axis of the diagrams are `time.ram()`.
 ## Usage
 
 ``` r
-# S3 method for class 'ram'
-time(RAM)
+time.ram()
 ```
 
 ## Arguments

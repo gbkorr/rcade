@@ -72,7 +72,8 @@ on—before being interpreted by the game.
 
 So the game reads the inputs from the .csv file, determines which ones
 it hasn’t seen before, converts their timestamps to ticks, and saves the
-new inputs to `RAM$inputs`. All this is done in `inputs.get()`.
+new inputs to `RAM$inputs`. All this is done in
+[`inputs.get()`](https://gbkorr.github.io/rcade/reference/inputs.get.md).
 
 ### 5. Timestamp-to-Frame Conversion
 
@@ -83,7 +84,8 @@ This is tied to how the game accomplishes frame Timing (see
 in general. The timing system will sync itself to have a tick occur
 every `1/framerate` seconds from when it last resumed, so we can
 manually calculate what time corresponds to what tick if we record the
-time the game resumed. The math for this is in `?inputs.get`.
+time the game resumed. The math for this is in
+[`?inputs.get`](https://gbkorr.github.io/rcade/reference/inputs.get.md).
 
 We also want to add a slight amount of **input delay**–— pretending all
 inputs were made a little later than they really were—because inputs

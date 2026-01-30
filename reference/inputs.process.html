@@ -80,7 +80,7 @@ RAM$actionsStores the game actions corresponding to inputs as dictated in ROM$ke
     <p>The following is an outline of the process from a player entering an input to it being registered by the game.</p><ol><li><p>Player types out "wa" in the <code><a href="inputs.listen.html">inputs.listen()</a></code> listener.<br></p></li>
 <li><p>Player presses Enter; an input is created consisting of the string <code>"wa"</code> and a timestamp (see <a href="inputs.listen.html">inputs.listen</a>).<br>
 This input is written to <a href="inputs.read"><code>inputs.csv</code></a>.<br></p></li>
-<li><p>When the gameloop runs <code><a href="inputs.convert.html">inputs.convert()</a></code>, this input is added to <code>RAM$inputs</code> and its timestamp is converted to the tick it should be processed on.<br></p></li>
+<li><p>When the gameloop runs <code><a href="inputs.get.html">inputs.get()</a></code>, this input is added to <code>RAM$inputs</code> and its timestamp is converted to the tick it should be processed on.<br></p></li>
 <li><p>When <code>RAM$ticks ==</code> the tick timestamp of this input in <code>RAM$inputs</code>, the input is processed:<br></p></li>
 <li><p>The input is split into individual characters: <code>"w"</code> and <code>"a"</code>.<br></p></li>
 <li><p>The actions corresponding to these keys, <code>RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]</code>, are set to <code>TRUE</code> in <code>RAM$actions</code> (see below).<br></p></li>

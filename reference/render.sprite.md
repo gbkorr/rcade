@@ -1,6 +1,7 @@
 # Render a Sprite to the Scene
 
-Overlays a sprite onto the desired layer of the
+I quite dislike this @example sir Overlays a sprite onto the desired
+layer of the
 [`scene`](https://gbkorr.github.io/rcade/reference/render.scene.md)
 using
 [`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md).
@@ -52,3 +53,17 @@ Returns the
 with sprite drawn.
 
 ## Examples
+
+``` r
+scene = list(width=24, height=6)
+smiley = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
+box = matrix(1,12,9)
+scene = render.sprite(scene, smiley, x=2, y=2)
+#> Error in render.sprite(scene, smiley, x = 2, y = 2): could not find function "render.sprite"
+scene = render.sprite(scene, smiley, x=11, y=2, layer = 2, palette = c(0,2,1)) #reversed colors
+#> Error in render.sprite(scene, smiley, x = 11, y = 2, layer = 2, palette = c(0,     2, 1)): could not find function "render.sprite"
+scene = render.sprite(scene, box, x=10, y=1)
+#> Error in render.sprite(scene, box, x = 10, y = 1): could not find function "render.sprite"
+render.scene(scene)
+#> Error in render.scene(scene): could not find function "render.scene"
+```

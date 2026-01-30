@@ -41,7 +41,7 @@ input to it being registered by the game.
     [`inputs.csv`](https://gbkorr.github.io/rcade/reference/inputs.read).  
 
 3.  When the gameloop runs
-    [`inputs.convert()`](https://gbkorr.github.io/rcade/reference/inputs.convert.md),
+    [`inputs.get()`](https://gbkorr.github.io/rcade/reference/inputs.get.md),
     this input is added to `RAM$inputs` and its timestamp is converted
     to the tick it should be processed on.  
 

@@ -7,8 +7,7 @@ by the package to accurately time frames across instances and computers.
 ## Usage
 
 ``` r
-# S3 method for class 'sec'
-time()
+time.sec()
 ```
 
 ## Value

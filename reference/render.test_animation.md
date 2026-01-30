@@ -1,6 +1,7 @@
 # Test an Animated Sprite
 
-Plays a sprite's animation into the console. `^C` to stop.
+need to do an examples pass and adad examples to everyhting Plays a
+sprite's animation into the console. `^C` to stop.
 
 ## Usage
 

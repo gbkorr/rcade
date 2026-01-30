@@ -13,7 +13,7 @@
   3x5 Font
 - [`inputs.command()`](https://gbkorr.github.io/rcade/reference/inputs.command.md)
   : Ingame Commands
-- [`inputs.convert()`](https://gbkorr.github.io/rcade/reference/inputs.convert.md)
+- [`inputs.get()`](https://gbkorr.github.io/rcade/reference/inputs.get.md)
   : Read Inputs with RAM
 - [`inputs.listen()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
   [`inputs.read()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
@@ -75,7 +75,7 @@
   Common Issues
 - [`rom.init()`](https://gbkorr.github.io/rcade/reference/rom.init.md) :
   Create ROM Object
-- [`time(`*`<ram>`*`)`](https://gbkorr.github.io/rcade/reference/time.ram.md)
-  : Temporal RAM Position
-- [`time(`*`<sec>`*`)`](https://gbkorr.github.io/rcade/reference/time.sec.md)
-  : Get System Time as a Float
+- [`time.ram()`](https://gbkorr.github.io/rcade/reference/time.ram.md) :
+  Temporal RAM Position
+- [`time.sec()`](https://gbkorr.github.io/rcade/reference/time.sec.md) :
+  Get System Time as a Float

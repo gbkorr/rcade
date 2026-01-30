@@ -9,7 +9,7 @@ The RAM needs several things to be set every time the gameloop starts:
 
 - `RAM$began` should be set to `c(time.sec(), RAM$ticks)` for inputs to
   be converted to the correct frame for processing (in
-  [inputs.convert](https://gbkorr.github.io/rcade/reference/inputs.convert.md);
+  [inputs.get](https://gbkorr.github.io/rcade/reference/inputs.get.md);
   see also
   [`vignette("inputs")`](https://gbkorr.github.io/rcade/articles/inputs.md))
 

@@ -170,7 +170,7 @@ inputs, move characters around, and trigger events like game end.</p>
 as it runs. It consists of a <strong>listener</strong> to record player
 inputs and code to interact with the listener, as well as code to turn
 recorded inputs into something usable by the Game Code.</p>
-<p>The documentation for <code>inputs.get()</code> has a good
+<p>The documentation for <code><a href="../reference/inputs.get.html">inputs.get()</a></code> has a good
 description of the input pipeline, from the player pressing keyboard
 keys to the input being interpreted by game code.</p>
 </div>
@@ -274,11 +274,11 @@ order:</p>
 <ul>
 <li><p><strong>Inputs</strong>:</p></li>
 <li>
-<p><code>inputs.get()</code></p>
+<p><code><a href="../reference/inputs.get.html">inputs.get()</a></code></p>
 <ul>
 <li><p><code><a href="../reference/inputs.listen.html">inputs.read()</a></code></p></li>
 <li><p><code><a href="../reference/inputs.command.html">inputs.command()</a></code> if any commands are sent</p></li>
-<li><p><code>inputs.rollback()</code> if any inputs were received
+<li><p><code>ram.rollback</code>()` if any inputs were received
 late</p></li>
 </ul>
 </li>

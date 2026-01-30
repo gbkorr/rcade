@@ -43,10 +43,11 @@ Functions are nested in the gameloop like so:
 ` `[`ram.update()`](https://gbkorr.github.io/rcade/reference/ram.update.md)
 every frame (see
 [`vignette("timing")`](https://gbkorr.github.io/rcade/articles/timing.md))  
-` `[`inputs.convert()`](https://gbkorr.github.io/rcade/reference/inputs.convert.md)  
+` `[`inputs.get()`](https://gbkorr.github.io/rcade/reference/inputs.get.md)  
 ` `[`inputs.read()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)  
 ` `[`inputs.command()`](https://gbkorr.github.io/rcade/reference/inputs.command.md)
 if any commands are sent  
+` ``inputs.rollback()` if any inputs were received late  
 ` `[`inputs.process()`](https://gbkorr.github.io/rcade/reference/inputs.process.md)  
 ` `[`ram.tick()`](https://gbkorr.github.io/rcade/reference/ram.tick.md)  
 ` ``RAM$ROM$custom()`  
@@ -55,6 +56,9 @@ if
 `RAM$time > `[`time.sec()`](https://gbkorr.github.io/rcade/reference/time.sec.md)  
 ` `[`render.object()`](https://gbkorr.github.io/rcade/reference/render.object.md)
 for every object in `RAM$objects`  
+` `[`render.animate()`](https://gbkorr.github.io/rcade/reference/render.animate.md)
+if the object has a [complex
+sprite](https://gbkorr.github.io/rcade/reference/render.animate.md)  
 ` `[`render.sprite()`](https://gbkorr.github.io/rcade/reference/render.sprite.md)
 or custom `obj$draw()`  
 ` `[`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md)  

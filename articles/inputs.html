@@ -136,7 +136,7 @@ on—before being interpreted by the game.</p>
 <p>So the game reads the inputs from the .csv file, determines which
 ones it hasn’t seen before, converts their timestamps to ticks, and
 saves the new inputs to <code>RAM$inputs</code>. All this is done in
-<code>inputs.get()</code>.</p>
+<code><a href="../reference/inputs.get.html">inputs.get()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="timestamp-to-frame-conversion">5. Timestamp-to-Frame Conversion<a class="anchor" aria-label="anchor" href="#timestamp-to-frame-conversion"></a>
@@ -147,7 +147,7 @@ saves the new inputs to <code>RAM$inputs</code>. All this is done in
 itself to have a tick occur every <code>1/framerate</code> seconds from
 when it last resumed, so we can manually calculate what time corresponds
 to what tick if we record the time the game resumed. The math for this
-is in <code>?inputs.get</code>.</p>
+is in <code><a href="../reference/inputs.get.html">?inputs.get</a></code>.</p>
 <p>We also want to add a slight amount of <strong>input delay</strong>–—
 pretending all inputs were made a little later than they really
 were—because inputs aren’t transmitted and read instantly. If they were,

@@ -107,9 +107,10 @@ it runs. It consists of a **listener** to record player inputs and code
 to interact with the listener, as well as code to turn recorded inputs
 into something usable by the Game Code.
 
-The documentation for `inputs.get()` has a good description of the input
-pipeline, from the player pressing keyboard keys to the input being
-interpreted by game code.
+The documentation for
+[`inputs.get()`](https://gbkorr.github.io/rcade/reference/inputs.get.md)
+has a good description of the input pipeline, from the player pressing
+keyboard keys to the input being interpreted by game code.
 
 ### 3.3 Timing
 
@@ -214,14 +215,14 @@ The gameloop consists of the following nesting of functions in order:
 
     - **Inputs**:
 
-    - `inputs.get()`
+    - [`inputs.get()`](https://gbkorr.github.io/rcade/reference/inputs.get.md)
 
       - [`inputs.read()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
 
       - [`inputs.command()`](https://gbkorr.github.io/rcade/reference/inputs.command.md)
         if any commands are sent
 
-      - `inputs.rollback()` if any inputs were received late
+      - `ram.rollback`()\` if any inputs were received late
 
     - [`inputs.process()`](https://gbkorr.github.io/rcade/reference/inputs.process.md)
 
