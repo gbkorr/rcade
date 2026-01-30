@@ -166,7 +166,7 @@ The gameloop consists of the following nesting of functions in order:
         
             * `inputs.command()` if any commands are sent
             
-            * `inputs.rollback()` if any inputs were received late
+            * `ram.rollback`()` if any inputs were received late
 
         * `inputs.process()`
         

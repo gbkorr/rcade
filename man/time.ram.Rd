@@ -4,7 +4,7 @@
 \alias{time.ram}
 \title{Temporal RAM Position}
 \usage{
-\method{time}{ram}(RAM)
+time.ram()
 }
 \arguments{
 \item{RAM}{\href{ram.init}{RAM} object.}

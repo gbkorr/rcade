@@ -166,13 +166,13 @@ The gameloop consists of the following nesting of functions in order:
         
             * `inputs.command()` if any commands are sent
             
-            * `inputs.rollback()` if any inputs were received late
+            * `ram.rollback`()` if any inputs were received late
 
         * `inputs.process()`
         
-        - **Game Code**:
+        - **Game Code**:  
 
-        * `ram.tick()`  
+        * `ram.tick()`   
 
             * `RAM$ROM$custom()`  
             
@@ -182,16 +182,16 @@ The gameloop consists of the following nesting of functions in order:
 
             * `render.object()` for every object in `RAM$objects`  
             
-                * `render.animate()` if the object's sprite is animated
+                * `render.animate()` if the object's sprite is animated  
             
-                * `render.sprite()` or custom `obj$draw()`
+                * `render.sprite()` or custom `obj$draw()`  
                 
-                    * `render.overlay()`
+                    * `render.overlay()`  
 
-            * `render.scene()`  
+            * `render.scene()`    
 
-                * `render.overlay()` for every layer in `scene$layers`  
+                * `render.overlay()` for every layer in `scene$layers`    
 
-            * `render.matrix()`  
+            * `render.matrix()`    
 
 This tree can also be found in the documentation in `?ram.run`.

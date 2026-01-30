@@ -25,7 +25,7 @@ The following is an outline of the process from a player entering an input to it
 \item Player types out "wa" in the \code{\link[=inputs.listen]{inputs.listen()}} listener.\cr
 \item Player presses Enter; an input is created consisting of the string \code{"wa"} and a timestamp (see \link{inputs.listen}).\cr
 This input is written to \href{inputs.read}{\code{inputs.csv}}.\cr
-\item When the gameloop runs \code{\link[=inputs.convert]{inputs.convert()}}, this input is added to \code{RAM$inputs} and its timestamp is converted to the tick it should be processed on.\cr
+\item When the gameloop runs \code{\link[=inputs.get]{inputs.get()}}, this input is added to \code{RAM$inputs} and its timestamp is converted to the tick it should be processed on.\cr
 \item When \verb{RAM$ticks ==} the tick timestamp of this input in \code{RAM$inputs}, the input is processed:\cr
 \item The input is split into individual characters: \code{"w"} and \code{"a"}.\cr
 \item The actions corresponding to these keys, \verb{RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]}, are set to \code{TRUE} in \code{RAM$actions} (see below).\cr

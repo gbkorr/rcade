@@ -73,7 +73,7 @@ rom.init = function(
 #' ||||
 #' |`time`||Time of the latest frame reached by the RAM.|
 #' ||||
-#' |`rng`||WRITEHERE see [ram.set_rng]|
+#' |`rng`||[WRITEHERE] see [ram.set_rng]|
 #' ||||
 #' |`seed`||Integer used to [set the rng][set.seed] during ram.init. Random by default.
 #' ||||

@@ -31,16 +31,18 @@ Functions are nested in the gameloop like so:
 
 \code{\link[=ram.run]{ram.run()}}\cr
 \verb{	}\code{\link[=ram.update]{ram.update()}} every frame (see \code{vignette("timing")})\cr
-\verb{		}\code{\link[=inputs.convert]{inputs.convert()}}\cr
+\verb{		}\code{\link[=inputs.get]{inputs.get()}}\cr
 \verb{			}\code{\link[=inputs.read]{inputs.read()}}\cr
 \verb{			}\code{\link[=inputs.command]{inputs.command()}} if any commands are sent\cr
+\verb{			}\code{\link[=inputs.rollback]{inputs.rollback()}} if any inputs were received late\cr
 \verb{		}\code{\link[=inputs.process]{inputs.process()}}\cr
 \verb{		}\code{\link[=ram.tick]{ram.tick()}}\cr
 \verb{			}\code{RAM$ROM$custom()}\cr
 \verb{		}\code{\link[=render.ram]{render.ram()}} if \verb{RAM$time > }\code{\link[=time.sec]{time.sec()}}\cr
 \verb{			}\code{\link[=render.object]{render.object()}} for every object in \code{RAM$objects}\cr
+\verb{				}\code{\link[=render.animate]{render.animate()}} if the object has a \link[=render.animate]{complex sprite}\cr
 \verb{				}\code{\link[=render.sprite]{render.sprite()}} or custom \code{obj$draw()}\cr
-\verb{				  }\code{\link[=render.overlay]{render.overlay()}}\cr
+\verb{					}\code{\link[=render.overlay]{render.overlay()}}\cr
 \verb{			}\code{\link[=render.scene]{render.scene()}}\cr
 \verb{				}\code{\link[=render.overlay]{render.overlay()}} for every layer in \code{scene$layers}\cr
 \verb{			}\code{\link[=render.matrix]{render.matrix()}}

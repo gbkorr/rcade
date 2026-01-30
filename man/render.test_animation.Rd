@@ -12,6 +12,7 @@ render.test_animation(spritename, sprites)
 \item{sprites}{List of sprites, e.g. \code{ROM$sprites}.}
 }
 \description{
+\link{need to do an examples pass and adad examples to everyhting}
 Plays a sprite's animation into the console. \verb{^C} to stop.
 }
 \details{

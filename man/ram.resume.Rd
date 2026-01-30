@@ -15,6 +15,6 @@ ram.resume(RAM, start_at = NULL)
 The RAM needs several things to be set every time the gameloop starts:
 \itemize{
 \item \code{RAM$time} needs to be set to the current \code{\link[=time.sec]{time.sec()}} for the gameloop's timing to work properly (see \code{vignette("timing")}).
-\item \code{RAM$began} should be set to \code{c(time.sec(), RAM$ticks)} for inputs to be converted to the correct frame for processing (in \link{inputs.convert}; see also \code{vignette("inputs")})
+\item \code{RAM$began} should be set to \code{c(time.sec(), RAM$ticks)} for inputs to be converted to the correct frame for processing (in \link{inputs.get}; see also \code{vignette("inputs")})
 }
 }

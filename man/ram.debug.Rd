@@ -33,7 +33,7 @@ This function prints out some timing-related debug information.
     \tab  \tab  \cr
    \code{time.draw} \tab  \tab For each frame, time it took to run \code{\link[=render.ram]{render.ram()}}. \cr
     \tab  \tab  \cr
-   \code{time.inputs} \tab  \tab For each frame, time it took to run \code{\link[=inputs.convert]{inputs.convert()}} and \code{\link[=inputs.process]{inputs.process()}}. \cr
+   \code{time.inputs} \tab  \tab For each frame, time it took to run \code{\link[=inputs.get]{inputs.get()}} and \code{\link[=inputs.process]{inputs.process()}}. \cr
     \tab  \tab  \cr
    \code{rollbacks} \tab  \tab For each occurrence of a rollback (\code{\link[=ram.rollback]{ram.rollback()}} call), records the \code{\link[=time.sec]{time.sec()}} at which it happened. \cr
     \tab  \tab  \cr

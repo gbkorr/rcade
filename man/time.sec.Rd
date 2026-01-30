@@ -4,7 +4,7 @@
 \alias{time.sec}
 \title{Get System Time as a Float}
 \usage{
-\method{time}{sec}()
+time.sec()
 }
 \value{
 A \link{double} representing the seconds since 1970 with sub-millisecond precision.

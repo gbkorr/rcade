@@ -17,4 +17,7 @@ Made by yours truly. Some of these sprites are pretty snazzy.
 
 Use this with \code{\link[=render.text]{render.text()}}.
 }
+\seealso{
+\code{fonts.3x3}
+}
 \keyword{datasets}

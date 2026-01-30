@@ -8,6 +8,7 @@
 #'
 #' Use this with [render.text()].
 #' @format A [font][render.makefont]; a list containing font-related properties and a list of sprites for each character.
+#' @seealso `fonts.3x5`
 'fonts.3x3'
 
 #' 3x5 Font
@@ -19,6 +20,7 @@
 #'
 #' Use this with [render.text()].
 #' @format A [font][render.makefont]; a list containing font-related properties and a list of sprites for each character.
+#' @seealso `fonts.3x3`
 'fonts.3x5'
 
 

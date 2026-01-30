@@ -18,7 +18,7 @@ A RAM object contains the following elements.\tabular{lll}{
     \tab  \tab  \cr
    \code{time} \tab  \tab Time of the latest frame reached by the RAM. \cr
     \tab  \tab  \cr
-   \code{rng} \tab  \tab WRITEHERE see \link{ram.set_rng} \cr
+   \code{rng} \tab  \tab \link{WRITEHERE} see \link{ram.set_rng} \cr
     \tab  \tab  \cr
    \code{seed} \tab  \tab Integer used to \link[=set.seed]{set the rng} during ram.init. Random by default. \cr
     \tab  \tab  \cr

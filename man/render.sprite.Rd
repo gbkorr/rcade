@@ -23,10 +23,10 @@ render.sprite(scene, sprite, x, y, layer = 1, palette = NULL)
 Returns the \link[=render.scene]{scene} object with sprite drawn.
 }
 \description{
+\link{I quite dislike this @example sir}
 Overlays a sprite onto the desired layer of the \code{\link[=render.scene]{scene}} using \code{\link[=render.overlay]{render.overlay()}}.
 }
 \examples{
-I quite dislike this example sir
 scene = list(width=24, height=6)
 smiley = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
 box = matrix(1,12,9)

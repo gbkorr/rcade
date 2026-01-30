@@ -50,7 +50,7 @@ quickload = function(ROM){
 #' \verb{		}[inputs.get()]\cr
 #' \verb{			}[inputs.read()]\cr
 #' \verb{			}[inputs.command()] if any commands are sent\cr
-#' \verb{			}[inputs.rollback()] if any inputs were received late\cr
+#' \verb{			}[ram.rollback()] if any inputs were received late\cr
 #' \verb{		}[inputs.process()]\cr
 #' \verb{		}[ram.tick()]\cr
 #' \verb{			}`RAM$ROM$custom()`\cr
