@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Rollback in the rcade Engine</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Rollback in the rcade Engine</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#overview" id="toc-overview">1. Overview</a>
+<ul>
+<li><a href="#online" id="toc-online">1.1 Online?</a></li>
+</ul></li>
+<li><a href="#rolling-back" id="toc-rolling-back">2. Rolling
+Back</a></li>
+<li><a href="#rng" id="toc-rng">3. RNG</a></li>
+</ul>
+</div>
+
+<p>This article provides a description of why, when, and how the game
+rolls back to stay in sync with inputs. This system isn’t that relevant
+for the current iteration of rcade, but I might rewrite the article when
+I add online play.</p>
+<div id="overview" class="section level2">
+<h2>1. Overview</h2>
+<p>Suppose two players are playing a game online. Their computers are
+exchanging information about what buttons they’re pressing to keep both
+their games in sync.</p>
+<p>But now, one of the players’ internet falters for a second. That
+player tries to jump; but by the time their computer sends “player 1
+jumped” to the other player, <em>it’s been a whole second since they
+tried to jump</em>. Now what!? We can’t just keep running the game, or
+totally different things would happen on the players’ screens.</p>
+<p>The traditional workaround was to make this scenario impossible by
+pausing <em>both</em> players’ games any time internet lag occurred. The
+problem: pausing games randomly makes for an awful, choppy
+experience!</p>
+<p>So modern games use a different solution, that never pauses or
+interrupts the game. When a game realizes something was <strong>received
+late</strong> like this, the game engine <em>rewinds the game</em> to
+before the input happened, and then fast-forwards it back to the
+present, repeating any inputs that should have happened. This is called
+a <strong>rollback</strong>.</p>
+<p>This technique creates a smooth experience that solves our problem.
+It has a few limitations<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, but it’s usually much better than the old
+solution.</p>
+<div id="online" class="section level3">
+<h3>1.1 Online?</h3>
+<p>“Wait a minute. Playing online? rcade doesn’t do online!”</p>
+<p>But it’s designed to! And sometime, I’ll make an addon package that
+lets you do it.</p>
+<p>The rollback system isn’t really relevant for singleplayer games. I
+built it into the engine because:</p>
+<ol style="list-style-type: decimal">
+<li><p>It’s good practice and makes for a more robust engine.</p></li>
+<li><p>It makes the engine <em>easily</em> extendable to
+multiplayer.</p></li>
+<li><p>I was as little worried that reading from the
+<code>inputs.csv</code> file might take too long for inputs to feel
+snappy. Luckily, it’s as instantaneous as everything else.</p></li>
+</ol>
+<p>So, rcade structures itself in a way that makes rollbacks convenient
+and effective. How?</p>
+</div>
+</div>
+<div id="rolling-back" class="section level2">
+<h2>2. Rolling Back</h2>
+<p>We’ve just received an input that was supposed to have already
+happened. To resolve this, all we have to do is restore a previous
+gamestate, and rerun the game back to the present! This will process the
+input at the correct time now that we have it.</p>
+<p>Functionality to restore a previous version is baked into the engine.
+The RAM continually refreshes<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> a copy of itself from 2 seconds prior<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> to use for
+this purpose.</p>
+<p>This copy is restored with <code>ram.rollback()</code>, which just
+calls <code>utils::modifyList</code> to overwrite the RAM with values
+from its backup.</p>
+<p>Once this version is restored, the game is two seconds or so behind
+the present. Luckily, the timing system (explained in detail in
+<code>vignette(&quot;timing&quot;)</code>) automatically deals with this situation
+by catching it up to the present as quickly as possible. As it catches
+up, inputs are reapplied when they should have occurred.</p>
+<p>All of this works because inputs are stored in one
+dataframe—<code>RAM$inputs</code> (which isn’t rolled back)—and the game
+only cares about what inputs correspond to the current frame of RAM.</p>
+<p>See <code>vignette(&quot;inputs&quot;)</code> or <code>?inputs.process</code>
+for more details on the Input system.</p>
+</div>
+<div id="rng" class="section level2">
+<h2>3. RNG</h2>
+<p>The RAM stores its own RNG just like an R session. Backups restore
+RNG state, so rollbacks will experience the same random events that
+happened originally, as you’d expect.</p>
+<p>The RAM RNG can be set manually with <code>ram.set_rng()</code>.</p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Which are very much out of the scope of this package,
+and not all that impactful anyway.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>See the Backups section of <code>?ram.rollback</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p><code>RAM$ROM$backup_duration</code> seconds, which
+defaults to 2 (and changing isn’t recommended).<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

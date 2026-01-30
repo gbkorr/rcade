@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Input Handling</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Input Handling</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#overview" id="toc-overview">1. Overview</a></li>
+<li><a href="#recording-inputs" id="toc-recording-inputs">2. Recording
+Inputs</a></li>
+<li><a href="#transmitting-inputs" id="toc-transmitting-inputs">3.
+Transmitting Inputs</a></li>
+<li><a href="#interpreting-inputs" id="toc-interpreting-inputs">4.
+Interpreting Inputs</a></li>
+<li><a href="#timestamp-to-frame-conversion" id="toc-timestamp-to-frame-conversion">5. Timestamp-to-Frame
+Conversion</a></li>
+<li><a href="#processing-inputs" id="toc-processing-inputs">6.
+Processing Inputs</a></li>
+<li><a href="#late-inputs" id="toc-late-inputs">7. Late Inputs</a></li>
+</ul>
+</div>
+
+<p>This article aims to explain the motivation behind how the inputs
+system works, as well as giving an understanding of its structure; the
+documentation for <code>inputs.process()</code> has a more specific (and
+concise) explanation of the input pipeline.</p>
+<div id="overview" class="section level3">
+<h3>1. Overview</h3>
+<p>The Input system has the tall task of communicating live with the
+game process. Trouble is, R doesn’t make this easy!</p>
+<p>R Games in the past were thwarted by the fact that R’s only native
+method of taking user input, <code>base::readline()</code>, fully
+suspends the R process until an input is given<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. The natural way
+around this, of course, is to just use two processes!</p>
+<p>And that’s what the input system does. We use one Rstudio session to
+run and draw the main game constantly, without interruption, and use a
+second session to interact with the player. All this second session has
+to do is relay inputs to the first.</p>
+</div>
+<div id="recording-inputs" class="section level3">
+<h3>2. Recording Inputs</h3>
+<p>Getting input from a user isn’t very hard in R— looping
+<code>readline()</code> lets us capture the full text string input by
+the user between every Enter press. We actually use
+<code>readLines(n=1)</code> instead, which does the exact same thing but
+doesn’t remove leading and trailing whitespace. This lets us use SPACE
+(’ ’) as a valid key for actions.</p>
+</div>
+<div id="transmitting-inputs" class="section level3">
+<h3>3. Transmitting Inputs</h3>
+<p>The listening session sends these inputs to the game session by
+adding them to the end of a dataframe stored in a .csv file, using
+<code>utils::write.table(append=TRUE)</code>. R can read and write to
+.csvs quite quickly—–much faster than it can print text, for example–—so
+we can have the game read the .csv file every tick to see if any new
+inputs have been created.</p>
+<p>But where should this file be located? Luckily, R provides a
+dedicated folder for storing local data for a package:
+<code>tools::R_user_dir()</code>. Since the player can only type in one
+window at a time, we’re not really going to have multiple input sessions
+going on, so we can just reuse the same .csv file each time we play a
+game; <code>ram.init()</code> wipes the file at the start of each
+game.</p>
+<p>Now, on every tick, the game reads the contents of that .csv file and
+has to figure out what to do with them.</p>
+</div>
+<div id="interpreting-inputs" class="section level3">
+<h3>4. Interpreting Inputs</h3>
+<p>Ultimately, we want an input to convey a certain set of keyboard keys
+that should be interpreted as pressed on a certain tick. That’s what the
+player is ‘expecting’ an input system to do.</p>
+<p>The keys are easy—– we’re already storing a string of characters that
+we can split up to see the individual keys the player pressed. But how
+do we get from the exact <code>time.sec()</code> (absolute time in
+seconds) of the input, which our listener records, to the tick the input
+should happen on?</p>
+<p>This can be accomplished in a few ways that all do basically the same
+thing. For convenience, I settled on the approach of converting the
+timestamp directly into a tick number—the tick the input should occur
+on—before being interpreted by the game.</p>
+<p>So the game reads the inputs from the .csv file, determines which
+ones it hasn’t seen before, converts their timestamps to ticks, and
+saves the new inputs to <code>RAM$inputs</code>. All this is done in
+<code>inputs.convert()</code>.</p>
+</div>
+<div id="timestamp-to-frame-conversion" class="section level3">
+<h3>5. Timestamp-to-Frame Conversion</h3>
+<p>How do we get from a timestamp to the tick it should occur on?</p>
+<p>This is tied to how the game accomplishes frame Timing (see
+<code>vignette(&quot;timing&quot;)</code>) in general. The timing system will sync
+itself to have a tick occur every <code>1/framerate</code> seconds from
+when it last resumed, so we can manually calculate what time corresponds
+to what tick if we record the time the game resumed. The math for this
+is in <code>?inputs.convert</code>.</p>
+<p>We also want to add a slight amount of <strong>input delay</strong>–—
+pretending all inputs were made a little later than they really
+were—because inputs aren’t transmitted and read instantly. If they were,
+every input would be received slightly after it was made, and every
+input would be late!<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+</div>
+<div id="processing-inputs" class="section level3">
+<h3>6. Processing Inputs</h3>
+<p>This whole process leaves us with <code>RAM$inputs</code>, a
+dataframe of input strings and the corresponding ticks they should occur
+on.</p>
+<p>Now the game can, on every tick, just look at which inputs correspond
+to the current tick, and apply the input as such.</p>
+<p>Inputs are applied by using each character of the input string to key
+<code>ROM$keybinds</code>, which stores the <em>action</em> each
+keypress should correspond to— this then updates
+<code>RAM$actions</code>, which the game logic can read to see if, for
+example, the player pressed the key for JUMP this frame. This process is
+detailed in <code>?inputs.process</code>.</p>
+</div>
+<div id="late-inputs" class="section level3">
+<h3>7. Late Inputs</h3>
+<p>What if, because of computer lag or online latency, the game receives
+an input <em>after</em> it was supposed to happen? The game is designed
+to be able to smoothly handle this scenario— something many engines
+struggle with.</p>
+<p>Because the RAM constantly backs itself up, we can just
+<code>ram.rollback()</code> to a previous version and rerun the game.
+RAM$inputs is <em>not</em> rolled back, so when the game reruns itself,
+it’ll now have access to the inputs that it missed before!</p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>So games typically used shiny or similar packages which
+let them capture user events without suspending the process.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Input delay is determined by
+<code>ROM$input_delay</code>, and is fine at 1/60th. Even at 0 input
+delay, many inputs arrive on time because they’re snapped to the start
+of the next tick (which is often after they arrive). This variable
+becomes more useful online, where higher input delays can compensate for
+slower connections—– reducing the frequency of rollbacks (late inputs)
+at the cost of slightly less responsive controls. 1/10th of a second is
+reasonable in those contexts, with higher values being passable but
+sluggish.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

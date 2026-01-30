@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Drawing to Console</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<style type="text/css">detaiks.chunk-details > summary.chunk-summary {
+text-align: right;
+}
+details.chunk-details[open] > summary.chunk-summary::after {
+content: "Hide";
+}
+details.chunk-details[open] > summary.chunk-summary > span.chunk-summary-text {
+display: none;
+}
+</style>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Drawing to Console</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#goals" id="toc-goals">1. Goals</a></li>
+<li><a href="#console-graphics" id="toc-console-graphics">2. Console
+Graphics</a>
+<ul>
+<li><a href="#pixel-art-in-the-console" id="toc-pixel-art-in-the-console">2.1 Pixel Art in the Console</a></li>
+<li><a href="#storing-pixel-art" id="toc-storing-pixel-art">2.2 Storing
+Pixel Art</a></li>
+</ul></li>
+<li><a href="#sprites" id="toc-sprites">3. Sprites</a>
+<ul>
+<li><a href="#sprite-creation" id="toc-sprite-creation">3.1 Sprite
+Creation</a></li>
+</ul></li>
+<li><a href="#drawing-multiple-things-at-once" id="toc-drawing-multiple-things-at-once">4. Drawing Multiple Things at
+Once</a></li>
+<li><a href="#layers-and-the-scene" id="toc-layers-and-the-scene">5.
+Layers and the Scene</a>
+<ul>
+<li><a href="#the-inversion-layer" id="toc-the-inversion-layer">5.1 The
+Inversion Layer</a></li>
+</ul></li>
+<li><a href="#drawing-the-ram" id="toc-drawing-the-ram">6. Drawing the
+RAM</a>
+<ul>
+<li><a href="#sprites-in-rom" id="toc-sprites-in-rom">6.1 Sprites in
+ROM</a></li>
+<li><a href="#object-drawing-specifics" id="toc-object-drawing-specifics">6.2 Object Drawing Specifics</a></li>
+<li><a href="#custom-drawing-code" id="toc-custom-drawing-code">6.3
+Custom Drawing Code</a></li>
+</ul></li>
+<li><a href="#animations" id="toc-animations">7. Animations</a></li>
+<li><a href="#text" id="toc-text">8. Text</a>
+<ul>
+<li><a href="#fonts" id="toc-fonts">8.1 Fonts</a></li>
+<li><a href="#render.text" id="toc-render.text">8.2
+render.text()</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>This article goes over the motivation behind the parts of the
+rendering system. It builds up from simple console printing to rendering
+animations ingame.</p>
+<p>Example usage of the rendering functions can be found in their
+documentation, e.g. <code>?render.scene</code>.</p>
+<div id="goals" class="section level2">
+<h2>1. Goals</h2>
+<p>Game with graphics need a way to display their graphics. rcade is
+intended to run live-input games at relatively high fps (frames per
+second), so it needs a graphical system capable of redrawing itself at
+the desired framerate. Past achieving that, it’s a matter of getting as
+high a resolution as feasible.</p>
+</div>
+<div id="console-graphics" class="section level2">
+<h2>2. Console Graphics</h2>
+<p>R plotting is far too slow to fulfill our needs. Instead, we turn to
+a canonical apporach— rendering via the console. Pixels can be printed
+as characters in the appropriate locations, giving a low-resolution but
+highly usable medium for rendering images. In fact, RStudio allows you
+to zoom out a considerable amount, allowing the console to fit upwards
+of 800x600 characters.</p>
+<p>A couple issues come up. First, characters are much taller than they
+are wide, so we use pairs of characters—usually brackets:
+<code>[]</code>—to create square pixels.</p>
+<div id="pixel-art-in-the-console" class="section level3">
+<h3>2.1 Pixel Art in the Console</h3>
+<p>Printing to the console like this is quite simple. Strings like this
+are quickly interpreted by users as imagery:</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&#39;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="st">  []  []</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="st">  []  []</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="st">[]      []</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="st">  [][][]</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="st">&#39;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;   []  []</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;   []  []</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; []      []</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;   [][][]</span></span></code></pre></div>
+</details>
+<p>But we run into an issue. Art can be printed to the console, but
+there’s no guarantee it shows up in the right position…</p>
+<p>Luckily, clearning the console means that the next message will
+always show up in the same place— we can just clear the console every
+time we draw. RStudio supports this with the escape character
+<code>cat(&#39;\f&#39;)</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, though R unfortunately doesn’t; this
+prevents the rendering system from working in pure R.app— a small cost
+to pay for these graphics.</p>
+<p>Redrawing the canvas with <code>cat</code> works quite well, but
+takes long enough to cause flickering at higher resolutions. This is
+sadly unavoidable. Games can still be played and enjoyed with this
+flickering, however, and it usually does not impact the true
+framerate.</p>
+</div>
+<div id="storing-pixel-art" class="section level3">
+<h3>2.2 Storing Pixel Art</h3>
+<p>If we want to , we can’t just store everything as strings— it would
+be a nightmare to work with because of how clunky strings are to edit.
+Instead, we can write a function, <code>render.matrix()</code>, to
+convert directly from a bitmap matrix to a drawable string:</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>render.matrix <span class="ot">=</span> <span class="cf">function</span>(M, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&#39;  &#39;</span>, <span class="st">&#39;[]&#39;</span>, <span class="st">&#39;  &#39;</span>)){</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="co">#we assume the bitmap to be positive integers</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="co">#attach a line of -1 values on the rightmost column to turn into newlines</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  M <span class="ot">=</span> <span class="fu">rbind</span>(<span class="fu">t</span>(M),<span class="sc">-</span><span class="dv">1</span>) <span class="co">#transpose to match the orientation of print(M)</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  </span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="co">#add two to make all values work as vector indices</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  M <span class="ot">=</span> M <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  </span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="co">#convert matrix to vector of strings using its values as indices</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  str <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>,palette)[M]</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  </span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    <span class="fu">cat</span>(str, <span class="at">sep=</span><span class="st">&#39;&#39;</span>) <span class="co">#collapse vector and print</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>}</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="fu">render.matrix</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">ncol =</span> <span class="dv">7</span>))</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;     []  []    </span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;     []  []    </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; []          []</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt;   [][][][][]</span></span></code></pre></div>
+</details>
+<p><code>palette</code> defines how we convert bitmap values to
+character pixels— by default, <code>1</code> encodes filled (black)
+pixels and <code>0</code> and <code>2</code> are white. Values of
+<code>0</code> are used elsewhere in the rendering system to represent
+transparency, but assume a white background here and draw them as
+white.</p>
+</div>
+</div>
+<div id="sprites" class="section level2">
+<h2>3. Sprites</h2>
+<p>So <code>render.matrix()</code> lets us print pixel art to the
+console if we have a matrix that encodes it. This package calls such a
+matrix a <strong>sprite</strong>.</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#A sprite is anything that can be printed by render.matrix():</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">ncol =</span> <span class="dv">7</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">print</span>(sprite)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [1,]    0    0    1    0    1    0    0</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [2,]    0    0    1    0    1    0    0</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [3,]    1    0    0    0    0    0    1</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; [4,]    0    1    1    1    1    1    0</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">render.matrix</span>(sprite)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;     []  []    </span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;     []  []    </span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; []          []</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;   [][][][][]</span></span></code></pre></div>
+</details>
+<p>Typically, the game stores and handles sprites directly (as
+matrices), and the game dev is expected to generate them on their own.
+The package provides a convenient tool for this:
+<code>render.makesprite()</code>.</p>
+<div id="sprite-creation" class="section level3">
+<h3>3.1 Sprite Creation</h3>
+<p><code>render.makesprite()</code> converts user text to a sprite as
+intuitively as possible. The goal of this function is to remove the need
+for confusing matrix manipulation, and to follow the principle of
+WYSIWYG for maximal convenience: “what you see is what you get”.</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="st">  OOO</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="st"> O   O</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="st">O     O</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="st">O     O</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="st">O     O</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="st"> O   O</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="st">  OOO</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="st">&#39;</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">render.matrix</span>(sprite)</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;     [][][]    </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   []      []  </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; []          []</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; []          []</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; []          []</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;   []      []  </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;     [][][]</span></span></code></pre></div>
+</details>
+<p>The limitation is that character strings will look a bit different
+from square pixels, but overall I’ve found the function to be extremely
+useful.</p>
+<p>Sometimes, it’s easier to create a sprite manually as a matrix. This
+is especially useful for geometric or procedural shapes:</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>box <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">16</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>box[<span class="dv">2</span><span class="sc">:</span>(<span class="fu">nrow</span>(box) <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">2</span><span class="sc">:</span>(<span class="fu">ncol</span>(box) <span class="sc">-</span> <span class="dv">1</span>)] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">render.matrix</span>(box)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [][][][][][][][][][][][][][][][]</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; []                            []</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; []                            []</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; []                            []</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; []                            []</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; []                            []</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; []                            []</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; [][][][][][][][][][][][][][][][]</span></span></code></pre></div>
+</details>
+</div>
+</div>
+<div id="drawing-multiple-things-at-once" class="section level2">
+<h2>4. Drawing Multiple Things at Once</h2>
+<p><code>render.matrix()</code> lets us render an individual sprite to
+the console. The natural next step is to somehow
+<strong>combine</strong> sprites so they can be drawn together in one
+image.</p>
+<p>The general approach to this is to take a big, empty, rectangular
+‘background’ sprite, and edit in our sprites:</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="st"> O O</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="st"> O O</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="st">O   O</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="st"> OOO</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="st">&#39;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">12</span>,<span class="dv">10</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#paste in sprites</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>background[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">=</span> sprite</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>background[<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">5</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">=</span> sprite</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>background[<span class="dv">7</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">=</span> sprite</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">render.matrix</span>(background)</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;   []  []            </span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;   []  []            </span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;             []  []  </span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; []      []  []  []  </span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;   [][][]            </span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;           []      []</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt;             [][][]  </span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt;         []  []      </span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt;         []  []      </span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;                     </span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;       []      []    </span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt;         [][][]</span></span></code></pre></div>
+</details>
+<p>The issue with this is that replacing values directly with
+<code>matrix[a:b,c:d]</code> will always overwrite the original value.
+We can get around this with code like this:</p>
+<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r fold-show"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>  overwrite <span class="ot">=</span> sprite</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  overwrite[sprite <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">=</span> matrix[a<span class="sc">:</span>b,c<span class="sc">:</span>d][sprite <span class="sc">==</span> <span class="dv">0</span>] </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="co">#replace values of 0 with the value underneath </span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    </span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  matrix[a<span class="sc">:</span>b,c<span class="sc">:</span>d] <span class="ot">=</span> overwrite</span></code></pre></div>
+</details>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>circle <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="st">  OOO</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="st"> O   O</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="st">O     O</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="st">O     O</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="st">O     O</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="st"> O   O</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="st">  OOO</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="st">&#39;</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">9</span>,<span class="dv">9</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>background[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">=</span> circle</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>overwrite <span class="ot">=</span> circle</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>overwrite[circle <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">=</span> background[<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>][circle <span class="sc">==</span> <span class="dv">0</span>] </span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>background[<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">=</span> overwrite</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="fu">render.matrix</span>(background)</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;     [][][]        </span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt;   []    [][][]    </span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; []    []    [][]  </span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; []  []      []  []</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; []  []      []  []</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;   [][]    []    []</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;     [][][]    []  </span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt;         [][][]    </span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</details>
+<p>This whole process is automated by <code>render.overlay()</code>,
+which also clips the sprite to ensure that everything is kept within the
+bounds of the matrix.</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">9</span>,<span class="dv">14</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">render.overlay</span>(background, circle, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">render.overlay</span>(background, circle, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">render.overlay</span>(background, circle, <span class="dv">11</span>, <span class="dv">1</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="fu">render.matrix</span>(background)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;     [][][]              [][]</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt;   []      []          []    </span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; []      [][][]      []      </span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; []    []    [][]    []      </span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; []  []      []  []  []      </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt;   [][]    []    []    []    </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;     [][][]      []      [][]</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt;       []      []            </span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt;         [][][]</span></span></code></pre></div>
+</details>
+</div>
+<div id="layers-and-the-scene" class="section level2">
+<h2>5. Layers and the Scene</h2>
+<p>Now that we can combine sprites, we run into the issue of convenient
+<strong>ordering</strong>. Which sprites should be drawn on top, and how
+do we achieve that?</p>
+<p>rcade addresses this with <code>render.scene()</code>. We create a
+‘scene’ object containing <strong>layers</strong>, each of which is
+their own <code>background</code> from the previous section. The engine
+draws sprites onto specific layers, and then finally takes all the
+layers and overlays them one-by-one to produce the final matrix to be
+drawn.</p>
+<p>[would like an image of this: sprites -&gt; layer (like stickers),
+then layers stacked like paper]</p>
+<p>To draw a sprite onto a layer, we use <code>render.sprite()</code>,
+which is really just a wrapper for <code>render.overlay()</code> to work
+on a layer.</p>
+<div id="the-inversion-layer" class="section level3">
+<h3>5.1 The Inversion Layer</h3>
+<p>In monochrome displays, you’ll sometimes run into the issue where
+something important, like text, is drawn over a black background and
+becomes impossible to see. A simple fix is to, rather than drawing the
+text as set color, just allow it to invert the color it’s drawn on— that
+way it’ll always be visible<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<p>rcade implements this with a dedicated <code>scene</code> layer
+called <code>scene$layers$invert</code>, which is drawn last and inverts
+anything it covers. This uses the <code>invert</code> argument of
+<code>render.overlay()</code>.</p>
+</div>
+</div>
+<div id="drawing-the-ram" class="section level2">
+<h2>6. Drawing the RAM</h2>
+<p>The game rendering process involves drawing every game object onto
+one scene. This is automated by <code>render.ram()</code>, which is
+called every frame— see <code>vignette(&quot;timing&quot;)</code>.</p>
+<p>In this function, a <code>scene</code> object is created, and then
+each game object (in <code>RAM$objects</code>) is drawn to it with
+<code>render.sprite()</code>.</p>
+<div id="sprites-in-rom" class="section level3">
+<h3>6.1 Sprites in ROM</h3>
+<p>By convention, sprites/images are stored in ROM when possible.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> They are
+stored by name in <code>ROM$sprites</code>, and referenced during the
+rendering process.</p>
+</div>
+<div id="object-drawing-specifics" class="section level3">
+<h3>6.2 Object Drawing Specifics</h3>
+<p>Object drawing is handled by <code>render.object()</code>, which
+figures out how and where to draw the object with
+<code>render.sprite()</code>.</p>
+<p>Objects are only drawn if they have a <code>$spritename</code>, which
+indicates which sprite they use. This is a character string
+corresponding to a sprite matrix in <code>ROM$sprites</code>— then
+<code>render.object()</code> retrieves the sprite from
+<code>ROM$sprites</code> and feeds it into
+<code>render.sprite()</code>.</p>
+<p>Objects have quite a few optional properties, listed in
+<code>?render.object</code>. These control things like position and
+whether or not this particular object should swap around the colors in
+its sprite. ‘palette swapping’ of the colors like this is an easy way to
+increase the variety of images in a game without needing to make new
+sprites.</p>
+</div>
+<div id="custom-drawing-code" class="section level3">
+<h3>6.3 Custom Drawing Code</h3>
+<p>It is often useful to override this basic drawing behavior— for
+example, if an object’s sprite should be generated procedurally rather
+than copying from a static sprite in <code>ROM$sprites</code>. This can
+be done by defining <code>obj$draw()</code>, which will run instead of
+the regular code in <code>render.object()</code>.</p>
+<p>Note that <code>obj$draw()</code> should return the
+<code>scene</code>, and thus must not include any code that changes
+values in the object itself; those changes should occur in game code in
+<code>ROM$custom()</code> (see <code>vignette(&quot;engine&quot;)</code>).</p>
+</div>
+</div>
+<div id="animations" class="section level2">
+<h2>7. Animations</h2>
+<p>Now to the topic of animations. If we have a game object change its
+sprite every few frames, it will ………….</p>
+<p>[VIDEO EXAMPLE]</p>
+<p>This is achieved by calling <code>render.animate()</code> when we
+retrieve an object’s sprite in <code>render.object()</code>. For sprites
+we want to animate, instead of storing just the pixel art matrix, we
+store a list containing each frame of animation and some other
+information about the animation. <code>render.animate()</code> then
+parses these to figure out what frame of animation it should return.</p>
+<p>We can also specify whether an animation should loop or transition to
+a different sprite after completing.</p>
+<p><a href>NEED VIDEO EXAMPLE OF THIS</a></p>
+<p>So for the game dev, all that’s needed to animate a sprite is to
+store it as a complex sprite in <code>ROM$sprites</code>. Very
+convenient! Sprite animations can also be tested with
+<code>render.test_animation</code> to ensure they look as they
+should.</p>
+</div>
+<div id="text" class="section level2">
+<h2>8. Text</h2>
+<p>Now for the topic of rendering a piece of text ingame. We could just
+<code>render.sprite()</code> each character individually, but this is
+needlessly ineffecient; instead, the best solution is to combine all the
+characters into one sprite and render that in a single
+<code>render.sprite()</code> call. This is the purpose of
+<code>render.text()</code>.</p>
+<div id="fonts" class="section level3">
+<h3>8.1 Fonts</h3>
+<p>But first, how should store the sprites for each character? rcade
+handles these pretty simply— it has <em>font</em> objects which contain
+some information about the size/spacing of the characters, and also
+contain a list of sprites for each character.
+<code>?render.makefont</code> provides more detail on this, and
+inspecting <code>View(fonts.3x3)</code> may be useful as well.</p>
+</div>
+<div id="render.text" class="section level3">
+<h3>8.2 render.text()</h3>
+<p>The basic functionality of <code>render.text()</code> is stitching
+together character sprites with the desired (or default) spacing. It
+outputs a sprite, to put in <code>ROM$sprites</code> or draw on the fly
+in <code>obj$draw()</code>. Putting text on the inversion layer (with
+<code>render.sprite(...layer = &#39;invert&#39;)</code> may be helpful to ensure
+that the text is readable on both black or white backgrounds.</p>
+<p>Additionally, some code is included to provide the option to wrap
+words to fit in a given width of pixels, and align them to the
+left/right/center.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+<p>Here’s an example of <code>render.text()</code>’s stitching:</p>
+<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">#manually stitching letters with a 1-wide gap between</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">render.matrix</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>T,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>E,</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>X,</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>T</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  )</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>)</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; [][][]  [][][]  []  []  [][][]</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;   []    [][]      []      []  </span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;   []    [][][]  []  []    []</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#render.text() does this automatically</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="fu">render.matrix</span>(</span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  <span class="fu">render.text</span>(<span class="st">&#39;text&#39;</span>, <span class="at">kerning =</span> <span class="dv">1</span>)  </span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>)</span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;                                 </span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; [][][]  [][][]  []  []  [][][]  </span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;   []    [][]      []      []    </span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;   []    [][][]  []  []    []    </span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</details>
+<p><code>?render.text</code> provides some more examples of its
+capabilities.</p>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Try it! It’s very useful in general R work along with
+cat(’), which overwrites the current line (and is how things like
+loading bars are animated).<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Unless you draw it on a patterned surface. In that case,
+an opaque outline (like a highlighter or shadow) is needed to make the
+text pop.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>This is because if we had a particularly large image
+file, as images tend to be nowadays, it would be expensive to store and
+copy constantly in RAM. The same was true back in the day; graphics have
+always taken up a large portion of most games’ filesize.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Though this code could use some improvement. It does its
+job but isn’t very robust— I figured it was already too niche to warrant
+more attention.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

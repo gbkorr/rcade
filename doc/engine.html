@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>High-Level Engine Structure</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">High-Level Engine Structure</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#rom-and-ram" id="toc-rom-and-ram">1. ROM and RAM</a></li>
+<li><a href="#making-and-running-a-game" id="toc-making-and-running-a-game">2. Making and Running a Game</a></li>
+<li><a href="#the-gameloop" id="toc-the-gameloop">3. The Gameloop</a>
+<ul>
+<li><a href="#game-code" id="toc-game-code">3.1 Game Code</a></li>
+<li><a href="#inputs" id="toc-inputs">3.2 Inputs</a></li>
+<li><a href="#timing" id="toc-timing">3.3 Timing</a></li>
+<li><a href="#rendering" id="toc-rendering">3.4 Rendering</a></li>
+</ul></li>
+<li><a href="#alternative-methods-of-interaction" id="toc-alternative-methods-of-interaction">4. Alternative Methods of
+Interaction</a>
+<ul>
+<li><a href="#listener-frame-advance" id="toc-listener-frame-advance">4.1 Listener Frame Advance</a></li>
+<li><a href="#manual-advance" id="toc-manual-advance">4.2 Manual
+Advance</a></li>
+</ul></li>
+<li><a href="#gameloop-function-tree" id="toc-gameloop-function-tree">5.
+Gameloop Function Tree</a></li>
+</ul>
+</div>
+
+<p>This article describes how the package handles and runs games at a
+high level.<br />
+For a description of how the player interacts with the game, see
+<code>vignette(&quot;guide&quot;)</code>.<br />
+For a walkthrough of creating a game, see
+<code>vignette(&quot;snake&quot;)</code>.</p>
+<div id="rom-and-ram" class="section level2">
+<h2>1. ROM and RAM</h2>
+<p>To run a game, we’ll use two objects: the ROM and RAM.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>The ROM (<code>rom.init()</code>) contains everything static for the
+game— code, images, and information about how to draw the screen.</p>
+<p>The RAM (<code>ram.init()</code>) stores everything dynamic— player
+coordinates, game timer, current inputs— and is constantly updated as
+the game is run.</p>
+<p>This structure is particularly convenient for two reasons. For one,
+because <strong>all game code</strong> is stored in one object (the
+ROM), games are easy to handle and load— we just need to make the ROM
+object and edit it, or load a premade one like
+<code>SuperRrio</code>.</p>
+<p>The other convenience is that, by storing all dynamic info in one
+object (the RAM), we can easily <strong>copy that object</strong> to
+create a savestate— a snapshot of the game at a given moment that can be
+saved and loaded later. This allows the engine to be very robust, as any
+issues (like an input not registering) can be rolled back (see
+<code>vignette(&quot;rollback&quot;)</code>) to an earlier savestate and rerun
+correctly.</p>
+</div>
+<div id="making-and-running-a-game" class="section level2">
+<h2>2. Making and Running a Game</h2>
+<p>The basic usage of the engine is structured like this:</p>
+<ol style="list-style-type: decimal">
+<li>game dev creates and adds game code, art, etc. to ROM object</li>
+<li>player uses ROM object to initialize RAM object for playing</li>
+<li>player runs the game using this RAM object<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></li>
+<li>player starts an additional R session to send inputs to the
+game</li>
+</ol>
+<p>The two R sessions are referred to as the <strong>display
+session</strong>, where most of the code happens and the game is drawn,
+and the <strong>input session</strong>, where the player sends inputs to
+the game.</p>
+<p>In code, the four steps look like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>  <span class="co">#1</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>Game <span class="ot">=</span> <span class="fu">rom.init</span>({game stuff})</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>Game<span class="sc">$</span>morestuff <span class="ot">=</span> {additional game stuff}</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="co">#2</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>RAM <span class="ot">=</span> <span class="fu">ram.init</span>(Game)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>    </span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="co">#3</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>RAM <span class="ot">=</span> <span class="fu">ram.run</span>(Game)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  <span class="co">#4 (in separate session/window)</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">inputs.listen</span>()</span></code></pre></div>
+<p>The game then runs constantly and responds to any inputs by the
+player in the input session.</p>
+<p>From here, the player can <code>^C</code> in the display session to
+interrupt (pause) the game and inspect the RAM object, continue the
+game, or even edit the ROM.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+</div>
+<div id="the-gameloop" class="section level2">
+<h2>3. The Gameloop</h2>
+<p>Once the RAM is run, it executes the <strong>gameloop</strong> over
+and over. This is where all the code dedicated to running the engine,
+drawing the game, running game logic, etc. is called.</p>
+<p>The gameloop involves four distinct systems:</p>
+<ul>
+<li><p><strong>Game Code</strong>: Running the game.</p></li>
+<li><p><strong>Inputs</strong>: Interfacing with the player.</p></li>
+<li><p><strong>Timing</strong>: Executing the gameloop at the right
+pace.</p></li>
+<li><p><strong>Rendering</strong>: Drawing the game to the
+console.</p></li>
+</ul>
+<p>Each system has a full article (linked in the sections below) either
+describing or demonstrating the system.</p>
+<div id="game-code" class="section level3">
+<h3>3.1 Game Code</h3>
+<p><code>vignette(&quot;snake&quot;)</code></p>
+<p>Game code is run in <code>ROM$custom()</code> and is made by the game
+dev. It reads and writes to RAM to do things like respond to player
+inputs, move characters around, and trigger events like game end.</p>
+</div>
+<div id="inputs" class="section level3">
+<h3>3.2 Inputs</h3>
+<p><code>vignette(&quot;inputs&quot;)</code></p>
+<p>The Input system serves to let the player interact with the game live
+as it runs. It consists of a <strong>listener</strong> to record player
+inputs and code to interact with the listener, as well as code to turn
+recorded inputs into something usable by the Game Code.</p>
+<p>The documentation for <code>inputs.convert()</code> has a good
+description of the input pipeline, from the player pressing keyboard
+keys to the input being interpreted by game code.</p>
+</div>
+<div id="timing" class="section level3">
+<h3>3.3 Timing</h3>
+<p><code>vignette(&quot;timing&quot;)</code></p>
+<p>The Timing system ensures that the game runs and draws at the correct
+speed. This involves speeding up or slowing down when the game is ahead
+or behind of where it “should” be (according to the desired speed,
+determined by <code>ROM$framerate</code>), and handling whether or not
+to draw a given tick— for the game to look smooth, drawing must only
+happen when the game is “caught up”.</p>
+</div>
+<div id="rendering" class="section level3">
+<h3>3.4 Rendering</h3>
+<p><code>vignette(&quot;render&quot;)</code></p>
+<p>The Rendering system consists of a host of functions dedicated to
+rendering the current <strong>scene</strong>—the way objects are
+organized onscreen on a given tick/gamestate—to the console, which is
+where the game is displayed.</p>
+<p>This involves:</p>
+<ul>
+<li><p>getting the right sprite (image) for each object and putting it
+in the right place and layer in the scene
+(<code>render.sprite()</code>)</p></li>
+<li><p>combining the whole scene into one object to be rendered
+(<code>render.scene()</code>)</p></li>
+<li><p>making this object printable to the console
+(<code>render.matrix()</code>)</p></li>
+</ul>
+</div>
+</div>
+<div id="alternative-methods-of-interaction" class="section level2">
+<h2>4. Alternative Methods of Interaction</h2>
+<p>While the default way of interacting with the game is using
+<code>ram.run()</code> and <code>inputs.listen()</code>, a couple other
+options are available.</p>
+<div id="listener-frame-advance" class="section level3">
+<h3>4.1 Listener Frame Advance</h3>
+<p>The live game can be suspended at any time by inputting
+<code>/pause</code> in the listening session. Then:</p>
+<ul>
+<li><p>The player can input <code>/tick</code> to advance one tick
+forward (and draw the scene again).</p></li>
+<li><p>The player can type regular inputs, which will be processed by
+the game the next time <code>/tick</code> is called (or the game is
+resumed).</p></li>
+<li><p>The player can resume live gameplay by inputting
+<code>/resume</code>.</p></li>
+</ul>
+<p>This behavior is documented in <code>?inputs.command</code>. I find
+this method to be more convenient than that in the next section, since
+staying in the input session allows for more fluid transition between
+live and tick-by-tick gameplay.</p>
+</div>
+<div id="manual-advance" class="section level3">
+<h3>4.2 Manual Advance</h3>
+<p>Forgoing the need for the listener session, the game can also be
+paused and manipulated directly in the display session. This gives the
+user more control over altering the RAM that may be especially useful
+for debugging.</p>
+<p>This is done by pausing the game with <code>^C</code> (which ends the
+<code>ram.run</code> process). The RAM object can then be manipulated
+freely:</p>
+<ul>
+<li><p><code>RAM = ram.tick(RAM)</code> advances the game one
+tick.</p></li>
+<li><p><code>RAM = ram.input(RAM, [input])</code> adds an input to RAM
+that will be processed on the next tick.</p></li>
+<li><p><code>RAM = ram.run(RAM)</code> resumes the game (requiring the
+input session again to interact)</p></li>
+</ul>
+<p>While paused, the RAM can also be easily saved and reloaded by
+copying it, as in the following code:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>savestate_1 <span class="ot">=</span> RAM</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>RAM <span class="ot">=</span> <span class="fu">ram.run</span>(RAM)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#play the game a bit via the input session</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="sc">^</span>C</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>RAM <span class="ot">=</span> savestate_1 <span class="co">#restore the savestate</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>RAM <span class="ot">=</span> <span class="fu">ram.run</span>(RAM) <span class="co">#the game is now back to where it was when savestate_1 was saved</span></span></code></pre></div>
+</div>
+</div>
+<div id="gameloop-function-tree" class="section level2">
+<h2>5. Gameloop Function Tree</h2>
+<p>The gameloop consists of the following nesting of functions in
+order:</p>
+<ul>
+<li><p><code>ram.run()</code> once to start or resume the game</p>
+<ul>
+<li><p><strong>Timing</strong>:</p></li>
+<li><p><code>ram.update()</code> every tick (see
+<code>vignette(&quot;timing&quot;)</code>)</p>
+<ul>
+<li><p><strong>Inputs</strong>:</p></li>
+<li><p><code>inputs.convert()</code></p>
+<ul>
+<li><p><code>inputs.read()</code></p></li>
+<li><p><code>inputs.command()</code> if any commands are sent</p></li>
+</ul></li>
+<li><p><code>inputs.process()</code></p></li>
+<li><p><strong>Game Code</strong>:</p></li>
+<li><p><code>ram.tick()</code></p>
+<ul>
+<li><code>RAM$ROM$custom()</code></li>
+</ul></li>
+<li><p><strong>Rendering</strong></p></li>
+<li><p><code>render.ram()</code> if <code>RAM$time &gt;</code>
+<code>time.sec()</code></p>
+<ul>
+<li><p><code>render.object()</code> for every object in
+<code>RAM$objects</code></p>
+<ul>
+<li><p><code>render.sprite()</code> or custom
+<code>obj$draw()</code></p>
+<ul>
+<li><code>render.overlay()</code></li>
+</ul></li>
+</ul></li>
+<li><p><code>render.scene()</code></p>
+<ul>
+<li><code>render.overlay()</code> for every layer in
+<code>scene$layers</code></li>
+</ul></li>
+<li><p><code>render.matrix()</code></p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Named after the equivalent concepts in retro games!<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Steps 2 and 3 are usually combined and run together with
+<code>quickload()</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Note: since the ROM is loaded into the RAM, changes to
+the ROM will have to pushed to the RAM with RAM$ROM = newrom. It’s
+almost always better to just restart the game by rerunning
+<code>ram.init()</code>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

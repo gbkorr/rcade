@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>The ‘rcade’ Package</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">The ‘rcade’ Package</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#manifest" id="toc-manifest">1. Manifest</a></li>
+<li><a href="#directory" id="toc-directory">2. Directory</a>
+<ul>
+<li><a href="#general-vignettes" id="toc-general-vignettes">2.1 General
+Vignettes</a></li>
+<li><a href="#systems-vignettes" id="toc-systems-vignettes">2.2 Systems
+Vignettes</a></li>
+</ul></li>
+<li><a href="#prebuilt-games" id="toc-prebuilt-games">3. Prebuilt
+Games</a>
+<ul>
+<li><a href="#snake" id="toc-snake">3.1 Snake</a></li>
+<li><a href="#super-rrio" id="toc-super-rrio">3.2 Super Rrio</a></li>
+<li><a href="#bad-apple" id="toc-bad-apple">3.3 Bad Apple</a></li>
+<li><a href="#r2studio" id="toc-r2studio">3.4
+R<sup>2</sup>Studio</a></li>
+</ul></li>
+<li><a href="#history-and-motivation" id="toc-history-and-motivation">4.
+History and Motivation</a></li>
+<li><a href="#goals" id="toc-goals">5. Goals</a></li>
+<li><a href="#notes" id="toc-notes">6. Notes</a>
+<ul>
+<li><a href="#style" id="toc-style">6.1 Style</a></li>
+<li><a href="#the-name-rcade" id="toc-the-name-rcade">6.2 The Name
+‘rcade’</a></li>
+<li><a href="#ai-disclaimer" id="toc-ai-disclaimer">6.3 AI
+Disclaimer</a></li>
+</ul></li>
+<li><a href="#but-can-it-run-doom" id="toc-but-can-it-run-doom">7. But
+Can it Run Doom?</a></li>
+</ul>
+</div>
+
+<p>This article talks about the package itself. For how to use it, see
+<code>vignettes(&quot;guide&quot;)</code>.</p>
+<div id="manifest" class="section level2">
+<h2>1. Manifest</h2>
+<p>Why does this package exist?</p>
+<p>Until now, no games existed in R that could take live input from the
+user. This changes that, and provides a powerful framework for creating
+such games.</p>
+<p>I came up with this project to give myself an opportunity to build a
+lot of skills—package creation, documentation, etc.—while working on
+something genuinely fun and cool.</p>
+</div>
+<div id="directory" class="section level2">
+<h2>2. Directory</h2>
+<p>This package comes with a full suite of vignettes detailing every
+aspect of how things work. These are listed below with a short
+description:</p>
+<div id="general-vignettes" class="section level3">
+<h3>2.1 General Vignettes</h3>
+<p><code>vignette(&quot;guide&quot;)</code> goes over <strong>how to use the
+package</strong> to play games.</p>
+<p><code>vignette(&quot;engine&quot;)</code> describes the <strong>high-level
+structure</strong> of the game engine and its systems.</p>
+<p><code>vignette(&quot;snake&quot;)</code> provides a <strong>full walkthrough of
+game creation</strong> using the package.</p>
+<p>[MORE VIGS NEEDED: rrio, r2studio]</p>
+</div>
+<div id="systems-vignettes" class="section level3">
+<h3>2.2 Systems Vignettes</h3>
+<p><code>vignette(&quot;timing&quot;)</code> explains in detail how the game
+<strong>runs at the right speed</strong>.</p>
+<p><code>vignette(&quot;inputs&quot;)</code> describes how the engine
+<strong>captures and interprets user input</strong>.</p>
+<p><code>vignette(&quot;render&quot;)</code> details everything that goes into
+<strong>drawing the game</strong> to the console.</p>
+</div>
+</div>
+<div id="prebuilt-games" class="section level2">
+<h2>3. Prebuilt Games</h2>
+<p>[COPY SECTIONS FROM GUIDE VIGNETTE?]</p>
+<div id="snake" class="section level3">
+<h3>3.1 Snake</h3>
+<p><code>vignette(&quot;snake&quot;)</code></p>
+<p>[IMAGE FOR EACH GAME]</p>
+<p>A port of the classic game Snake, running quite smoothly.
+Demonstrates the interactivity of rcade well and serves as a great guide
+for ROM creation.</p>
+</div>
+<div id="super-rrio" class="section level3">
+<h3>3.2 Super Rrio</h3>
+<p>[TODO TODO][]</p>
+</div>
+<div id="bad-apple" class="section level3">
+<h3>3.3 Bad Apple</h3>
+<p><code>vignette(&quot;badapple&quot;)</code></p>
+<p>[IMAGE]</p>
+<p>This ROM is a proof of concept for the graphical capabilities of
+rcade, which can comfortably play videos at resolutions exceeding
+64x64.</p>
+<p>Bad Apple is the canonical video to demonstrate the graphical
+capabilities of hardware that… shouldn’t really have these graphical
+capabilities. People have run it on everything from original IBM <a href="https://www.youtube.com/watch?v=E0h8BUUboP0">computers</a> to <a href="https://www.youtube.com/watch?v=7pzvEouWino">oscilloscopes</a> to
+<a href="https://www.youtube.com/watch?v=6pAeWf3NPNU">calculators</a> to
+glitching <a href="https://www.youtube.com/watch?v=ciIkpw3glH4">pokemon</a> to run
+the video ingame via ACE.</p>
+<p>I’m certainly not the first to make this on a CLI console, nor <a href="https://www.youtube.com/watch?v=cCK_-yRJ0Ow">in R</a>. but I
+believe this is the first time it’s been done on the R console.</p>
+</div>
+<div id="r2studio" class="section level3">
+<h3>3.4 R<sup>2</sup>Studio</h3>
+<p><code>vignette(&quot;r2studio&quot;)</code></p>
+<p>[IMAGE]</p>
+<p>It’s RStudio in RStudio!<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> This ROM draws its own little console and
+plotting window, and the user can run R code by sending it through the
+input system.</p>
+<p>Running a program in itself is the pinnacle of wacky software
+enginnering, in my mind.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> This really shows how robust rcade can be
+when pushed to its limits.</p>
+<p>(… yes, it can run itself too.)</p>
+</div>
+</div>
+<div id="history-and-motivation" class="section level2">
+<h2>4. History and Motivation</h2>
+<p>There are a few excellent resources<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> detailing the former
+state of R gaming.</p>
+<p>Vanilla R games were restricted to text-based games; action games
+required shiny or an equivalent package to take live input. But no
+longer!</p>
+<p>I wanted to make a game in base R! It started as a joke idea I
+pitched to friends, and I ended up developing it into a full engine in
+Spring 2025. This engine was a bit different—– it used an in-console
+ASCII display to run a simplified Super Smash Brothers-like game and
+featured working multiplayer (!) using a node.js server. It worked quite
+well but I abandoned it because… the fun was all in making it work.</p>
+<p>In the winter, I realized this was an excellent opportunity to turn
+into an R package for the sake of practice and exhibition. Many of the
+concepts used by the package originate from the old engine, but all the
+code is new and much nicer, and fully documented!</p>
+</div>
+<div id="goals" class="section level2">
+<h2>5. Goals</h2>
+<p>Adapting the systems from my original project, this package had many
+goals:</p>
+<ul>
+<li><p>To run in base R with no dependencies! (excepting preinstalled
+packages like <code>tools</code>)</p></li>
+<li><p>To work as a cohesive package with high-quality, R-style code—
+e.g. proper handling of objects, no global assignments, and CRAN
+compatibility.</p></li>
+<li><p>To be a game <em>engine</em>, on which people can make their own
+games; the original project could only be used to play the one game it
+was designed for.</p></li>
+<li><p>To have thorough documentation and vignettes— these are a blast
+to write and I haven’t often gotten the opportunity to make
+them.</p></li>
+<li><p>Through all these, to be as convenient as possible for other
+people to use— much effort was spent manicuring the code and
+documentation to inter-reference cohesively and maximize readability. UX
+is a top priority for an R package!</p></li>
+</ul>
+<p>I’m happy to say that this project achieved every goal, and it was a
+pleasure to develop. Enjoy!</p>
+</div>
+<div id="notes" class="section level2">
+<h2>6. Notes</h2>
+<div id="style" class="section level3">
+<h3>6.1 Style</h3>
+<p>I choose to write R code in a way that’s slightly easier for people
+unfamiliar with R to understand;<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> mainly forgoing the use of &lt;- and
+declaring function returns explicitly.</p>
+<p>Additionally, for the sake of organization, function names are
+prefixed by general context— e.g., functions pertaining to “the
+rendering process” take the form render.foo(). This is against S3
+conventions (where the prefix indicates what class a function operates
+on) but I find it to be an immensely valuable tool for writing
+understandable code.</p>
+</div>
+<div id="the-name-rcade" class="section level3">
+<h3>6.2 The Name ‘rcade’</h3>
+<p>The name “rcade” was too perfect to pass up for a host of reasons.
+Two packages already ‘exist’ with this name, but I don’t think this will
+cause any conflict:</p>
+<ul>
+<li><p>A deprecated <a href="https://www.bioconductor.org/packages//2.12/bioc/html/Rcade.html">bioconductor
+package</a> that was <a href="https://bioconductor.org/about/removed-packages/">removed</a> from
+bioconductor and CRAN in 2015.</p></li>
+<li><p>An old github-only <a href="https://github.com/RLesur/Rcade">package</a> that runs HTML5 games
+in R.</p></li>
+</ul>
+<p>Both packages are obscure and nearly a decade old— may the R gods be
+merciful on my usurping of the name.</p>
+</div>
+<div id="ai-disclaimer" class="section level3">
+<h3>6.3 AI Disclaimer</h3>
+<p><strong>No LLMs</strong><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> were used in the making of this package.
+All writing and code was done by me!</p>
+</div>
+</div>
+<div id="but-can-it-run-doom" class="section level2">
+<h2>7. But Can it Run Doom?</h2>
+<p>Absolutely, but I’m not good at making 3D games. Someone else will
+have to do the port.</p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>And a pun on the Pearson r<sup>2</sup>!<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>e.g. <a href="https://www.youtube.com/watch?v=-BP7DhHTU-I">Minecraft in
+Minecraft</a>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Many of these feature the same games.</p>
+<p><a href="https://www.r-bloggers.com/2022/09/a-review-of-games-written-in-r-on-cran/amp/">“A
+Review of Games Written in R on CRAN”</a></p>
+<p><a href="https://lucidmanager.org/data-science/games-in-r/">“Games in
+R: Fun with Statistical Computing”</a></p>
+<p><a href="https://rolkra.github.io/R-Console-Gaming/">“R Console
+Gaming”</a></p>
+<p><a href="https://github.com/matt-dray/splendid-r-games">“Splendid R
+Games”</a><a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Which is particularly important for this project; the
+systems and concepts are generalizable to other languages and might
+actually be a good resource for making an engine like this.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>Except, of course, when the Google results suggested the
+right function before I could click on a stackexchange link saying the
+same thing.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

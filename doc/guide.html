@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Basic Package Usage</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Basic Package Usage</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#how-to-play-a-game" id="toc-how-to-play-a-game">1. How to
+Play a Game</a></li>
+<li><a href="#prebuilt-games" id="toc-prebuilt-games">2. Prebuilt
+Games</a>
+<ul>
+<li><a href="#snake" id="toc-snake">Snake</a></li>
+<li><a href="#super_rrio" id="toc-super_rrio">Super_Rrio</a></li>
+<li><a href="#bad-apple" id="toc-bad-apple">Bad Apple</a></li>
+<li><a href="#r2studio" id="toc-r2studio">R<sup>2</sup>Studio</a></li>
+</ul></li>
+<li><a href="#making-games" id="toc-making-games">3. Making
+Games</a></li>
+</ul>
+</div>
+
+<p>Welcome to <code>rcade</code>! This is a package that allows you to
+make and play live-input games in vanilla R.</p>
+<p>This article describes how to use the package to play games; see
+<code>vignette(&quot;rcade&quot;)</code> for an overview of the package itself, or
+<code>vignette(&quot;engine&quot;)</code> for info on how the games run.</p>
+<div id="how-to-play-a-game" class="section level2">
+<h2>1. How to Play a Game</h2>
+<p>To play a game, you’ll need two RStudio<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> sessions open in
+separate windows.</p>
+<p>One of them, which I’ll call the <strong>display session</strong>,
+will display the game’s graphics; it should be a relatively large
+window, and you’ll want to zoom out with <code>cmd -</code> or
+equivalent.</p>
+<p>The second sessions is the <strong>input session</strong> and will be
+where you’ll interact with the game once it starts.</p>
+<p><a href="A%20good%20setup.%20The%20display%20session%20is%20large%20and%20zoomed%20out,%20and%20the%20input%20session%20is%20accessible.">IMAGE
+OF A GOOD SETUP</a></p>
+<p>Once you have those two windows open, follow these steps:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Both sessions</strong> need to load the package with
+<code>library(rcade)</code>.</li>
+<li>In the <strong>display session</strong>, start the game you want to
+play. I recommend <code>SuperRrio</code>:</li>
+</ol>
+<pre><code>quickload(SuperRrio)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Then, go to the <strong>input session</strong> and run</li>
+</ol>
+<pre><code>inputs.listen()</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>You should now be able to enter text in the input session to control
+the game!<br />
+The control scheme for Super Rrio is <code>A/D</code> to move and
+<code>SPACE</code> to jump.</li>
+</ol>
+<p>Because of how R works, you have to <strong>press Enter</strong>
+every time you want to send an input. So to jump right, you’d press the
+keys <code>W-SPACE-ENTER</code> in succession.</p>
+<p><a href>GIF of this!</a></p>
+</div>
+<div id="prebuilt-games" class="section level2">
+<h2>2. Prebuilt Games</h2>
+<p>Below are the ROMs (games) I’ve made to be included in the package.
+To run one, follow the steps above with the desired ROM in
+<code>quickload()</code>.</p>
+<div id="snake" class="section level3">
+<h3>Snake</h3>
+<pre><code>quickload(Snake)</code></pre>
+<p><a href>IMAGE</a> Classic Snake game controlled with WASD. When
+you load the ROM, you’ll be prompted if you want to use the default
+settings or change the speed and boundaries of the game.</p>
+</div>
+<div id="super_rrio" class="section level3">
+<h3>Super_Rrio</h3>
+<p><a href>IMAGE</a></p>
+</div>
+<div id="bad-apple" class="section level3">
+<h3>Bad Apple</h3>
+<p><a href>IMAGE</a> This one isn’t a game, just a tech demo for the
+graphics engine. Running this will render a video to the console, no
+input session needed.</p>
+</div>
+<div id="r2studio" class="section level3">
+<h3>R<sup>2</sup>Studio</h3>
+<p><a href>IMAGE</a> desc Pronounced “r-squared studio”— it’s a pun
+on the Pearson r<sup>2</sup>, and the fact that it’s RStudio in
+RStudio!</p>
+<p><a href>TODOTDO</a></p>
+</div>
+</div>
+<div id="making-games" class="section level2">
+<h2>3. Making Games</h2>
+<p>You can make your own game with <code>rom.init()</code>;
+<code>vignette(&quot;Snake&quot;)</code> is a full devlog of the process of making
+the Snake ROM from start to finish. Once you’ve made a ROM, you can run
+it just like the games above!</p>
+<p>The other game articles above go into more detail about game logic
+and technical implementations and may be useful for advanced game
+development.</p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>This package only works in RStudio, since regular R
+doesn’t support console wiping with <code>cat(&#39;\f&#39;)</code>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
