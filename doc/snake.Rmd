@@ -3,7 +3,6 @@ title: "Snake Devlog"
 output:
   rmarkdown::html_vignette:
     toc: true
-    code_folding: hide
 vignette: >
   %\VignetteIndexEntry{snake}
   %\VignetteEngine{knitr::rmarkdown}
@@ -72,13 +71,8 @@ The first step is to make the snake head object, which is what the player contro
 
 We'll initialize this object in `Snake$startup`, which runs once when the RAM is initialized. This is where we want to create objects that will be used later--- it's like the top of a code file.
 
-::: {.callout-note}
-This is a test note!
-
-Wow!
-:::
-
-::: {.callout-note}
+<details>
+  <summary>`Snake$startup = function(RAM){`</summary>
 ```{r}
 Snake$startup = function(RAM){
   RAM$objects$head = list(
@@ -92,7 +86,7 @@ Snake$startup = function(RAM){
   return(RAM)
 }
 ```
-:::
+</details> 
 
 The snake (`head` object) starts at the center of the screen and has the direction 'neutral' to indicate it hasn't started moving yet.
 
