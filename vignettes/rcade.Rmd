@@ -48,6 +48,8 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 ## 3. Prebuilt Games
 [COPY SECTIONS FROM GUIDE VIGNETTE?]
 
+[git integration test]
+
 ### 3.1 Snake
 `vignette("snake")`
 
