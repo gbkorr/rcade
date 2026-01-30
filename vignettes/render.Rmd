@@ -3,7 +3,6 @@ title: "Drawing to Console"
 output:
   rmarkdown::html_vignette:
     toc: true
-    code_folding: hide
 vignette: >
   %\VignetteIndexEntry{render}
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,6 +21,7 @@ knitr::opts_chunk$set(
 devtools::load_all(".")
 ```
 
+NEEDS LOTS OF IMAGES
 
 This article goes over the motivation behind the parts of the rendering system. It builds up from simple console printing to rendering animations ingame.
 
@@ -38,6 +38,8 @@ A couple issues come up. First, characters are much taller than they are wide, s
 ### 2.1 Pixel Art in the Console
 Printing to the console like this is quite simple. Strings like this are quickly interpreted by users as imagery:
 
+<details>
+  <summary>**Example**</summary>
 ```{r}
 cat('
   []  []
@@ -47,6 +49,7 @@ cat('
   [][][]
 ')
 ```
+</details>
 
 But we run into an issue. Art can be printed to the console, but there's no guarantee it shows up in the right position... 
 
@@ -59,6 +62,8 @@ Redrawing the canvas with `cat` works quite well, but takes long enough to cause
 ### 2.2 Storing Pixel Art
 If we want to , we can't just store everything as strings--- it would be a nightmare to work with because of how clunky strings are to edit. Instead, we can write a function, `render.matrix()`, to convert directly from a bitmap matrix to a drawable string:
 
+<details>
+  <summary>`render.matrix`</summary>
 ```{r}
 render.matrix = function(M, palette = c('  ', '[]', '  ')){
   #we assume the bitmap to be positive integers
@@ -77,12 +82,15 @@ render.matrix = function(M, palette = c('  ', '[]', '  ')){
 
 render.matrix(matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7))
 ```
+</details>
 
 `palette` defines how we convert bitmap values to character pixels--- by default, `1` encodes filled (black) pixels and `0` and `2` are white. Values of `0` are used elsewhere in the rendering system to represent transparency, but assume a white background here and draw them as white.
 
 ## 3. Sprites
 So `render.matrix()` lets us print pixel art to the console if we have a matrix that encodes it. This package calls such a matrix a **sprite**.
 
+<details>
+  <summary>**Example**</summary>
 ```{r}
 #A sprite is anything that can be printed by render.matrix():
 sprite = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
@@ -91,12 +99,15 @@ print(sprite)
 
 render.matrix(sprite)
 ```
+</details>
 
 Typically, the game stores and handles sprites directly (as matrices), and the game dev is expected to generate them on their own. The package provides a convenient tool for this: `render.makesprite()`.
 
 ### 3.1 Sprite Creation
 `render.makesprite()` converts user text to a sprite as intuitively as possible. The goal of this function is to remove the need for confusing matrix manipulation, and to follow the principle of WYSIWYG for maximal convenience: "what you see is what you get".
 
+<details>
+  <summary>**Example**`</summary>
 ```{r}
 sprite = render.makesprite('
   OOO
@@ -110,22 +121,29 @@ O     O
 
 render.matrix(sprite)
 ```
+</details>
 
 The limitation is that character strings will look a bit different from square pixels, but overall I've found the function to be extremely useful.
 
 Sometimes, it's easier to create a sprite manually as a matrix. This is especially useful for geometric or procedural shapes:
+
+<details>
+  <summary>**Example**</summary>
 ```{r}
 box = matrix(1,8,16)
 box[2:(nrow(box) - 1), 2:(ncol(box) - 1)] = 0
 
 render.matrix(box)
 ```
+</details>
 
 ## 4. Drawing Multiple Things at Once
 `render.matrix()` lets us render an individual sprite to the console. The natural next step is to somehow **combine** sprites so they can be drawn together in one image.
 
 The general approach to this is to take a big, empty, rectangular 'background' sprite, and edit in our sprites:
 
+<details>
+  <summary>**Example**</summary>
 ```{r}
 sprite = render.makesprite('
  O O
@@ -144,11 +162,11 @@ background[7 + 1:5, 3 + 1:5] = sprite
 
 render.matrix(background)
 ```
-
+</details>
 
 The issue with this is that replacing values directly with `matrix[a:b,c:d]` will always overwrite the original value. We can get around this with code like this:
 
-```{r eval=F, class.source = 'fold-show'}
+```{r eval=F}
   overwrite = sprite
   overwrite[sprite == 0] = matrix[a:b,c:d][sprite == 0] 
   #replace values of 0 with the value underneath 
@@ -156,6 +174,8 @@ The issue with this is that replacing values directly with `matrix[a:b,c:d]` wil
   matrix[a:b,c:d] = overwrite
 ```
 
+<details>
+  <summary>**Example**</summary>
 ```{r}
 circle = render.makesprite('
   OOO
@@ -177,9 +197,12 @@ background[1 + 1:7,2 + 1:7] = overwrite
 
 render.matrix(background)
 ```
+</details>
 
 This whole process is automated by `render.overlay()`, which also clips the sprite to ensure that everything is kept within the bounds of the matrix. 
 
+<details>
+  <summary>**Example**</summary>
 ```{r}
 background = matrix(0,9,14)
 
@@ -189,6 +212,7 @@ background = render.overlay(background, circle, 11, 1)
 
 render.matrix(background)
 ```
+</details>
 
 ## 5. Layers and the Scene
 Now that we can combine sprites, we run into the issue of convenient **ordering**. Which sprites should be drawn on top, and how do we achieve that?
@@ -255,6 +279,9 @@ Additionally, some code is included to provide the option to wrap words to fit i
 [^10]: Though this code could use some improvement. It does its job but isn't very robust--- I figured it was already too niche to warrant more attention.
 
 Here's an example of `render.text()`'s stitching:
+
+<details>
+  <summary>**Example**</summary>
 ```{r}
 #manually stitching letters with a 1-wide gap between
 render.matrix(
@@ -274,5 +301,6 @@ render.matrix(
   render.text('text', kerning = 1)  
 )
 ```
+</details>
 
 `?render.text` provides some more examples of its capabilities.

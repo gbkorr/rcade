@@ -27,16 +27,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
-<style type="text/css">detaiks.chunk-details > summary.chunk-summary {
-text-align: right;
-}
-details.chunk-details[open] > summary.chunk-summary::after {
-content: "Hide";
-}
-details.chunk-details[open] > summary.chunk-summary > span.chunk-summary-text {
-display: none;
-}
-</style>
 
 <style type="text/css">
 code{white-space: pre-wrap;}
@@ -391,6 +381,7 @@ render.text()</a></li>
 </ul>
 </div>
 
+<p>NEEDS LOTS OF IMAGES</p>
 <p>This article goes over the motivation behind the parts of the
 rendering system. It builds up from simple console printing to rendering
 animations ingame.</p>
@@ -419,7 +410,10 @@ are wide, so we use pairs of characters—usually brackets:
 <h3>2.1 Pixel Art in the Console</h3>
 <p>Printing to the console like this is quite simple. Strings like this
 are quickly interpreted by users as imagery:</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&#39;</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="st">  []  []</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="st">  []  []</span></span>
@@ -452,7 +446,10 @@ framerate.</p>
 be a nightmare to work with because of how clunky strings are to edit.
 Instead, we can write a function, <code>render.matrix()</code>, to
 convert directly from a bitmap matrix to a drawable string:</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<code>render.matrix</code>
+</summary>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>render.matrix <span class="ot">=</span> <span class="cf">function</span>(M, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&#39;  &#39;</span>, <span class="st">&#39;[]&#39;</span>, <span class="st">&#39;  &#39;</span>)){</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="co">#we assume the bitmap to be positive integers</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  </span>
@@ -487,7 +484,10 @@ white.</p>
 <p>So <code>render.matrix()</code> lets us print pixel art to the
 console if we have a matrix that encodes it. This package calls such a
 matrix a <strong>sprite</strong>.</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#A sprite is anything that can be printed by render.matrix():</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">ncol =</span> <span class="dv">7</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
@@ -514,7 +514,10 @@ The package provides a convenient tool for this:
 intuitively as possible. The goal of this function is to remove the need
 for confusing matrix manipulation, and to follow the principle of
 WYSIWYG for maximal convenience: “what you see is what you get”.</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>`
+</summary>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="st">  OOO</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="st"> O   O</span></span>
@@ -539,7 +542,10 @@ from square pixels, but overall I’ve found the function to be extremely
 useful.</p>
 <p>Sometimes, it’s easier to create a sprite manually as a matrix. This
 is especially useful for geometric or procedural shapes:</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>box <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">16</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>box[<span class="dv">2</span><span class="sc">:</span>(<span class="fu">nrow</span>(box) <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">2</span><span class="sc">:</span>(<span class="fu">ncol</span>(box) <span class="sc">-</span> <span class="dv">1</span>)] <span class="ot">=</span> <span class="dv">0</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
@@ -563,7 +569,10 @@ the console. The natural next step is to somehow
 image.</p>
 <p>The general approach to this is to take a big, empty, rectangular
 ‘background’ sprite, and edit in our sprites:</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="st"> O O</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="st"> O O</span></span>
@@ -596,14 +605,15 @@ image.</p>
 <p>The issue with this is that replacing values directly with
 <code>matrix[a:b,c:d]</code> will always overwrite the original value.
 We can get around this with code like this:</p>
-<details class="chunk-details" open><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r fold-show"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>  overwrite <span class="ot">=</span> sprite</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>  overwrite <span class="ot">=</span> sprite</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  overwrite[sprite <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">=</span> matrix[a<span class="sc">:</span>b,c<span class="sc">:</span>d][sprite <span class="sc">==</span> <span class="dv">0</span>] </span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="co">#replace values of 0 with the value underneath </span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    </span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  matrix[a<span class="sc">:</span>b,c<span class="sc">:</span>d] <span class="ot">=</span> overwrite</span></code></pre></div>
-</details>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>circle <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="st">  OOO</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="st"> O   O</span></span>
@@ -636,7 +646,10 @@ We can get around this with code like this:</p>
 <p>This whole process is automated by <code>render.overlay()</code>,
 which also clips the sprite to ensure that everything is kept within the
 bounds of the matrix.</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">9</span>,<span class="dv">14</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">render.overlay</span>(background, circle, <span class="dv">1</span>, <span class="dv">1</span>)</span>
@@ -778,7 +791,10 @@ that the text is readable on both black or white backgrounds.</p>
 words to fit in a given width of pixels, and align them to the
 left/right/center.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <p>Here’s an example of <code>render.text()</code>’s stitching:</p>
-<details class="chunk-details"><summary class="chunk-summary"><span class="chunk-summary-text">Code</span></summary>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">#manually stitching letters with a 1-wide gap between</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">render.matrix</span>(</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>

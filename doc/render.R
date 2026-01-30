@@ -80,7 +80,7 @@ background[7 + 1:5, 3 + 1:5] = sprite
 
 render.matrix(background)
 
-## ----eval=F, class.source = 'fold-show'---------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #   overwrite = sprite
 #   overwrite[sprite == 0] = matrix[a:b,c:d][sprite == 0]
 #   #replace values of 0 with the value underneath
