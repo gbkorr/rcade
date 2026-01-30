@@ -72,6 +72,10 @@ We’ll initialize this object in `Snake$startup`, which runs once when
 the RAM is initialized. This is where we want to create objects that
 will be used later— it’s like the top of a code file.
 
+This is a test note!
+
+Wow!
+
 ``` r
 Snake$startup = function(RAM){
   RAM$objects$head = list(
