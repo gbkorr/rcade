@@ -91,15 +91,16 @@ render.object = function(scene, obj, RAM){
 		#complex sprite
 		if (is.list(sprite)) {
 			#static sprite offset from xy
-			draw$offset.x = sum(draw$offset.x, sprite$offset.x, na.rm = TRUE)
-			draw$offset.y = sum(draw$offset.y, sprite$offset.y, na.rm = TRUE)
+			draw$x = sum(draw$x, sprite$offset.x, na.rm = TRUE)
+			draw$y = sum(draw$y, sprite$offset.y, na.rm = TRUE)
+
 			draw$timer = obj$timer
 			if (is.null(draw$timer)) draw$timer = RAM$ticks #if no timer provided
 
 			sprite = render.animate(obj$spritename, draw$timer, RAM$ROM$sprites, RAM$ROM$framerate) #retrieve which matrix to draw for animation
 		}
 
-		scene = render.sprite(scene, sprite, draw$x + draw$offset.x, draw$y + draw$offset.y, draw$layer, draw$palette)
+		scene = render.sprite(scene, sprite, draw$x, draw$y, draw$layer, draw$palette)
 	}
 
 	return(scene)
