@@ -39,7 +39,7 @@ BadApple = rom.init(bar[2],bar[1], framerate = 30)
 BadApple$startup = function(RAM){
 	#assemble sprite
 
-	badapple = list(framerate = 60) #60 -> one frame per tick
+	badapple = list(framerate = 30) #60 -> one frame per tick
 
 	badapple$frames = vector('list',length(BadApple.data)) #initialize list size to avoid sloppy growing
 	badapple$frames[[1]] = matrix(0,RAM$ROM$screen.height,RAM$ROM$screen.width) #must fill screen exactly

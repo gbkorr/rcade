@@ -23,42 +23,15 @@
 #how cool is that! it's r-cubedstudio. And here's me in the middle of a very slow game of snake in rstudio in rstudio.
 
 
+# Initialization ----
 #320, 200
 R2Studio = rom.init(100,25,framerate=1)
 
-R2Studio$startup = function(RAM){
-	RAM$font = fonts.3x5
+# Graphics ----
 
-	RAM$environment = new.env() #environment R code will be run in
-
-	RAM$n_expr = 1 #most recent expression to evaluate
-
-	RAM$objects$console = list(
-		text = c('RßStudio v.1.0','"Kaleidoscope"',paste('Platform: RStudio',RStudio.Version()$version)), #uses ß as a custom character to draw superscript 2
-		draw = function(scene, obj, RAM){return(RAM$ROM$draw_console(scene, RAM))}
-	)
-
-	#graphics
-	RAM$objects$gui = list(draw = function(scene, obj, RAM){return(RAM$ROM$draw_ui(scene, RAM))})
-	RAM$objects$plotwindow = list(
-		width = floor(RAM$ROM$screen.width/3), #height set automatically; width can be adjusted
-		xvals = c(),
-		yvals = c(),
-		xlim = NULL,
-		ylim = NULL,
-		xlab = '',
-		ylab = '',
-		main = '',
-		type = 'p',
-		pch = 1,
-		cex = 1,
-		draw = function(scene, obj, RAM){return(RAM$ROM$drawplot(scene, RAM))})
-
-	return(RAM)
-}
-
-#we do this live because we have plenty of time (at 1fps!) and because it lets us change things
 R2Studio$draw_ui = function(scene, RAM){
+	#we do this live because we have plenty of time (at 1fps!) and because it lets us change things
+
 	#border
 	box = matrix(1,RAM$ROM$screen.height,RAM$ROM$screen.width)
 	box[2:(nrow(box) - 1), 2:(ncol(box) - 1)] = 0
@@ -168,6 +141,8 @@ R2Studio$pch = function(pch, cex){
 	return(sprite)
 } #generates sprite on the spot for a given pch and cex
 
+
+# Hooked Functions ----
 R2Studio$plot = function(RAM, x, y=NULL, xlim=NULL, ylim=NULL, xlab=NULL, ylab=NULL, main=NULL, pch=1, cex=1, type='p'){
 	if (!(type %in% c('p','l'))) warning('plot warning\n: only types p and l supported')
 
@@ -195,20 +170,44 @@ R2Studio$plot = function(RAM, x, y=NULL, xlim=NULL, ylim=NULL, xlab=NULL, ylab=N
 	return(RAM)
 }
 
+R2Studio$use.size = function(RAM, new.width = NULL, new.height = NULL){
 
+	if (!is.null(new.width)) RAM$ROM$width = floor(new.width)
+	if (!is.null(new.height)) RAM$ROM$width = floor(new.height)
+
+	return(RAM)
+}
+R2Studio$use.font = function(RAM, font = NULL, kerning = NULL, linespacing = NULL){
+	if (!is.null(font)) RAM$font = font
+
+	if (!is.null(kerning)) RAM$font$kerning = kerning
+	if (!is.null(linespacing)) RAM$font$linespacing = linespacing
+
+	return(RAM)
+}
+
+# Core ----
 R2Studio$evaluate = function(RAM,expr){
-	#check for custom functions like plot and use.font() and use.width() and use.plotwidth()
-	#
-	# also cat('\f') so we can run the engine in this!
-	# RTODODOD
 
-	#hook plot
-	orig_expr = expr
-	if (substr(expr,1,5) == 'plot(') expr = paste(
-		'RAM = RAM$ROM$plot(RAM,',
-		substring(expr,6),
-		sep = ''
-	)
+	#hook functions
+	orig_expr = expr #record this for the console output
+	for (hooked_function in c('plot','use.size','use.font')){
+
+		#replaces expr 'hooked_function(...)' with 'RAM$ROM$hooked_function(RAM,...)'
+
+		#todo: gsub
+
+		if (substr(expr,1,1+nchar(hooked_function)) == paste(hooked_function,'(',sep='')) {
+			expr = paste(
+				'RAM = RAM$ROM$',
+				hooked_function,
+				'(RAM,',
+				substring(expr,2+nchar(hooked_function)),
+				sep = ''
+			)
+		}
+	}
+
 
 	RAM$environment$RAM = RAM #push RAM into its own environment so it can be edited on the fly
 
@@ -243,6 +242,39 @@ R2Studio$evaluate = function(RAM,expr){
 }
 
 
+
+# Startup and Custom ----
+R2Studio$startup = function(RAM){
+	RAM$font = fonts.3x5
+
+	RAM$environment = new.env() #environment R code will be run in
+
+	RAM$n_expr = 1 #most recent expression to evaluate
+
+	RAM$objects$console = list(
+		text = c('RßStudio v.1.0','"Kaleidoscope"',paste('Platform: RStudio',RStudio.Version()$version)), #uses ß as a custom character to draw superscript 2
+		draw = function(scene, obj, RAM){return(RAM$ROM$draw_console(scene, RAM))}
+	)
+
+	#graphics
+	RAM$objects$gui = list(draw = function(scene, obj, RAM){return(RAM$ROM$draw_ui(scene, RAM))})
+	RAM$objects$plotwindow = list(
+		width = floor(RAM$ROM$screen.width/3), #height set automatically; width can be adjusted
+		xvals = c(),
+		yvals = c(),
+		xlim = NULL,
+		ylim = NULL,
+		xlab = '',
+		ylab = '',
+		main = '',
+		type = 'p',
+		pch = 1,
+		cex = 1,
+		draw = function(scene, obj, RAM){return(RAM$ROM$drawplot(scene, RAM))})
+
+	return(RAM)
+}
+
 #all this does is evaluate anything new
 R2Studio$custom = function(RAM){
 	#custom input retrieval
@@ -258,6 +290,8 @@ R2Studio$custom = function(RAM){
 }
 
 
+
+# Save ----
 
 
 #quickload(R2Studio)

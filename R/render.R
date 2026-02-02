@@ -199,8 +199,10 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 render.animate = function(spritename, timer, sprites, render_framerate = 60){ #timer = frame of animation
 	sprite = sprites[[spritename]]
 
+	if (is.null(sprite$framerate)) stop(paste('Sprite ',spritename,': No framerate set.',sep=''))
+
 	n_frames = length(sprite$frames)
-	frametime = round(render_framerate/sprite$framerate) #assuming 60fps, # of frames for one frame of animation. e.g. 5 for a 12fps animation
+	frametime = ceiling(render_framerate/sprite$framerate) #assuming 60fps, # of frames for one frame of animation. e.g. 5 for a 12fps animation
 
 	#next animation (otherwise just loops)
 	if (!is.null(sprite$next_animation) && timer > n_frames * frametime) render.animate(sprite$next_animation, timer - n_frames * frametime, sprites, render_framerate)

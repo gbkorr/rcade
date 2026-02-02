@@ -1,0 +1,63 @@
+---
+title: "R^2^Studio"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{r2studio}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rcade)
+```
+
+We have a graphics system. Why not render an R console?
+
+This article describes the `R2Studio` ROM, which lets you run RStudio... in RStudio. Unlike `vignette("snake")`, the article does not use a walkthrough-based format, and instead just covers the various systems present in making the ROM work. You can always inspect the ROM object (`View(R2Studio)`) to take a closer look at its code.
+
+
+# GO THROUGH SNAKE and organize the source code into nice chunks #----
+
+# 1. Goals
+
+render the regular console (inputs, outputs, etc.)
+hook the plot command and do basic scatter/line plots
+
+We don't need a smooth framerate for this--- one frame per second should be plenty.
+
+# 2. UI
+The UI is inspired by RStudio and features a console and plotting window. There are a couple different sprites dedicated to drawing the borders, and they generate their sprite live in `obj$draw()`; this lets the UI adapt to changes in display resolution 
+
+[DISPLAY RES CHANGES SUCH AS THOSE CAUSED BY THE SPECIAL FUNCTIONS]
+
+# 3. Console
+
+# 4. Plotting
+goals
+
+# 4.1 Hooking `plot()`
+
+
+# 5. Meta Functions
+In addition to hooking `plot()`, I've provided some convenience functions that interact with the game itself to, change the font, resize the display area, etc. All they do is edit `RAM$ROM` properties, and the game is rendered in such a way that respects live changes to these--- almost everything draws through `obj$draw()` rather than the default sprite system.
+
+note: hooks won't work for the syntax `plot ()`
+
+# what are these meta functions? list them all and have a small image demo (e.g. to compare fonts and sizes)
+
+
+
+# R^3^Studio
+
+
+
+

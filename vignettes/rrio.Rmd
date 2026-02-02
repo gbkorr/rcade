@@ -225,7 +225,7 @@ SuperRrio$assemble_collision_sprite = function(RAM){
 </details>
 
 
-And if we test this on the collision,
+And if we test this with `render.matrix()` on the collision,
 
 <details>
   <summary>**IMAGE**</summary>
@@ -244,35 +244,36 @@ SuperRrio$assemble_collision_sprite = function(RAM, xrange, yrange){
   M = RAM$objects$collision$data #collision matrix
   M = M[yrange,xrange]
   ...
+  #(some extra code to clip and pad this matrix is needed too)
 ```
 
 Next we'll figure out how to determine which tiles are actually onscreen so we know how to set the xrange and yrange.
   
 ## 5. Screen Scrolling
-In order to scroll the screen, we'll have to keep track of Rrio's position. Because `RAM$objects$rrio$x` is used to determine where to draw Rrio on the screen (and we're keeping it fixed in the center), we'll have to make a new variable to track Rrio's position in the stage.
+In order to scroll the screen, we'll have to keep track of Rrio's position. Because `RAM$objects$rrio$x` and `$y` are used to determine where to draw Rrio on the screen (and we're keeping him fixed in the center for now), we'll have to make new variables to track Rrio's position in the stage.
 
-We'll define this as `RAM$objects$rrio$pos.x`. It's most convenient if we scale this so one unit of `pos.x` corresponds to one unit on the collision matrix, or 4 pixels onscreen.
+We'll define this as `RAM$objects$rrio$pos.x` and `$pos.y`. It's most convenient if we scale these so one unit of `pos.x` corresponds to one unit on the collision matrix, or 4 pixels onscreen.
 
 Then we can do a bit of math with this to get the section of collision we want.
 
 NEED TO EXPLAIN THE NUDGING
 
 <details>
-  <summary>**Scrolling Code**</summary>
+  <summary>**Scrolling Code (X only)**</summary>
 ```{r eval=F}
 #in ROM$startup(), when initializing collision
 RAM$objects$collision$draw = function(scene, obj, RAM){
   pos.x = RAM$objects$rrio$pos.x
-  screen_width_for_collision = ceiling(RAM$ROM$screen.width / RAM$ROM$tilesize)
+  screen_width_converted = ceiling(RAM$ROM$screen.width / RAM$ROM$tilesize) #screen width in units of collision matrix
   
   #range of columns in the collision matrix that should be onscreen
-  xrange = (1:screen_width_for_collision) + floor(pos.x)
+  xrange = (1:screen_width_converted) + floor(pos.x)
   
-  #extra nudge for the sprite to scroll smoothly by pixel; otherwise, 
+  #extra nudge for the sprite to scroll smoothly by pixel
   remainder.x = remainder.x = floor(RAM$ROM$tilesize * (pos.x - floor(pos.x)))
   
-  sprite = RAM$ROM$assemble_collision_sprite(RAM,xrange,NULLNEEDTOMANUALLYDEFINE) #manually defining the Y range here since we haven't set that up yet
-  scene = render.sprite(scene, sprite, x=-remainder.x, y=1, layer=2) #background layer B
+  sprite = RAM$ROM$assemble_collision_sprite(RAM,xrange,5:12) #manually defining the Y range here since we haven't set that up yet
+  scene = render.sprite(scene, sprite, x=-remainder.x, y=1, layer=2)
   return(scene)
 }
 ```
@@ -286,6 +287,8 @@ Et voilà--- if we move Rrio (I've set his `$pos.x` to increase by a little ever
 </details>
 
 Unfortunately, we can see the characteristic flickering rcade gets at higher resolutions: it's a limitation of `cat()` and can't be helped.[^3]
+
+RUNNING AT 30FPS ACTUALLY DOES MAKE IT LOOK NICER
 
 [^3]: If RStudio respected more ANSI escape codes, we could pull something like `\033[1F` to *overwrite* the previous frame (similar to how you can overwrite a single line with `\r`) instead of having to wipe and redraw it, but we're already lucky enough that `\f` works in the first place.
 
