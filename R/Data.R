@@ -82,3 +82,7 @@
 #' @format |`BadApple.data`|\verb{ }|Compressed video frames; a list of vectors indicating which pixels flip each frame.|
 #' |-|-|-|
 'BadApple.data'
+
+
+
+#R2STUDIO DOCUMENTATION: short description, how to use section, plotting section, settings section

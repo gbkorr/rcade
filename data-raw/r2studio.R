@@ -1,17 +1,5 @@
 
-#can I hack this by writing to RAM with code? I think I can! Demo this by, in the program itself, changing the font
-#and changing height, etc.
-#RAM$ROM$screen.width = 64
-#RAM$font = fonts.3x3
-
-#wrap these as custom functions for the engine
-
-#envvars and plot are just drawn over the rest of everything, controlled by the plot window's width and height vars (tied to RAM)
-#remember to layer correctly for that!
-#(plot canvas draws that whole two-part side (like two stacked boxes))
-
-#we have room for environment varaibles!!!!
-
+#would be nice to be able to draw sprite matrices as heatmaps in the plotting window
 
 
 #PLS HAVE DARKMODE IT WOULD BE SO COOL
@@ -25,14 +13,15 @@
 
 # Initialization ----
 #320, 200
-R2Studio = rom.init(100,25,framerate=1)
+R2Studio = rom.init(100,30,framerate=1)
 
 # Graphics ----
 
-R2Studio$draw_ui = function(scene, RAM){
+R2Studio$draw_ui = function(scene, obj, RAM){
 	#we do this live because we have plenty of time (at 1fps!) and because it lets us change things
+	#these UI elements are ordered by their place in this function, not by layer.
 
-	#border
+	#main border
 	box = matrix(1,RAM$ROM$screen.height,RAM$ROM$screen.width)
 	box[2:(nrow(box) - 1), 2:(ncol(box) - 1)] = 0
 	scene = render.sprite(scene, box, 1, 1, layer=4)
@@ -41,22 +30,30 @@ R2Studio$draw_ui = function(scene, RAM){
 	box = matrix(1,RAM$font$height + 2,RAM$ROM$screen.width)
 	scene = render.sprite(scene, box, 1, 1, layer=4)
 
-	#top console text
+	#top-of-console text
 	consoletext = 'RßStudio v.1.0'
 	consoletext = render.text(consoletext,RAM$font)
 	consoletext[consoletext == 1] = 2 #convert to white
 	scene = render.sprite(scene, consoletext, 3, 1, layer=4)
 
-	plottitle = 'plot'
-	if (RAM$objects$plotwindow$main != '') plottitle = RAM$objects$plotwindow$main
-	plottitle = render.text(plottitle,RAM$font,alignment='center',wrap=RAM$objects$plotwindow$width)
-	plottitle[plottitle == 1] = 2 #convert to white
-	scene = render.sprite(scene, plottitle, RAM$ROM$screen.width - RAM$objects$plotwindow$width + 2, 1, layer=4)
+	#plot window
+	if (RAM$objects$plotwindow$width > 2){ #skip plot if it's too thin
+		#top bar again to overwrite the top-of-console text
+		box = matrix(1,RAM$font$height + 2,RAM$ROM$screen.width)
+		scene = render.sprite(scene, box, RAM$ROM$screen.width - RAM$objects$plotwindow$width + 1, 1, layer = 4)
+
+		#plot title
+		plottitle = 'PLOT'
+		if (RAM$objects$plotwindow$main != '') plottitle = RAM$objects$plotwindow$main
+		plottitle = render.text(plottitle,RAM$font,alignment='center',wrap=RAM$objects$plotwindow$width)
+		plottitle[plottitle == 1] = 2 #convert to white
+		scene = render.sprite(scene, plottitle, RAM$ROM$screen.width - RAM$objects$plotwindow$width + 2, 1, layer=4)
+	}
 
 	return(scene)
 }
 
-R2Studio$draw_console = function(scene, RAM){
+R2Studio$draw_console = function(scene, obj, RAM){
 	rows = (RAM$ROM$screen.height + 1)/(RAM$font$height + 1) - 1 #number of lines there's room to draw
 
 	console = RAM$objects$console
@@ -74,8 +71,12 @@ R2Studio$draw_console = function(scene, RAM){
 	return(scene)
 }
 
-R2Studio$drawplot = function(scene, RAM){
+
+# Plotting ----
+R2Studio$drawplot = function(scene, obj, RAM){
 	list2env(RAM$objects$plotwindow, envir = environment()) #load object data
+
+	if (width < 2) return(scene) #exit and don't draw if plot is too small
 
 	#width is in the object
 	height = RAM$ROM$screen.height - RAM$font$height - 1
@@ -86,11 +87,8 @@ R2Studio$drawplot = function(scene, RAM){
 	#type, main
 
 	#make plot window as sprite
-	box = matrix(1, height, width)
-	box[2:(nrow(box) - 1), 2:(ncol(box) - 1)] = 2 #white opaque background to block out the console text
-
-	#create scene with plot winodw
-	plt = list(width =  width, height = height, layers=list(box))
+	plotwindow = matrix(1, height, width)
+	plotwindow[2:(nrow(plotwindow) - 1), 2:(ncol(plotwindow) - 1)] = 2 #white opaque background to block out the console text
 
 	if (length(xvals)) {
 		#limits
@@ -119,13 +117,14 @@ R2Studio$drawplot = function(scene, RAM){
 
 				sprite = RAM$ROM$pch(pch, cex)
 
-				plt = render.sprite(plt, sprite, px + 1 - ceiling(ncol(sprite)/2), height - py - 2 - ceiling(nrow(sprite)/2), layer=1)
+				plotwindow = render.overlay(plotwindow, sprite, px + 3 - ceiling(ncol(sprite)/2), height - py - ceiling(nrow(sprite)/2))
 			}
 		}
 	}
 
-	plt = plt$layers[[1]] #get window layer from plt as sprite
-	scene = render.sprite(scene, plt, RAM$ROM$screen.width - width + 1, RAM$font$height + 2, layer = 3)
+	scene = render.sprite(scene, plotwindow, RAM$ROM$screen.width - width + 1, RAM$font$height + 2, layer = 3)
+
+	return(scene)
 }
 
 R2Studio$pch = function(pch, cex){
@@ -143,8 +142,11 @@ R2Studio$pch = function(pch, cex){
 
 
 # Hooked Functions ----
-R2Studio$plot = function(RAM, x, y=NULL, xlim=NULL, ylim=NULL, xlab=NULL, ylab=NULL, main=NULL, pch=1, cex=1, type='p'){
+R2Studio$plot = function(RAM, x, y=NULL, xlim=NULL, ylim=NULL, xlab='', ylab='', main='', pch=1, cex=1, type='p'){
+	#just edits the plot window to agree with the new stuff
+
 	if (!(type %in% c('p','l'))) warning('plot warning\n: only types p and l supported')
+	if (type == 'l') warning('plot warning: line plots not yet supported')
 
 	xvals = x
 	yvals = y
@@ -153,7 +155,7 @@ R2Studio$plot = function(RAM, x, y=NULL, xlim=NULL, ylim=NULL, xlab=NULL, ylab=N
 
 	#no y provided; go by index instead
 	if (is.null(y)){
-		xvals = 1:length(x)
+		xvals = x
 		yvals = x
 		ylb = xlb
 		xlb = "Index"
@@ -170,18 +172,29 @@ R2Studio$plot = function(RAM, x, y=NULL, xlim=NULL, ylim=NULL, xlab=NULL, ylab=N
 	return(RAM)
 }
 
-R2Studio$use.size = function(RAM, new.width = NULL, new.height = NULL){
+R2Studio$use.size = function(RAM, width = NULL, height = NULL, plot.width = NULL){
 
-	if (!is.null(new.width)) RAM$ROM$width = floor(new.width)
-	if (!is.null(new.height)) RAM$ROM$width = floor(new.height)
+	if (!is.null(width)) RAM$ROM$screen.width = floor(width)
+	if (!is.null(height)) RAM$ROM$screen.height = floor(height)
+
+	#you can hide the plot by setting its width to 0
+	if (!is.null(plot.width)) {
+		if (plot.width > RAM$ROM$screen.width) plot.width = RAM$ROM$screen.width
+		RAM$objects$plotwindow$width = floor(plot.width)
+	}
 
 	return(RAM)
 }
-R2Studio$use.font = function(RAM, font = NULL, kerning = NULL, linespacing = NULL){
+R2Studio$use.font = function(RAM, font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL){
 	if (!is.null(font)) RAM$font = font
 
 	if (!is.null(kerning)) RAM$font$kerning = kerning
 	if (!is.null(linespacing)) RAM$font$linespacing = linespacing
+
+	if (!is.null(darkmode)) {
+			if (darkmode) RAM$ROM$palette = c('[]','  ','[]')
+			else RAM$ROM$palette = c('  ','[]','  ')
+	}
 
 	return(RAM)
 }
@@ -191,23 +204,14 @@ R2Studio$evaluate = function(RAM,expr){
 
 	#hook functions
 	orig_expr = expr #record this for the console output
-	for (hooked_function in c('plot','use.size','use.font')){
-
-		#replaces expr 'hooked_function(...)' with 'RAM$ROM$hooked_function(RAM,...)'
-
-		#todo: gsub
-
-		if (substr(expr,1,1+nchar(hooked_function)) == paste(hooked_function,'(',sep='')) {
-			expr = paste(
-				'RAM = RAM$ROM$',
-				hooked_function,
-				'(RAM,',
-				substring(expr,2+nchar(hooked_function)),
-				sep = ''
-			)
-		}
+	for (hooked_function in c('plot(','use.size(','use.font(','plot (','use.size (','use.font (')) { #extra strings for people who use the syntax 'foo ()'
+		#replaces expr 'hooked_function(...)' with 'RAM = RAM$ROM$hooked_function(RAM,...)'
+		expr = gsub(
+			paste(hooked_function,sep=''),
+			paste('RAM = RAM$ROM$',hooked_function,'RAM,',sep=''),
+			expr,
+			fixed = TRUE)
 	}
-
 
 	RAM$environment$RAM = RAM #push RAM into its own environment so it can be edited on the fly
 
@@ -253,13 +257,13 @@ R2Studio$startup = function(RAM){
 
 	RAM$objects$console = list(
 		text = c('RßStudio v.1.0','"Kaleidoscope"',paste('Platform: RStudio',RStudio.Version()$version)), #uses ß as a custom character to draw superscript 2
-		draw = function(scene, obj, RAM){return(RAM$ROM$draw_console(scene, RAM))}
+		draw = R2Studio$draw_console
 	)
 
 	#graphics
-	RAM$objects$gui = list(draw = function(scene, obj, RAM){return(RAM$ROM$draw_ui(scene, RAM))})
+	RAM$objects$gui = list(draw = RAM$ROM$draw_ui)
 	RAM$objects$plotwindow = list(
-		width = floor(RAM$ROM$screen.width/3), #height set automatically; width can be adjusted
+		width = floor(RAM$ROM$screen.width/3), #height is just screen height; width can be adjusted
 		xvals = c(),
 		yvals = c(),
 		xlim = NULL,
@@ -270,7 +274,8 @@ R2Studio$startup = function(RAM){
 		type = 'p',
 		pch = 1,
 		cex = 1,
-		draw = function(scene, obj, RAM){return(RAM$ROM$drawplot(scene, RAM))})
+		draw = R2Studio$drawplot
+	)
 
 	return(RAM)
 }
@@ -294,7 +299,8 @@ R2Studio$custom = function(RAM){
 # Save ----
 
 
-#quickload(R2Studio)
+quickload(R2Studio)
 
 
 #usethis::use_data(R2Studio, overwrite = TRUE)
+
