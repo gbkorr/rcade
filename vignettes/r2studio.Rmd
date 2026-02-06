@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 We have a graphics system. Why not render an R console?
 
-This article describes the `R2Studio` ROM, which lets you run RStudio... in RStudio. Unlike `vignette("snake")`, the article does not use a walkthrough-based format, and instead just covers the various systems present in making the ROM work. You can always inspect the ROM object (`View(R2Studio)`) to take a closer look at its code.
+This article describes the `R2Studio` ROM, which lets you run RStudio... in RStudio. Unlike `vignette("snake")`, this article is not meant to be a detailed walkthrough and instead just provides an overview of how this ROM works. You can always inspect the ROM object (`View(R2Studio)`) to take a closer look at its code.
 
 
 # GO THROUGH SNAKE and organize the source code into nice chunks #----
@@ -30,20 +30,21 @@ I wanted this ROM to provide the full R console experience and have some basic p
 - provide an R environment that can save its own variables
 - have the ability to make a basic scatterplot
 - let the R environment interact with the RAM, to allow you to change 'settings' like font
+- allow for live resizing of the display
 
-We don't need a smooth framerate for this--- one frame per second should be plenty.
+Since the console is basically a static screen, we won't need a very high framerate. One frame per second should be plenty.
 
 ## 2. UI
 `R2Studio$draw_ui():`
 
-The UI is inspired by RStudio and features a console and plotting window. The sprites are remade and drawn every frame in `R2Studio$draw_ui()`, allowing them to adapt to changes in the display resolution. All the function really does is make a few bordered boxes with a little text.
+The UI is inspired by RStudio and features a console and plotting window. The sprites are reconstructed and drawn every frame in `R2Studio$draw_ui()`, allowing them to adapt to changes in the display resolution. All the function really does is make a few bordered boxes with a little text.
 
 [image of just the ui w/ blank plot and console]
 
 ## 3. R Console
 `R2Studio$evaluate():`
 
-Running R code isn't very hard, since it's ultimately running in the main R instance. All we have to do is capture and evaluate whatever input the user gave, using `base::parse()` and `base::eval()`. In startup the RAM makes an environment (`RAM$environment`), and we just tell `eval()` to run the captured code in that environment.
+Running R code isn't very hard, since it's ultimately running in the main R instance. All we have to do is capture and evaluate whatever input the user gave, using `base::parse()` and `base::eval()`. We give the RAM its own little environment (stored in `RAM$environment`), and just tell `eval()` to run the captured code in that environment. This makes it so all our code only affects `RAM$environment` and doesn't bleed out into the main R process (unless we tell it to).
 
 The regular R console also prints the result of evaluations--- e.g.,
 ```
@@ -52,6 +53,28 @@ The regular R console also prints the result of evaluations--- e.g.,
 ```
 
 We can get this result using `utils::capture.output()`. Then we just add the little '>' to the expression string, and save both it and the result's string as entries in `RAM$objects$console$text`.
+
+```
+RAM$objects$console$text
+c('> 3+5', '[1] 8')
+```
+
+<details>
+  <summary>**Evaluation Code [click to open]**</summary>
+```{r eval=F}
+output = utils::capture.output(
+		tryCatch(
+			eval(
+				parse(text = expr),
+				envir = RAM$environment
+			),
+			error = function(err){cat('Error in',expr,':\n',err$message)} #return error message like in regular console
+			#(this error is then caught as the output of the eval, and correctly added to the R2Studio console)
+	)
+)
+```
+</details>
+
 
 ### 3.1 Multiline Expressions
 There's also a little code to render multiline expressions properly, e.g.
@@ -90,19 +113,24 @@ In order to recognize `plot()` calls, and have them not be interpreted as real `
 
 Because I gave `RAM$environment` access to the RAM itself, code can edit the RAM; we can use this here to save the new plot info to `RAM$objects$plotwindow`, which `R2Studio$draw_plot()` uses to draw the plot. Access to the RAM also lets us change its 'settings', as shown in the next section:
 
-### 5. Meta Functions
+## 5. Meta Functions
 The approach to swapping out `plot()` for a custom function also lets us create our own new custom functions that only work in the R^2^Studio environment. 
 
 I use this to provide some convenience functions that interact with the game itself to change the font, resize the display area, etc. All they do is edit `RAM$ROM` properties, and the game is rendered in such a way that respects live changes to these--- almost everything draws through `obj$draw()` rather than the default sprite system.
 
+### 5.1 use.size()
+`use.size(width = NULL, height = NULL, plot.width = NULL)`
 
-# ALSO PALETTE SWAPPING: stick this onto use.font
+Resizes the whole display or plot window.
 
-# what are these meta functions? list them all and have a small image demo (e.g. to compare fonts and sizes)
+#[[[[[[image of a couple different UI sizes (incl. the command in the console)]]]]]
 
+### 5.2 use.font()
+`use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)`
 
+Alters the display's font. `darkmode=TRUE` inverts the colors of the entire display.
 
-image of a couple different UI sizes
+#give image example w/ 3x3
 
 # 6. R^3^Studio
 We can also... boot up the R^2^Studio ROM in this environment. rcade is actually functional in this state, but you have to influence and update it manually: by using `ram.input()` and `ram.tick()`. `ram.run()` won't work for several reasons, so games can only display individual frames rather than running in realtime.

@@ -220,7 +220,7 @@ R2Studio$evaluate = function(RAM,expr){
 		tryCatch(
 			eval(
 				parse(text=expr),
-				envir=RAM$environment
+				envir = RAM$environment
 			),
 			error = function(err){cat('Error in',expr,':\n',err$message)} #return error message like in regular console
 		)
