@@ -71,11 +71,11 @@
 #'
 #' `BadApple$startup()` reconstructs the video when the RAM is initialized, saving the resultant frames as a single animation in `RAM$ROM$sprites`. A single object then loops the animation constantly.
 #'
-#' The frames are from [https://github.com/Timendus/chip-8-bad-apple](https://github.com/Timendus/chip-8-bad-apple).
+#' The frames are from [https://github.com/Timendus/chip-8-bad-apple](https://github.com/Timendus/chip-8-bad-apple). rcade can actually run the high-resolution version at full speed, but it experiences significant flickering due to the high volume of pixels.
 #' @section Compression:
 #' `BadApple.data` is an ordered list of vectors, with each vector corresponding to a frame. Each vector stores the indices of which pixels should flip (`black <-> white`) compared the previous frame; this allows the video to be iteratively reconstructed losslessly starting from a blank frame.
 #'
-#' Much stronger forms of compression have been devised for Bad Apple projects, but this is a simple, naive approach that works well enough (50 -> 1MB) for the application. More importantly, rcade shouldn't really require compressed videos since you can read frames directly from a file.
+#' Much stronger forms of compression have been devised for Bad Apple projects, but this is a simple, naive approach that works well enough for the application. More importantly, rcade shouldn't really require compressed videos since you can read frames directly from a file.
 'BadApple'
 
 #' @rdname BadApple

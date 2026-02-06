@@ -22,7 +22,7 @@ compress_gif = function(files){ #files: ordered vector of full filenames of each
 }
 
 
-gif_folder = '/Users/gabrielbroussardkorr/Desktop/rgifs/badapple/hires/' #requires trailing slash
+gif_folder = '/Users/gabrielbroussardkorr/Desktop/rgifs/badapple/lores/' #requires trailing slash
 bad_apple_files = paste(gif_folder,list.files(gif_folder),sep='')
 #bad_apple_files = bad_apple_files[nchar(bad_apple_files) == 74] #first 1000 frames
 
