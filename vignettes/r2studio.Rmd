@@ -18,8 +18,11 @@ knitr::opts_chunk$set(
 
 We have a graphics system. Why not render an R console?
 
-This article describes the `R2Studio` ROM, which lets you run RStudio... in RStudio. Unlike `vignette("snake")`, this article is not meant to be a detailed walkthrough and instead just provides an overview of how this ROM works. You can always inspect the ROM object (`View(R2Studio)`) to take a closer look at its code.
+This article describes the mechanics of the `R2Studio` ROM, which lets you run RStudio... in RStudio. See its documentation (`?R2Studio`) for info on how to use the ROM.
 
+Unlike `vignette("snake")`, this article is not meant to be a detailed walkthrough and instead just provides an overview of how this ROM works. You can always inspect the ROM object (`View(R2Studio)`) to take a closer look at its code.
+
+# NEED PCH/CEX
 
 # GO THROUGH SNAKE and organize the source code into nice chunks #----
 

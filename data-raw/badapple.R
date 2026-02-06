@@ -22,7 +22,7 @@ compress_gif = function(files){ #files: ordered vector of full filenames of each
 }
 
 
-gif_folder = '/Users/gabrielbroussardkorr/Desktop/rgifs/badapple/hires/' #requires trailing slash
+gif_folder = '/Users/gabrielbroussardkorr/Desktop/rgifs/badapple/highres/' #requires trailing slash
 bad_apple_files = paste(gif_folder,list.files(gif_folder),sep='')
 #bad_apple_files = bad_apple_files[nchar(bad_apple_files) == 74] #first 1000 frames
 
@@ -31,6 +31,15 @@ bad_apple_files[bad_apple_number] = bad_apple_files
 
 BadApple.data = compress_gif(bad_apple_files)
 
+
+gif_folder = '/Users/gabrielbroussardkorr/Desktop/rgifs/badapple/lores/' #requires trailing slash
+bad_apple_files = paste(gif_folder,list.files(gif_folder),sep='')
+#bad_apple_files = bad_apple_files[nchar(bad_apple_files) == 74] #first 1000 frames
+
+bad_apple_number = as.integer(substr(bad_apple_files,68,71))
+bad_apple_files[bad_apple_number] = bad_apple_files
+
+BadApple_small.data = compress_gif(bad_apple_files)
 
 
 bar = bad_apple_resolution = dim(readPNG(bad_apple_files[1]))
@@ -64,5 +73,5 @@ BadApple$startup = function(RAM){
 
 #RAM = ram.init(BadApple); RAM = ram.run(RAM)
 
-usethis::use_data(BadApple, overwrite = TRUE)
-usethis::use_data(BadApple.data, overwrite = TRUE)
+#usethis::use_data(BadApple, overwrite = TRUE)
+usethis::use_data(BadApple.data.small, overwrite = TRUE)

@@ -299,8 +299,8 @@ R2Studio$custom = function(RAM){
 # Save ----
 
 
-quickload(R2Studio)
+#quickload(R2Studio)
 
 
-#usethis::use_data(R2Studio, overwrite = TRUE)
+usethis::use_data(R2Studio, overwrite = TRUE)
 

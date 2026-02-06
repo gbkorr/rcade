@@ -34,7 +34,7 @@ Functions are nested in the gameloop like so:
 \verb{		}\code{\link[=inputs.get]{inputs.get()}}\cr
 \verb{			}\code{\link[=inputs.read]{inputs.read()}}\cr
 \verb{			}\code{\link[=inputs.command]{inputs.command()}} if any commands are sent\cr
-\verb{			}\code{\link[=inputs.rollback]{inputs.rollback()}} if any inputs were received late\cr
+\verb{			}\code{\link[=ram.rollback]{ram.rollback()}} if any inputs were received late\cr
 \verb{		}\code{\link[=inputs.process]{inputs.process()}}\cr
 \verb{		}\code{\link[=ram.tick]{ram.tick()}}\cr
 \verb{			}\code{RAM$ROM$custom()}\cr

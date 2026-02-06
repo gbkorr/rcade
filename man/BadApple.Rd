@@ -23,7 +23,7 @@ BadApple.data
 A ROM that plays the video \href{https://www.youtube.com/watch?v=FtutLA63Cp8}{Bad Apple}.\cr
 See \code{vignette("badapple")} for more details.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{RAM = ram.init(BadApple); RAM = ram.run(RAM)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{quickload(BadApple)
 }\if{html}{\out{</div>}}
 
 You may have to zoom out a bit with \verb{cmd -}.
