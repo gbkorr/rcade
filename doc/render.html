@@ -378,6 +378,8 @@ Custom Drawing Code</a></li>
 <li><a href="#render.text" id="toc-render.text">8.2
 render.text()</a></li>
 </ul></li>
+<li><a href="#engine-limitations" id="toc-engine-limitations">9. Engine
+Limitations</a></li>
 </ul>
 </div>
 
@@ -824,6 +826,28 @@ left/right/center.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></
 <p><code>?render.text</code> provides some more examples of its
 capabilities.</p>
 </div>
+</div>
+<div id="engine-limitations" class="section level2">
+<h2>9. Engine Limitations</h2>
+<p>The timing system (<code>vignette(&quot;timing&quot;)</code>) is robust enough
+that slow draw times (i.e. for large resolutions) won’t impact the
+fluidity of gameplay. However, rcade has one major (and unavoidable)
+flaw: flickering.</p>
+<p><code>base::cat()</code> prints output in large chunks of characters,
+and each chunk takes a tiny bit of time to print. (Try
+<code>cat(rep(1,100000))</code>: it takes a good second for the whole
+output to finish printing). This creates a problem: when we clear the
+console with <code>&#39;\f&#39;</code>, the first chunk of characters are
+immediately printed to fill the blank space, but it takes a split second
+for the rest of the characters to get drawn. The background is blank
+during that split second, so we end up with a brief flicker of white on
+every frame that gets stronger the more characters (including
+whitespaces!) are drawn.</p>
+<p>This would be a nonissue if we could draw <em>over</em> the previous
+frame, as many R loading bars do with <code>&#39;\r&#39;</code>, but alas
+RStudio doesn’t respect the more advanced cursor location escape codes
+that would let us overwrite preceding lines. We should be happy that it
+accepts <code>&#39;\f&#39;</code> in the first place!</p>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

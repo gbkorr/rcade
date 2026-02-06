@@ -304,3 +304,14 @@ render.matrix(
 </details>
 
 `?render.text` provides some more examples of its capabilities.
+
+## 9. Engine Limitations
+The timing system (`vignette("timing")`) is robust enough that slow draw times (i.e. for large resolutions) won't impact the fluidity of gameplay. However, rcade has one major (and unavoidable) flaw: flickering.
+
+`base::cat()` prints output in large chunks of characters, and each chunk takes a tiny bit of time to print. (Try `cat(rep(1,100000))`: it takes a good second for the whole output to finish printing). This creates a problem: when we clear the console with `'\f'`, the first chunk of characters are immediately printed to fill the blank space, but it takes a split second for the rest of the characters to get drawn. The background is blank during that split second, so we end up with a brief flicker of white on every frame that gets stronger the more characters (including whitespaces!) are drawn.
+
+This would be a nonissue if we could draw *over* the previous frame, as many R loading bars do with `'\r'`, but alas RStudio doesn't respect the more advanced cursor location escape codes that would let us overwrite preceding lines. We should be happy that it accepts `'\f'` in the first place!
+
+Flickering starts at resolutions around 48x32 (1500 total pixels) and gets linearly worse in chunks as that increases. Framerate has no effect. Gaming with flickering is manageable but somewhat unpleasant, especially at higher resolutions.
+
+

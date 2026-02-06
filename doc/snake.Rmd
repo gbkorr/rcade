@@ -189,7 +189,7 @@ RAM = ram.run(RAM) #run game with RAM
 ```
 </details>
 
-![](snake_1.gif)
+![](images/snake_1.gif)
 
 ## 4. Border
 Next, let's make a nice border for the game so we know where the play area ends. We can do this by generating a sprite in `Snake$startup`:
@@ -340,7 +340,7 @@ quickload(Snake)
 ```
 </details>
 
-![](snake_2.gif)
+![](images/snake_2.gif)
 
 ### 5.4 quickload()
 
@@ -605,7 +605,7 @@ quickload(Snake)
 ```
 </details>
 
-![Working great!](snake_3.gif)
+![Working great!](images/snake_3.gif)
 
 
 ## 9. Polish
@@ -919,7 +919,7 @@ quickload(Snake)
 ```
 </details>
 
-![](snake_4.gif)
+![](images/snake_4.gif)
 
 You can see me:
 
