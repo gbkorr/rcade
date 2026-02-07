@@ -40,12 +40,12 @@ rom.init(
 
 \item{backup_duration}{How frequently the RAM backs itself up in seconds; see \link{ram.rollback}. Shouldn't need to be changed from the default.}
 
-\item{input_delay}{Seconds to add to the timestamp of every input. Makes inputs get processed slightly after they were sent, to reduce the frequency of rollbacks.}
+\item{input_delay}{Seconds to add to the timestamp of every input. Makes inputs get processed slightly after they were sent, to reduce the frequency of rollbacks. Shouldn't need to be changed.}
 }
 \description{
 A ROM object contains all the static data for running a game. ROM elements can be set with this function or after the fact, e.g. with \code{ROM$framerate = 30}.
 
-See `vignette("engine") for more info.
+See \code{vignette("engine")} for more info.
 }
 \section{Game Code}{
 

@@ -60,7 +60,7 @@
 #' ```
 #' quickload(BadApple)
 #' ```
-#' You may have to zoom out a bit with `cmd -`.
+#' Viewing recommendation: looks much better when viewed from afar or very zoomed out.
 #'
 #' `BadApple.data` stores the compressed video frames, which are decompressed in `BadApple$startup()`.
 #'

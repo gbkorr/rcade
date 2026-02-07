@@ -69,3 +69,9 @@ To iterate through \code{RAM$objects}, use the syntax
 This is required due to how R handles nested lists; the format\cr \verb{for (obj in RAM$objects)} will \strong{NOT} work.
 }
 
+\examples{
+#traceback demo:
+RAM = ram.init(SuperRrio)
+RAM$ROM$sprites = NULL #this will make the game crash
+RAM = ram.run(RAM)
+}

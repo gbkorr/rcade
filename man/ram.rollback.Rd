@@ -10,7 +10,7 @@ ram.rollback(RAM)
 \item{RAM}{\href{ram.init}{RAM} object.}
 }
 \description{
-Restores the RAM state from several seconds ago. \code{\link[=ram.update]{ram.update()}} will then rapidly advance the game to catch up with the current time.
+Restores the RAM state from several seconds ago; \code{\link[=ram.update]{ram.update()}} will then rapidly advance the game to catch up with the current time. See \code{vignette("rollback")} for more details.
 
 This is usually triggered by \code{\link[=inputs.read]{inputs.read()}} upon registering an input that was supposed to have happened, but didn't because it was received late. To prevent the input from being dropped, the game rolls back and reruns the past few seconds to rectify the mistake.
 }
@@ -35,3 +35,7 @@ Since this puts RAM$time behind, the gameloop automatically speeds up to catch t
 This catchup process runs the inputs again, so if any inputs were received late, they will now be registered on time.
 }
 
+\examples{
+#inputting /rollback will manually trigger a rollback, though it'll be hard to notice
+#RAM$debug$rollbacks saves a timestamp of each rollback that occurs.
+}

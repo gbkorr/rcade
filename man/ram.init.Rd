@@ -12,33 +12,33 @@ ram.init(ROM)
 \value{
 A RAM object contains the following elements.\tabular{lll}{
     \tab  \tab  \cr
-   \code{ROM} \tab \verb{  } \tab ROM object the game is run with. \cr
+   \verb{$ROM} \tab \verb{  } \tab \link[=rom.init]{ROM} object the game is run with. \cr
     \tab  \tab  \cr
-   \code{ticks} \tab  \tab Number of frames the game has processed. \cr
+   \verb{$ticks} \tab  \tab Number of ticks the game has processed. \cr
     \tab  \tab  \cr
-   \code{time} \tab  \tab Time of the latest frame reached by the RAM. \cr
+   \verb{$time} \tab  \tab \link[=time.sec]{Time} of the latest frame reached by the RAM. \cr
     \tab  \tab  \cr
-   \code{rng} \tab  \tab \link{WRITEHERE} see \link{ram.set_rng} \cr
+   \verb{$rng} \tab  \tab Local RNG state for the RAM; see \link{ram.set_rng} \cr
     \tab  \tab  \cr
-   \code{seed} \tab  \tab Integer used to \link[=set.seed]{set the rng} during ram.init. Random by default. \cr
+   \verb{$seed} \tab  \tab Integer used to \link[=set.seed]{set the rng} during ram.init. Random by default. \cr
     \tab  \tab  \cr
-   \code{objects} \tab  \tab List of game-related objects; dynamic game data should generally be stored here. Objects in this list which have a \verb{$spritename} are drawn in \code{\link[=render.ram]{render.ram()}}. \cr
+   \verb{$objects} \tab  \tab List of game-related objects; dynamic game data should generally be stored here. Objects in this list which have a \verb{$spritename} are drawn in \code{\link[=render.ram]{render.ram()}}. \cr
     \tab  \tab  \cr
-   \code{inputs} \tab  \tab List of all inputs the game has received, matching \code{inputs.csv}. See \code{\link[=inputs.process]{inputs.process()}}. \cr
+   \verb{$inputs} \tab  \tab List of all inputs the game has received, matching \code{inputs.csv}. See \code{\link[=inputs.process]{inputs.process()}}. \cr
     \tab  \tab  \cr
-   \code{actions} \tab  \tab List of all game actions that are currently active \cr
+   \verb{$actions} \tab  \tab List of all game actions that are currently active. \cr
     \tab  \tab  \cr
-   \code{n_inputs} \tab  \tab Number of inputs from \code{inputs.csv} the RAM has read. Used to determine which are new. \cr
+   \verb{$n_inputs} \tab  \tab Number of inputs from \code{inputs.csv} the RAM has read. Used to determine which are new. \cr
     \tab  \tab  \cr
-   \code{backup} \tab  \tab Copy of RAM from a couple seconds ago, excluding \verb{$ROM}, \verb{$inputs}, \verb{$debug}, \verb{$backup}, and \verb{$intermediate} (since these shouldn't be rolled back). See \link{ram.rollback} \cr
+   \verb{$backup} \tab  \tab Copy of RAM from a couple seconds ago, excluding \verb{$ROM}, \verb{$inputs}, \verb{$debug}, \verb{$backup}, and \verb{$intermediate} (since these shouldn't be rolled back). See \link{ram.rollback} \cr
     \tab  \tab  \cr
-   \code{intermediate} \tab  \tab Same as \verb{$backup}, but more recent. Used in \code{\link[=ram.tick]{ram.tick()}} to update \verb{$backup} on a rolling basis. \cr
+   \verb{$intermediate} \tab  \tab Same as \verb{$backup}, but more recent. Used in \code{\link[=ram.tick]{ram.tick()}} to update \verb{$backup} on a rolling basis. \cr
     \tab  \tab  \cr
-   \code{began} \tab  \tab Vector of c(time,tick) indicating when \link{ram.run} was last run, used for timing inputs. \cr
+   \verb{$began} \tab  \tab Vector of c(time,tick) indicating when \link{ram.run} was last run, used for timing inputs. \cr
     \tab  \tab  \cr
-   \code{paused} \tab  \tab Boolean; is the game allowed to tick? \cr
+   \verb{$paused} \tab  \tab Boolean; is the game allowed to tick? \cr
     \tab  \tab  \cr
-   \code{debug} \tab  \tab Collection of info about the current game session; see \link{ram.debug}. \cr
+   \verb{$debug} \tab  \tab Collection of info about the current game session; see \code{\link{ram.debug}}. \cr
 }
 }
 \description{
@@ -49,3 +49,7 @@ Uses a game ROM object to create a RAM object, which stores all dynamic data of 
 Custom game code (in \code{\link[=rom.init]{RAM$ROM$custom}}) should typically only modify \code{RAM$objects}. This makes inspecting and handling the RAM more consistent across games.
 }
 
+\examples{
+RAM = ram.init(Snake)
+View(RAM)
+}

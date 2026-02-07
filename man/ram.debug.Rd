@@ -23,23 +23,23 @@ This function prints out some timing-related debug information.
 \code{RAM$debug} contains the following elements:\tabular{lll}{
     \tab  \tab  \cr
     \tab  \tab  \cr
-   \code{time} \tab  \tab For each frame, \code{\link[=time.sec]{time.sec()}} at the start of the frame. Useful as an x-axis for plotting other elements. \cr
+   \verb{$time} \tab  \tab For each frame, \code{\link[=time.sec]{time.sec()}} at the start of the frame. Useful as an x-axis for plotting other elements. \cr
     \tab  \tab  \cr
-   \code{ahead} \tab  \tab At the end of each frame, how far ahead the RAM is from the end of this frame; (\code{RAM$time - time.sec()}). If this is negative, the RAM is lagging behind. \cr
+   \verb{$ahead} \tab  \tab At the end of each frame, how far ahead the RAM is from the end of this frame; (\code{RAM$time - time.sec()}). If this is negative, the RAM is lagging behind. \cr
     \tab  \tab  \cr
-   \code{input.behind} \tab \verb{  } \tab For any inputs received on this frame, time between their timestamp and RAM$time \cr
+   \verb{$input.behind} \tab \verb{  } \tab For any inputs received on this frame, time between their timestamp and RAM$time \cr
     \tab  \tab  \cr
-   \code{time.tick} \tab  \tab For each frame, time it took to run \code{\link[=ram.tick]{ram.tick()}}. \cr
+   \verb{$time.tick} \tab  \tab For each frame, time it took to run \code{\link[=ram.tick]{ram.tick()}}. \cr
     \tab  \tab  \cr
-   \code{time.draw} \tab  \tab For each frame, time it took to run \code{\link[=render.ram]{render.ram()}}. \cr
+   \verb{$time.draw} \tab  \tab For each frame, time it took to run \code{\link[=render.ram]{render.ram()}}. \cr
     \tab  \tab  \cr
-   \code{time.inputs} \tab  \tab For each frame, time it took to run \code{\link[=inputs.get]{inputs.get()}} and \code{\link[=inputs.process]{inputs.process()}}. \cr
+   \verb{$time.inputs} \tab  \tab For each frame, time it took to run \code{\link[=inputs.get]{inputs.get()}} and \code{\link[=inputs.process]{inputs.process()}}. \cr
     \tab  \tab  \cr
-   \code{rollbacks} \tab  \tab For each occurrence of a rollback (\code{\link[=ram.rollback]{ram.rollback()}} call), records the \code{\link[=time.sec]{time.sec()}} at which it happened. \cr
+   \verb{$rollbacks} \tab  \tab For each occurrence of a rollback (\code{\link[=ram.rollback]{ram.rollback()}} call), records the \code{\link[=time.sec]{time.sec()}} at which it happened. \cr
     \tab  \tab  \cr
-   \code{frames} \tab  \tab For each frame, the value of \code{RAM$ticks}; the current tick the RAM is at. Makes rollbacks a more obvious than buffer. \cr
+   \verb{$frames} \tab  \tab For each frame, the value of \code{RAM$ticks}; the current tick the RAM is at. Makes rollbacks a more obvious than buffer. \cr
     \tab  \tab  \cr
-   \code{frames.drawn} \tab  \tab Records every frame of \code{RAM$ticks} that was drawn by \code{\link[=render.ram]{render.ram()}}, i.e. when \code{ahead} was positive (see \code{vignette("timing")}). \cr
+   \verb{$frames.drawn} \tab  \tab Records every frame of \code{RAM$ticks} that was drawn by \code{\link[=render.ram]{render.ram()}}, i.e. when \code{ahead} was positive (see \code{vignette("timing")}). \cr
 }
 }
 

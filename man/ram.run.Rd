@@ -48,3 +48,10 @@ Functions are nested in the gameloop like so:
 \verb{			}\code{\link[=render.matrix]{render.matrix()}}
 }
 
+\examples{
+RAM = ram.init(BadApple)
+RAM = ram.run(RAM)
+
+#pause with ^C,
+RAM = ram.run(RAM) #to resume
+}

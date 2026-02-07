@@ -135,6 +135,8 @@ render.matrix = function(M, clear_console = FALSE, palette = c('  ', '[]', '  ')
 render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 	#draws a sprite onto the scene
 
+	if (is.null(sprite)) stop('sprite is undefined')
+
 	width = ncol(sprite)
 	height = nrow(sprite)
 

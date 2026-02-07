@@ -1,19 +1,10 @@
 
-
-#fix everything to have $element in the descriptions if they need it
-#do a units pass for arguments
-
-
-#do a pass where frame and tick are clarified as being the same thing(?)
-
-
-
 #' Create ROM Object
 #'
 #' @description
 #' A ROM object contains all the static data for running a game. ROM elements can be set with this function or after the fact, e.g. with `ROM$framerate = 30`.
 #'
-#' See `vignette("engine") for more info.
+#' See `vignette("engine")` for more info.
 #' @section Game Code:
 #' `ROM$custom` updates the RAM every frame in [ram.tick()]. All game code should be either in `ROM$custom` or in helper functions stored in the ROM, demonstrated below.
 #' @examples
@@ -30,7 +21,8 @@
 #' @param custom Function run by the game on every frame with [ram.tick()]. Must return `RAM`.
 #' @param sprites List of all sprites (matrices) used by the game; see [render.animate].
 #' @param palette Vector of how each value of 0, 1, 2, 3, etc. in a sprite should be drawn by [render.matrix()].
-#' @param input_delay Seconds to add to the timestamp of every input. Makes inputs get processed slightly after they were sent, to reduce the frequency of rollbacks.
+#' @param input_delay Seconds to add to the timestamp of every input. Makes inputs get processed slightly after they were sent, to reduce the frequency of rollbacks. Shouldn't need to be changed.
+#' @export
 rom.init = function(
 		screen.width, screen.height,
 		keybinds = c(w = 'up', a = 'left', s = 'down', d = 'right'),
@@ -67,35 +59,39 @@ rom.init = function(
 #' @returns A RAM object contains the following elements.
 #' ||||
 #' |-|-|-|
-#' |`ROM`|\verb{  }|ROM object the game is run with.|
+#' |`$ROM`|\verb{  }|[ROM][rom.init] object the game is run with.|
 #' ||||
-#' |`ticks`||Number of frames the game has processed.|
+#' |`$ticks`||Number of ticks the game has processed.|
 #' ||||
-#' |`time`||Time of the latest frame reached by the RAM.|
+#' |`$time`||[Time][time.sec] of the latest frame reached by the RAM.|
 #' ||||
-#' |`rng`||[WRITEHERE] see [ram.set_rng]|
+#' |`$rng`||Local RNG state for the RAM; see [ram.set_rng]|
 #' ||||
-#' |`seed`||Integer used to [set the rng][set.seed] during ram.init. Random by default.
+#' |`$seed`||Integer used to [set the rng][set.seed] during ram.init. Random by default.
 #' ||||
-#' |`objects`||List of game-related objects; dynamic game data should generally be stored here. Objects in this list which have a `$spritename` are drawn in [render.ram()].|
+#' |`$objects`||List of game-related objects; dynamic game data should generally be stored here. Objects in this list which have a `$spritename` are drawn in [`render.ram()`].|
 #' ||||
-#' |`inputs`||List of all inputs the game has received, matching `inputs.csv`. See [inputs.process()].|
+#' |`$inputs`||List of all inputs the game has received, matching `inputs.csv`. See [inputs.process()].|
 #' ||||
-#' |`actions`||List of all game actions that are currently active|
+#' |`$actions`||List of all game actions that are currently active.|
 #' ||||
-#' |`n_inputs`||Number of inputs from `inputs.csv` the RAM has read. Used to determine which are new.|
+#' |`$n_inputs`||Number of inputs from `inputs.csv` the RAM has read. Used to determine which are new.|
 #' ||||
-#' |`backup`||Copy of RAM from a couple seconds ago, excluding `$ROM`, `$inputs`, `$debug`, `$backup`, and `$intermediate` (since these shouldn't be rolled back). See [ram.rollback]|
+#' |`$backup`||Copy of RAM from a couple seconds ago, excluding `$ROM`, `$inputs`, `$debug`, `$backup`, and `$intermediate` (since these shouldn't be rolled back). See [ram.rollback]|
 #' ||||
-#' |`intermediate`||Same as `$backup`, but more recent. Used in [ram.tick()] to update `$backup` on a rolling basis.|
+#' |`$intermediate`||Same as `$backup`, but more recent. Used in [ram.tick()] to update `$backup` on a rolling basis.|
 #' ||||
-#' |`began`||Vector of c(time,tick) indicating when [ram.run] was last run, used for timing inputs.|
+#' |`$began`||Vector of c(time,tick) indicating when [ram.run] was last run, used for timing inputs.|
 #' ||||
-#' |`paused`||Boolean; is the game allowed to tick?|
+#' |`$paused`||Boolean; is the game allowed to tick?|
 #' ||||
-#' |`debug`||Collection of info about the current game session; see [ram.debug].|
+#' |`$debug`||Collection of info about the current game session; see [`ram.debug`].|
 #' @section Notes:
 #' Custom game code (in [`RAM$ROM$custom`][rom.init]) should typically only modify `RAM$objects`. This makes inspecting and handling the RAM more consistent across games.
+#' @examples
+#' RAM = ram.init(Snake)
+#' View(RAM)
+#' @export
 ram.init = function(ROM){
 	#wipe inputs (clear inputs.csv)
 	inputs = data.frame(timestamp = -1, text = 'init') #initialize input frame
@@ -205,11 +201,18 @@ ram.init = function(ROM){
 #' }
 #' ```
 #' This is required due to how R handles nested lists; the format\cr `for (obj in RAM$objects)` will **NOT** work.
+#' @examples
+#' #traceback demo:
+#' RAM = ram.init(SuperRrio)
+#' RAM$ROM$sprites = NULL #this will make the game crash
+#' RAM = ram.run(RAM)
+#' @export
 rom.help = function(){
 	cat('See ?rom.help for help debugging common issues.')
 }
 
 #' @rdname rom.help
+#' @export
 ram.help = rom.help
 
 

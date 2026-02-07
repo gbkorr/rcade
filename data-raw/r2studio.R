@@ -1,16 +1,4 @@
 
-#would be nice to be able to draw sprite matrices as heatmaps in the plotting window
-
-
-#PLS HAVE DARKMODE IT WOULD BE SO COOL
-#that means putting everything on invert or smth NO it just means swapping the palette in ROM :)
-#in fact, maybe demo this with snake
-
-
-# "we can also... boot up the R2Studio ROM in this environment. The package is actually functional in this state, but you have to influence it manually--- by using ram.input() and ram.tick(). ram.run won't work for several reasons.
-#how cool is that! it's r-cubedstudio. And here's me in the middle of a very slow game of snake in rstudio in rstudio.
-
-
 # Initialization ----
 #320, 200
 R2Studio = rom.init(100,30,framerate=1)

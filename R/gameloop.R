@@ -1,13 +1,8 @@
 
 
-#somewhere, we have to talk about how to interact with an initialized game:
-# ram.run() to run it live, or ram.tick() to run a single tick (inputs must be set manually, e.g. with RAM$actions['jump'] == 'pressed'
-
-
-
 #' Play a Game
 #'
-#' Starts a game immediately using a ROM.
+#' Starts a game immediately using a ROM.  See `vignette("guide")` for how to play.
 #' @details
 #' Convenience wrapper for the code:
 #' ```
@@ -18,6 +13,7 @@
 #' @param ROM [ROM][rom.init] to play.
 #' @examples
 #' quickload(Snake)
+#' @export
 quickload = function(ROM){
 	#assign variables in the environment quickload was called in
 	assign('RAM', ram.init(ROM), envir = parent.frame())
@@ -62,6 +58,13 @@ quickload = function(ROM){
 #' \verb{			}[render.scene()]\cr
 #' \verb{				}[render.overlay()] for every layer in `scene$layers`\cr
 #' \verb{			}[render.matrix()]
+#' @examples
+#' RAM = ram.init(BadApple)
+#' RAM = ram.run(RAM)
+#'
+#' #pause with ^C,
+#' RAM = ram.run(RAM) #to resume
+#' @export
 ram.run = function(RAM, start_at = NULL){
 	RAM = ram.resume(RAM, start_at)
 
@@ -99,7 +102,7 @@ ram.run = function(RAM, start_at = NULL){
 
 #' Gameloop
 #'
-#' Ticks RAM, draws RAM, and syncs time with the framerate.\cr This function is looped infinitely by [ram.run()]; it should not be used alone.
+#' Ticks RAM, draws RAM, and syncs time with the framerate.\cr This function is looped infinitely by [`ram.run()`]; it should not be used alone.
 #'
 #' @details
 #' If the RAM is behind the current frame (lagging) (`RAM%time < `[time.sec()]):
@@ -115,6 +118,14 @@ ram.run = function(RAM, start_at = NULL){
 #'
 #' Since drawing is by far the slowest part of the gameloop, this allows it to recover and catch up to the present very quickly after time is rewound in a [rollback][ram.rollback].
 #' @param RAM [RAM](ram.init) object to update.
+#' @seealso `vignette("timing")` for more detail on how time is synced.
+#' @examples
+#' \dontrun{
+#'
+#' #ram.run() contains the following code:
+#' while(TRUE) RAM = ram.update(RAM)
+#' }
+#' @export
 ram.update = function(RAM){
 	ahead = time.ram(RAM)
 	if (ahead > 0) Sys.sleep(ahead) #wait to the end of the current frame, if ahead
@@ -142,7 +153,7 @@ ram.update = function(RAM){
 		RAM$debug$ahead = c(RAM$debug$ahead, time.ram(RAM)) #record this value
 
 	return(RAM)
-} #this one you don't want to call independently
+}
 
 
 #' Tickstep RAM
@@ -156,6 +167,11 @@ ram.update = function(RAM){
 #' * `RAM$time` increases by 1/framerate.\cr (the RAM is now one frame further in time)
 #' * `RAM = RAM$ROM$custom(RAM)` is run.\cr (the game code is run once on the RAM)\cr
 #' * `RAM$backup` is occasionally updated; see [ram.rollback].\cr (the game is occasionally backed up)
+#' @examples
+#' quickload(BadApple)
+#' #^C to pause
+#' RAM = ram.tick(RAM); render.ram(RAM)
+#' @export
 ram.tick = function(RAM){
 	global_RNG = .Random.seed #back up actual RNG seed to restore at the end of function to comply with "leave no trace"
 	.Random.seed <<- RAM$rng #set RNG to RAM rng
@@ -184,7 +200,7 @@ ram.tick = function(RAM){
 #' Execute a Rollback
 #'
 #' @description
-#' Restores the RAM state from several seconds ago. [ram.update()] will then rapidly advance the game to catch up with the current time.
+#' Restores the RAM state from several seconds ago; [ram.update()] will then rapidly advance the game to catch up with the current time. See `vignette("rollback")` for more details.
 #'
 #' This is usually triggered by [inputs.read()] upon registering an input that was supposed to have happened, but didn't because it was received late. To prevent the input from being dropped, the game rolls back and reruns the past few seconds to rectify the mistake.
 #' @section Backups:
@@ -204,6 +220,10 @@ ram.tick = function(RAM){
 #'
 #' This catchup process runs the inputs again, so if any inputs were received late, they will now be registered on time.
 #' @param RAM [RAM](ram.init) object.
+#' @examples
+#' #inputting '/rollback' during gameplay will manually trigger a rollback, though it'll be hard to notice.
+#' #RAM$debug$rollbacks saves a timestamp of each rollback that occurs.
+#' @export
 ram.rollback = function(RAM){
 	RAM$debug$rollback.time = c(RAM$debug$rollback.time, time.sec()) #record a timestamp of when this rollback occurred
 	RAM$debug$rollback.ticks = c(RAM$debug$rollback.ticks, RAM$ticks)

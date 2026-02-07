@@ -29,7 +29,7 @@
 #' @seealso
 #' `vignette("inputs")` gives an overview of each part of the input system.
 #'
-#' [?inputs.process][inputs.process] provides a more focused description of how an input gets from the player's keyboard to the game code.
+#' [`inputs.process()`] provides a more focused description of how an input gets from the player's keyboard to the game code.
 #'
 #' @section inputs.csv:
 #' `inputs.csv` is stored in [`tools::R_user_dir('rcade')`][tools::R_user_dir], the directory for storing package data.

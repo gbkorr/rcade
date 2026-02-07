@@ -30,3 +30,13 @@ When the RAM is behind the current frame, the game update process speeds up and 
 
 Since drawing is by far the slowest part of the gameloop, this allows it to recover and catch up to the present very quickly after time is rewound in a \link[=ram.rollback]{rollback}.
 }
+\examples{
+\dontrun{
+
+#ram.run() contains the following code:
+while(TRUE) RAM = ram.update(RAM)
+}
+}
+\seealso{
+\code{vignette("timing")} for more detail on how time is synced.
+}

@@ -22,3 +22,8 @@ The following happens to the RAM object:
 Runs one tick (frame) of the RAM.
 This means calling \code{RAM$ROM$custom()} once (see \link{rom.init}).
 }
+\examples{
+quickload(BadApple)
+#^C to pause
+RAM = ram.tick(RAM); render.ram(RAM)
+}

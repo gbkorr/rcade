@@ -44,7 +44,7 @@ ram.end = function(){
 #' Sets the RAM's RNG with [base::set.seed()]. This is useful in `ROM$startup` if a dev wants their game to always use the same RNG seed, etc.
 #'
 #' @details
-#' R's RNG is based on the .Random.seed global variable, which updates when a random call or set.seed() is called. RAM stores its own copy of this variable and temporarily restores it before running game code. Thus RNG ends up working as expected within a game, and will produce the same random calls when the game rolls back.
+#' R's RNG is based on the `.Random.seed` global variable, which updates when a random call or set.seed() is called. RAM stores its own copy of this variable and temporarily restores it before running game code. Thus RNG ends up working as expected within a game, and will produce the same random calls when the game rolls back.
 #'
 #' Additionally, the RAM restores the R session's RNG after running game code, so the user's R environment is unaffected by random calls in the game.
 #'
@@ -124,23 +124,23 @@ ram.new_object = function(RAM, object){
 #' ||||
 #' |-|-|-|
 #' ||||
-#' |`time`||For each frame, [time.sec()] at the start of the frame. Useful as an x-axis for plotting other elements.|
+#' |`$time`||For each frame, [time.sec()] at the start of the frame. Useful as an x-axis for plotting other elements.|
 #' ||||
-#' |`ahead`||At the end of each frame, how far ahead the RAM is from the end of this frame; (`RAM$time - time.sec()`). If this is negative, the RAM is lagging behind.|
+#' |`$ahead`||At the end of each frame, how far ahead the RAM is from the end of this frame; (`RAM$time - time.sec()`). If this is negative, the RAM is lagging behind.|
 #' ||||
-#' |`input.behind`|\verb{  }|For any inputs received on this frame, time between their timestamp and RAM$time|
+#' |`$input.behind`|\verb{  }|For any inputs received on this frame, time between their timestamp and RAM$time|
 #' ||||
-#' |`time.tick`||For each frame, time it took to run [ram.tick()].|
+#' |`$time.tick`||For each frame, time it took to run [ram.tick()].|
 #' ||||
-#' |`time.draw`||For each frame, time it took to run [render.ram()].|
+#' |`$time.draw`||For each frame, time it took to run [render.ram()].|
 #' ||||
-#' |`time.inputs`||For each frame, time it took to run [inputs.get()] and [inputs.process()].|
+#' |`$time.inputs`||For each frame, time it took to run [inputs.get()] and [inputs.process()].|
 #' ||||
-#' |`rollbacks`||For each occurrence of a rollback ([ram.rollback()] call), records the [time.sec()] at which it happened.|
+#' |`$rollbacks`||For each occurrence of a rollback ([ram.rollback()] call), records the [time.sec()] at which it happened.|
 #' ||||
-#' |`frames`||For each frame, the value of `RAM$ticks`; the current tick the RAM is at. Makes rollbacks a more obvious than buffer.|
+#' |`$frames`||For each frame, the value of `RAM$ticks`; the current tick the RAM is at. Makes rollbacks a more obvious than buffer.|
 #' ||||
-#' |`frames.drawn`||Records every frame of `RAM$ticks` that was drawn by [render.ram()], i.e. when `ahead` was positive (see `vignette("timing")`).|
+#' |`$frames.drawn`||Records every frame of `RAM$ticks` that was drawn by [render.ram()], i.e. when `ahead` was positive (see `vignette("timing")`).|
 #' @param RAM [RAM](ram.init) object.
 #' @examples
 #' \dontrun{

@@ -41,5 +41,5 @@ Only one \code{inputs.csv} file exists and is read by the package; the file is w
 \seealso{
 \code{vignette("inputs")} gives an overview of each part of the input system.
 
-\link[=inputs.process]{?inputs.process} provides a more focused description of how an input gets from the player's keyboard to the game code.
+\code{\link[=inputs.process]{inputs.process()}} provides a more focused description of how an input gets from the player's keyboard to the game code.
 }

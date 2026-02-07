@@ -10,7 +10,7 @@ quickload(ROM)
 \item{ROM}{\link[=rom.init]{ROM} to play.}
 }
 \description{
-Starts a game immediately using a ROM.
+Starts a game immediately using a ROM.  See \code{vignette("guide")} for how to play.
 }
 \details{
 Convenience wrapper for the code:

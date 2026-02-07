@@ -26,7 +26,7 @@ See \code{vignette("badapple")} for more details.
 \if{html}{\out{<div class="sourceCode">}}\preformatted{quickload(BadApple)
 }\if{html}{\out{</div>}}
 
-You may have to zoom out a bit with \verb{cmd -}.
+Viewing recommendation: looks much better when viewed from afar or very zoomed out.
 
 \code{BadApple.data} stores the compressed video frames, which are decompressed in \code{BadApple$startup()}.
 }
@@ -35,13 +35,13 @@ This is a proof of concept for rendering video in rcade. It's actually easier to
 
 \code{BadApple$startup()} reconstructs the video when the RAM is initialized, saving the resultant frames as a single animation in \code{RAM$ROM$sprites}. A single object then loops the animation constantly.
 
-The frames are from \url{https://github.com/Timendus/chip-8-bad-apple}.
+The frames are from \url{https://github.com/Timendus/chip-8-bad-apple}. rcade can actually run the high-resolution version at full speed, but it experiences significant flickering due to the high volume of pixels.
 }
 \section{Compression}{
 
 \code{BadApple.data} is an ordered list of vectors, with each vector corresponding to a frame. Each vector stores the indices of which pixels should flip (\verb{black <-> white}) compared the previous frame; this allows the video to be iteratively reconstructed losslessly starting from a blank frame.
 
-Much stronger forms of compression have been devised for Bad Apple projects, but this is a simple, naive approach that works well enough (50 -> 1MB) for the application. More importantly, rcade shouldn't really require compressed videos since you can read frames directly from a file.
+Much stronger forms of compression have been devised for Bad Apple projects, but this is a simple, naive approach that works well enough for the application. More importantly, rcade shouldn't really require compressed videos since you can read frames directly from a file.
 }
 
 \keyword{datasets}
