@@ -52,7 +52,7 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 ### 3.1 Snake
 `vignette("snake")`
 
-[IMAGE FOR EACH GAME]
+![](images/thumbnail_snake.png)  
 
 A port of the classic game Snake, running quite smoothly. Demonstrates the interactivity of rcade well and serves as a great guide for ROM creation.
 

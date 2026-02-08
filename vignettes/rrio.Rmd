@@ -1,5 +1,5 @@
 ---
-title: "Super Rrio Devlopg"
+title: "Platformer: Super Rrio"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -134,7 +134,7 @@ the impulse inputs present a bit of a problem for smooth control. the solution i
 ## 4. Obstacles
 Before we can add more control to Rrio, we have to create ground for him to interact with. I'd like to take the approach *Super Mario Bros.* uses--- if we store blocks of ground in a grid, it's very easy to tweak and edit, and makes drawing a lot simpler as well.
 
-![](rrio_1.jpeg)
+![](images/rrio_1.jpeg)
 
 ### 4.1 Collision Storage
 We'll store this grid of ground tiles---which I'll refer to as "the collision"---in `RAM$objects$collision`. It'll just be a sprite-like matrix, but instead of encoding individual pixels, it'll encode which gridsquares are empty (0) or various kinds of tiles (1+). Because this matrix is sprite-like, we can make it with `render.makesprite()`! This is a huge boon for level creation, as it makes it even easier to create the collision for a level.
@@ -229,7 +229,7 @@ And if we test this with `render.matrix()` on the collision,
 
 <details>
   <summary>**IMAGE**</summary>
-![](rrio_2.png)
+![](images/rrio_2.png)
 </details>
 
 Success! Although I had to zoom out (`cmd -`) fully to get it to render properly.
@@ -283,14 +283,14 @@ Et voilà--- if we move Rrio (I've set his `$pos.x` to increase by a little ever
 
 <details>
   <summary>**IMAGE**</summary>
-![](rrio_3.gif)
+![](images/rrio_3.gif)
 </details>
 
 Unfortunately, we can see the characteristic flickering rcade gets at higher resolutions: it's a limitation of `cat()` and can't be helped.[^3]
 
 RUNNING AT 30FPS ACTUALLY DOES MAKE IT LOOK NICER
 
-[^3]: If RStudio respected more ANSI escape codes, we could pull something like `\033[1F` to *overwrite* the previous frame (similar to how you can overwrite a single line with `\r`) instead of having to wipe and redraw it, but we're already lucky enough that `\f` works in the first place.
+[^3]: See the end of vignette('render') for more info.
 
 # remember to do this
 I'm gonna do something similar for Y, but only update it when Rrio lands. More on that later.
