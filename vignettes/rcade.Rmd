@@ -64,7 +64,7 @@ A port of the classic game Snake, running quite smoothly. Demonstrates the inter
 ### 3.3 Bad Apple
 `vignette("badapple")`
 
-![](vignettes/images/thumbnail_badapple.png)
+![](images/thumbnail_badapple.png)
 
 This ROM is a proof of concept for the graphical capabilities of rcade, which can comfortably play videos at resolutions exceeding 64x64.
 
