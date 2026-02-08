@@ -19,7 +19,7 @@ render.animate(spritename, timer, sprites, render_framerate = 60)
 Returns a sprite matrix suitable for \code{render.sprite()}.
 }
 \description{
-Retrieves the current frame from a sprite animation. \link{todo examples}
+Retrieves the current frame from a sprite animation.
 }
 \details{
 A sprite defined in \code{ROM$sprites} can either be \emph{simple} or \emph{complex};
@@ -41,8 +41,9 @@ Complex sprites are a list containing multiple frames of animation. Complex spri
 
 
 Animated sprites can be tested using \code{\link[=render.test_animation]{render.test_animation()}}.
+
+\link{todo: example of simple animation}
 }
 \examples{
 #simple two-part animation using sprite$next_animation
-
 }

@@ -25,3 +25,14 @@ Convenience function for \code{RAM$objects = c(RAM$objects, list(object))}. This
 
 Nested lists in R can be confusing, so it's better to have a function that does this automatically than to trust users to remember the correct syntax.
 }
+\examples{
+RAM = ram.init(rom.init(16,8))
+
+#named object
+RAM$objects$blueberry = list(x=1,y=5,sprite='blueberry',layer=4)
+
+#unnamed object
+RAM = ram.new_object(RAM, list(x=1,y=5,sprite='fruit',layer=3))
+
+print(RAM$objects)
+}

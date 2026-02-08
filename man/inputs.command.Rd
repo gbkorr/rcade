@@ -42,3 +42,15 @@ Which also allows the user to copy and restore RAMs as savestates, etc.
 If the game is paused and an input is entered, it will be processed next \verb{/tick} or when the game resumes. This allows the player to play a game frame-by-frame.
 }
 
+\examples{
+quickload(SuperRrio)
+#in a separate R session:
+inputs.listen()
+#now input these lines:
+#/pause
+#  (one space)
+#/tick
+#/tick
+#/tick
+#/resume
+}

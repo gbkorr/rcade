@@ -3,7 +3,6 @@
 
 #' Render a Sprite to the Scene
 #'
-#' [I quite dislike this @example sir]
 #' Overlays a sprite onto the desired layer of the [`scene`][render.scene] using [render.overlay()].
 #' @param scene [Scene][render.scene] object.
 #' @param sprite Matrix of nonnegative integers corresponding to the pixels of a small image; see [render.matrix()].
@@ -16,10 +15,13 @@
 #' scene = list(width=24, height=6)
 #' smiley = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
 #' box = matrix(1,12,9)
-#' scene = render.sprite(scene, smiley, x=2, y=2)
-#' scene = render.sprite(scene, smiley, x=11, y=2, layer = 2, palette = c(0,2,1)) #reversed colors
 #' scene = render.sprite(scene, box, x=10, y=1)
 #' render.scene(scene)
+#'
+#' scene = render.sprite(scene, smiley, x=2, y=2)
+#' scene = render.sprite(scene, smiley, x=11, y=2, layer = 2, palette = c(0,2,1)) #reversed colors
+#' render.scene(scene)
+#' @export
 render.sprite = function(scene, sprite, x, y, layer = 1, palette = NULL){
 	#draws a sprite onto the scene
 
@@ -71,6 +73,14 @@ render.sprite = function(scene, sprite, x, y, layer = 1, palette = NULL){
 #' |`$palette`||`NULL`|Vector to swap the colors of the object's sprite around, e.g. `c(0,2,1)` swaps values of 2 and 1. Index starts at 0. Defaults to no swapping.
 #' ||||
 #' |`$draw()`||`NULL`|Overwrites the default drawing behavior for the sprite; see above.|
+#' @examples
+#' smileysprite = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
+#' RAM = ram.init(rom.init(16,8,sprites=list(smiley=smileysprite)))
+#' RAM$objects$smiley = list(x = 3, y = 3, spritename = 'smiley')
+#' scene = list(width=16,height=8)
+#' scene = render.object(scene,RAM$objects$smiley,RAM)
+#' render.scene(scene)
+#' @export
 render.object = function(scene, obj, RAM){
 
 	#custom draw code
@@ -105,8 +115,6 @@ render.object = function(scene, obj, RAM){
 
 	return(scene)
 }
-
-#could also be neatened
 
 
 
@@ -146,6 +154,7 @@ render.object = function(scene, obj, RAM){
 #' bigbox = matrix(1,11,11)
 #' scene = render.sprite(scene, bigbox, x=1, y=1, layer='invert')
 #' render.scene(scene)
+#' @export
 render.scene = function(scene, clear_console = FALSE, palette = c('  ', '[]', '  ')){
 	#scene = list(width, height, layers = matrices list(1, 2, 3, 4))
 
@@ -179,6 +188,11 @@ render.scene = function(scene, clear_console = FALSE, palette = c('  ', '[]', ' 
 #' @param clear_console Should the console be wiped before rendering the scene? This keeps the render in a consistent position.
 #' @details
 #' This creates a scene object with size `(RAM$ROM$screen.width, RAM$ROM$screen.height)`,\cr calls [render.object()] on every object to draw them onto this scene,\cr and then calls [render.scene()].
+#' @examples
+#' RAM = ram.init(R2Studio)
+#' render.ram(RAM)
+#' #always zoom out with `cmd -` if the render doesn't display properly
+#' @export
 render.ram = function(RAM, clear_console = FALSE){
 	scene = list(width = RAM$ROM$screen.width, height = RAM$ROM$screen.height)
 

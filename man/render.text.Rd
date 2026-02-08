@@ -45,6 +45,7 @@ Wrapping also does not work with strings that manually newline (i.e. with \verb{
 }
 
 \examples{
+#basic usage
 sprite = render.text('Hello World.', fonts.3x5)
 render.matrix(sprite)
 
@@ -60,6 +61,7 @@ render.matrix(render.text(
   'very spaced text',
   kerning = 3
 ))
+#(zoom out with `cmd -` if needed)
 
 #newlines with '\n'
 render.matrix(render.text(

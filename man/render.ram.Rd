@@ -17,3 +17,8 @@ Draws RAM at the current tick by drawing each object in \code{RAM$objects} that 
 \details{
 This creates a scene object with size \verb{(RAM$ROM$screen.width, RAM$ROM$screen.height)},\cr calls \code{\link[=render.object]{render.object()}} on every object to draw them onto this scene,\cr and then calls \code{\link[=render.scene]{render.scene()}}.
 }
+\examples{
+RAM = ram.init(R2Studio)
+render.ram(RAM)
+#always zoom out with `cmd -` if the render doesn't display properly
+}

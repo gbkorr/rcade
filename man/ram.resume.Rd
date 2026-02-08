@@ -18,3 +18,6 @@ The RAM needs several things to be set every time the gameloop starts:
 \item \code{RAM$began} should be set to \code{c(time.sec(), RAM$ticks)} for inputs to be converted to the correct frame for processing (in \link{inputs.get}; see also \code{vignette("inputs")})
 }
 }
+\examples{
+#only used internally. To resume gameplay, use RAM = ram.run(RAM).
+}

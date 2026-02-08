@@ -4,12 +4,14 @@
 \alias{render.test_font}
 \title{Test a Font}
 \usage{
-render.test_font(font, verbose = FALSE)
+render.test_font(font, verbose = FALSE, plaintext = FALSE)
 }
 \arguments{
 \item{font}{\link[=render.makefont]{Font} to test.}
 
 \item{verbose}{Boolean; print extra text samples?}
+
+\item{plaintext}{Boolean; print as characters instead?}
 }
 \description{
 Prints a large sampler of text using a font to see how it looks in different contexts. You may have to zoom out with \verb{cmd -} to see the text render properly.
@@ -29,8 +31,6 @@ Uses \code{\link[=render.text]{render.text()}} to print the following:
 }
 
 The alphabets are drawn last so they show up closest to the bottom of the console. Each of the things printed are useful for different purposes. If the font does not support some characters, the samples containing them will be omitted. (e.g. uppercase-only fonts skip the lowercase samples).
-
-\link{include a picture of} \code{render.test_font(fonts.3x5)}
 }
 \section{Verbose}{
 
@@ -43,4 +43,8 @@ Use \code{verbose = TRUE} to print a few more samplers:
 
 \examples{
 render.test_font(fonts.3x5)
+#zoom out with `cmd -` if needed
+
+#all example text:
+render.test_font(NULL,plaintext=TRUE)
 }

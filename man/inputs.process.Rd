@@ -51,3 +51,6 @@ When a key is registered, the corresponding action in \code{RAM$actions} is set 
 The game should read RAM$actions to control game behavior; see \code{vignette('rrio')} to see this in action.
 }
 
+\examples{
+#only used internally, in ram.update()
+}

@@ -18,4 +18,21 @@ Sets the RAM's RNG with \code{\link[base:Random]{base::set.seed()}}. This is use
 R's RNG is based on the \code{.Random.seed} global variable, which updates when a random call or set.seed() is called. RAM stores its own copy of this variable and temporarily restores it before running game code. Thus RNG ends up working as expected within a game, and will produce the same random calls when the game rolls back.
 
 Additionally, the RAM restores the R session's RNG after running game code, so the user's R environment is unaffected by random calls in the game.
+
+\link{WHY DOES THIS NOT WORK? I have confirmed that the RNG is set and stored properly with this function, not sure about in ram.tick}
+}
+\examples{
+#example of a random situation:
+
+quickload(Snake)
+#^C
+quickload(Snake)
+#the apple will have started in a different location.
+
+#fixing the RNG:
+RAM = ram.init(Snake)
+RAM = ram.set_rng(RAM, 42)
+RAM = ram.run(RAM)
+
+#no matter how many times you run this, the apple will always spawn in the same location.
 }

@@ -36,6 +36,6 @@ This catchup process runs the inputs again, so if any inputs were received late,
 }
 
 \examples{
-#inputting /rollback will manually trigger a rollback, though it'll be hard to notice
+#inputting '/rollback' during gameplay will manually trigger a rollback, though it'll be hard to notice.
 #RAM$debug$rollbacks saves a timestamp of each rollback that occurs.
 }

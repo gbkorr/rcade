@@ -36,6 +36,12 @@ Inputs are stored as rows in the \code{inputs.csv} dataframe, which has the foll
 \code{inputs.csv} is stored in \code{\link[tools:userdir]{tools::R_user_dir('rcade')}}, the directory for storing package data.
 
 Only one \code{inputs.csv} file exists and is read by the package; the file is wiped every time \code{\link[=ram.init]{ram.init()}} is called.
+@examples
+quickload(SuperRrio)
+#in a separate R session:
+inputs.listen()
+#type 'd' and press Enter.
+@export
 }
 
 \seealso{

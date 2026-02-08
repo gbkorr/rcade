@@ -47,10 +47,10 @@ Characters in \code{txt} are converted 1-1 with numbers defined by \code{default
 
 \examples{
 smiley = render.makesprite('
-  o o
-  o o
-o     o
- ooooo
+  O O
+  O O
+O     O
+ OOOOO
 ')
 
 render.matrix(smiley)

@@ -8,6 +8,7 @@
 #' @returns A [double] representing the seconds since 1970 with sub-millisecond precision.
 #' @examples
 #' print(time.sec(),digits=20)
+#' @export
 time.sec = function(){
 	return(as.double(Sys.time()))
 }
@@ -24,6 +25,13 @@ time.sec = function(){
 #' @usage time.ram()
 #' @details `= RAM$time - time.sec()`
 #' @param RAM [RAM](ram.init) object.
+#' @examples
+#' #the time.ram() at the end of each frame is stored in RAM$debug$ahead.
+#' #Plotting it can help visualize how the RAM stays synced in time:
+#' quickload(BadApple)
+#' #^C after 10 seconds or so
+#' plot(RAM$debug$ahead, type='l', xlab='Tick')
+#' @export
 time.ram = function(RAM){
 		return(RAM$time - time.sec())
 }

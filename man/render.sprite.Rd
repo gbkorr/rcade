@@ -23,15 +23,16 @@ render.sprite(scene, sprite, x, y, layer = 1, palette = NULL)
 Returns the \link[=render.scene]{scene} object with sprite drawn.
 }
 \description{
-\link{I quite dislike this @example sir}
 Overlays a sprite onto the desired layer of the \code{\link[=render.scene]{scene}} using \code{\link[=render.overlay]{render.overlay()}}.
 }
 \examples{
 scene = list(width=24, height=6)
 smiley = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
 box = matrix(1,12,9)
+scene = render.sprite(scene, box, x=10, y=1)
+render.scene(scene)
+
 scene = render.sprite(scene, smiley, x=2, y=2)
 scene = render.sprite(scene, smiley, x=11, y=2, layer = 2, palette = c(0,2,1)) #reversed colors
-scene = render.sprite(scene, box, x=10, y=1)
 render.scene(scene)
 }

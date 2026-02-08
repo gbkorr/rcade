@@ -66,6 +66,7 @@
 #'   matrix(0,3,1),
 #'   example_font$sprites$I
 #' ))
+#' @export
 render.makefont = function(char_group = 'uppercase',width, txt){
 	data = strsplit(txt, '\n', fixed = TRUE)[[1]][-1] #removes leading \n
 	data = trimws(data, 'right')
@@ -108,6 +109,7 @@ render.makefont = function(char_group = 'uppercase',width, txt){
 #'
 #' @param font [Font][render.makefont] to test.
 #' @param verbose Boolean; print extra text samples?
+#' @param plaintext Boolean; print as characters instead?
 #' @details
 #' Uses [render.text()] to print the following:
 #'
@@ -121,8 +123,6 @@ render.makefont = function(char_group = 'uppercase',width, txt){
 #'
 #' The alphabets are drawn last so they show up closest to the bottom of the console. Each of the things printed are useful for different purposes. If the font does not support some characters, the samples containing them will be omitted. (e.g. uppercase-only fonts skip the lowercase samples).
 #'
-#' [include a picture of] `render.test_font(fonts.3x5)`
-#'
 #' @section Verbose:
 #' Use `verbose = TRUE` to print a few more samplers:
 #'
@@ -131,18 +131,39 @@ render.makefont = function(char_group = 'uppercase',width, txt){
 #' 2. mixed cases and symbols
 #' @examples
 #' render.test_font(fonts.3x5)
-render.test_font = function(font, verbose = FALSE){
+#' #zoom out with `cmd -` if needed
+#'
+#' #all example text:
+#' render.test_font(NULL,plaintext=TRUE)
+#' @export
+render.test_font = function(font, verbose = FALSE, plaintext = FALSE){
 
 	letters = paste(letters,collapse='')
 	words = "the quick brown fox jumped over the lazy dog"
 	code = 'for (i in 5 * (1:10)){
   print("Hello World.");
-} #comment!
-'
-	captest = "Three Capital Letters Hopped Briskly"
+} #comment!'
+
+	captest = "Five Capital Letters Hopped Briskly"
 	mixedtest = "Yes, too much... Punct-uation! It wasn't 3 o'clock yet; it was 2:30."
 	numbers = "0123456789"
 	symbols = paste("()[]{}<>+-*/=~.,:;'",'"`!?@#$%^&_|\\',sep='')
+
+	#just print the text for debug purposes
+	if (plaintext) {
+		cat(paste(
+			words,
+			toupper(words),
+			captest,
+			mixedtest,
+			code,
+			symbols,
+			numbers,
+			letters,
+			toupper(letters),
+		sep='\n'))
+		return()
+	}
 
 	wrap = 26 * (font$width + 1) #just enough for the alphabet
 
@@ -186,6 +207,7 @@ render.test_font = function(font, verbose = FALSE){
 #' Wrapping also does not work with strings that manually newline (i.e. with `\n`).
 #'
 #' @examples
+#' #basic usage
 #' sprite = render.text('Hello World.', fonts.3x5)
 #' render.matrix(sprite)
 #'
@@ -201,11 +223,13 @@ render.test_font = function(font, verbose = FALSE){
 #'   'very spaced text',
 #'   kerning = 3
 #' ))
+#' #(zoom out with `cmd -` if needed)
 #'
 #' #newlines with '\n'
 #' render.matrix(render.text(
 #'   'Newlines:\nAre supported.'
 #' ))
+#' @export
 render.text = function(str, font = rcade::fonts.3x3, wrap = FALSE, kerning = NULL, linespacing = NULL, alignment = 'left'){
 	if (str == '') return(matrix(0)) #return empty pixel if no text
 

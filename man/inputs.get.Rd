@@ -36,3 +36,6 @@ New inputs occurring before the last call of ram.run, i.e. those from before the
 
 Then \code{RAM$inputs} is updated to contain all the new inputs, matching \code{inputs.csv}.
 }
+\examples{
+#only used internally, in ram.update()
+}

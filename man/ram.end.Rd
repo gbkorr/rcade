@@ -7,8 +7,11 @@
 ram.end()
 }
 \description{
-Exits \code{\link[=ram.run]{ram.run()}} without printing an error traceback; the code equivalent of \verb{^C}.
+Exits \code{\link[=ram.run]{ram.run()}} without printing an error traceback; the code equivalent of \verb{^C}. This function is intended to be run in custom Game Code.
 }
 \details{
 Useful for Game Over scenarios, etc; see its usage in \code{vignette("snake")}.
+}
+\examples{
+print(Snake$end_game)
 }

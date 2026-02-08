@@ -46,3 +46,11 @@ An object only needs a \verb{$spritename} to be drawn. Objects can also have the
    \verb{$draw()} \tab  \tab \code{NULL} \tab Overwrites the default drawing behavior for the sprite; see above. \cr
 }
 }
+\examples{
+smileysprite = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
+RAM = ram.init(rom.init(16,8,sprites=list(smiley=smileysprite)))
+RAM$objects$smiley = list(x = 3, y = 3, spritename = 'smiley')
+scene = list(width=16,height=8)
+scene = render.object(scene,RAM$objects$smiley,RAM)
+render.scene(scene)
+}

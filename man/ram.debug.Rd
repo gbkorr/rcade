@@ -10,13 +10,9 @@ ram.debug(RAM)
 \item{RAM}{\href{ram.init}{RAM} object.}
 }
 \description{
-\link{YOU NEED TO ACTUALLY WRITE THIS FUNCTION} (print out details about debug, e.g. riollback frequency, average times, et.c)
-This function prints it all, but it's recommended to plot separately (see examples).
-}
-\details{
-This function prints out some timing-related debug information.
-
 \code{RAM$debug} contains a host of data from the RAM's recent gameplay, relevant to the timing and rollback systems (\code{vignette("timing")} and \code{vignette("rollback")}). This is mostly useful for internal debugging (i.e. by the package dev), especially for online play.
+
+This function prints out some timing-related debug information.
 }
 \section{RAM$debug}{
 
@@ -45,17 +41,18 @@ This function prints out some timing-related debug information.
 
 \examples{
 \dontrun{
-#plot buffer over time to see rollbacks
-plot(RAM$debug$time, RAM$debug$buffer, type='l')
+#plot ram.time() over time to see rollbacks:
+plot(RAM$debug$time, RAM$debug$ahead, type='l')
 
 #compare which parts of each frame took up the most time
 plot(rowSums(cbind(
 	RAM$debug$time.tick,
 	RAM$debug$time.inputs,
 	RAM$debug$time.draw
-),na.rm=TRUE), type='l')
+),na.rm=TRUE), type='l', main='seconds per tick by parts')
 lines(RAM$debug$time.tick, col='blue')
 lines(RAM$debug$time.draw, col='red')
 lines(RAM$debug$time.inputs, col='green')
+legend('topleft',pch=15,pt.cex=2,legend=c('total','tick','draw','input'),title='step',col=c('black','blue','red','green'))
 }
 }

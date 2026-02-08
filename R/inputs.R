@@ -1,10 +1,5 @@
 
 
-#need a vignette or doc or something on resume timing, like RAM$began and stuff
-
-#somewhere: RAM$echo = RAM$ticks can be useful
-
-
 #' Record Player Inputs
 #'
 #' @description
@@ -35,6 +30,12 @@
 #' `inputs.csv` is stored in [`tools::R_user_dir('rcade')`][tools::R_user_dir], the directory for storing package data.
 #'
 #'  Only one `inputs.csv` file exists and is read by the package; the file is wiped every time [ram.init()] is called.
+#'  @examples
+#'  quickload(SuperRrio)
+#'  #in a separate R session:
+#'  inputs.listen()
+#'  #type 'd' and press Enter.
+#'  @export
 inputs.listen = function(){
 	path = paste(tools::R_user_dir('rcade'),'/inputs',sep='')
 
@@ -47,6 +48,7 @@ inputs.listen = function(){
 }
 
 #' @rdname inputs.listen
+#' @export
 inputs.read = function(){
 	tryCatch({
 			return(utils::read.csv(paste(tools::R_user_dir('rcade'), '/inputs', sep='')))
@@ -65,6 +67,11 @@ inputs.read = function(){
 #' @param timestamp Specific tick set the input for. `NULL` sets the input to be processed on the next tick.
 #' @details
 #' Adds an input to `RAM$inputs` as if it were a new input in `inputs.csv`. The input is set to occur on the next tick unless specified by `timestamp`.
+#' @examples
+#' RAM = ram.init(SuperRrio)
+#' RAM = ram.input(RAM,'d ',30) #will jump one second after the game starts
+#' RAM = ram.run(RAM) #start the game
+#' @export
 ram.input = function(RAM, input, timestamp = NULL){
 	if (is.null(timestamp)) timestamp = RAM$ticks #next frame
 
@@ -101,6 +108,9 @@ ram.input = function(RAM, input, timestamp = NULL){
 #'
 #' Then `RAM$inputs` is updated to contain all the new inputs, matching `inputs.csv`.
 #' @param RAM [RAM](ram.init) object to update.
+#' @examples
+#' #only used internally, in ram.update()
+#' @export
 inputs.get = function(RAM){
 	inputs = inputs.read()
 	n_new = nrow(inputs)
@@ -178,6 +188,9 @@ inputs.get = function(RAM){
 #'
 #' The game should read RAM$actions to control game behavior; see `vignette('rrio')` to see this in action.
 #' @param RAM [RAM](ram.init) object to update.
+#' @examples
+#' #only used internally, in ram.update()
+#' @export
 inputs.process = function(RAM){
 	#deactivate actions
 	RAM$actions[RAM$actions == TRUE] = FALSE
@@ -231,6 +244,18 @@ inputs.process = function(RAM){
 #' render.ram(RAM)
 #' ```
 #' Which also allows the user to copy and restore RAMs as savestates, etc.
+#' @examples
+#' quickload(SuperRrio)
+#' #in a separate R session:
+#' inputs.listen()
+#' #now input these lines:
+#' #/pause
+#' #  (one space)
+#' #/tick
+#' #/tick
+#' #/tick
+#' #/resume
+#' @export
 inputs.command = function(RAM, command){
 	switch(command,
 		"/pause"={

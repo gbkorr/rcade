@@ -17,3 +17,10 @@ See \code{vignette("timing")} for more info; the x-axis of the diagrams are \cod
 \details{
 \verb{= RAM$time - time.sec()}
 }
+\examples{
+#the time.ram() at the end of each frame is stored in RAM$debug$ahead.
+#Plotting it can help visualize how the RAM stays synced in time:
+quickload(BadApple)
+#^C after 10 seconds or so
+plot(RAM$debug$ahead, type='l', xlab='Tick')
+}

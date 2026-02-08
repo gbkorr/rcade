@@ -64,7 +64,7 @@ A port of the classic game Snake, running quite smoothly. Demonstrates the inter
 ### 3.3 Bad Apple
 `vignette("badapple")`
 
-[IMAGE]
+![](vignettes/images/thumbnail_badapple.png)
 
 This ROM is a proof of concept for the graphical capabilities of rcade, which can comfortably play videos at resolutions exceeding 64x64.
 
@@ -75,7 +75,7 @@ I'm certainly not the first to make this on a CLI console, nor [in R](https://ww
 ### 3.4 R^2^Studio
 `vignette("r2studio")`
 
-[IMAGE]
+![](images/thumbnail_r2studio.png)
 
 It's RStudio in RStudio![^5] This ROM draws its own little console and plotting window, and the user can run R code by sending it through the input system. 
 
@@ -130,6 +130,8 @@ I choose to write R code in a way that's slightly easier for people unfamiliar w
 Additionally, for the sake of organization, function names are prefixed by general context--- e.g., functions pertaining to “the rendering process” take the form `render.foo()`. This is against S3 conventions (where the prefix indicates what class a function operates on) but I find it to be an immensely valuable tool for writing understandable code.
 
 [^10]: Which is particularly important for this project; the systems and concepts are generalizable to other languages and might actually be a good resource for making an engine like this.
+
+The documentation for this package was formatted to look nicest natively in RStudio, i.e. through `?foo`. Formatting may be occasionally wonky on the website, but it shouldn't interfere with reading.
 
 ### 6.2 The Name 'rcade'
 

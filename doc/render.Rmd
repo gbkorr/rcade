@@ -312,4 +312,6 @@ The timing system (`vignette("timing")`) is robust enough that slow draw times (
 
 This would be a nonissue if we could draw *over* the previous frame, as many R loading bars do with `'\r'`, but alas RStudio doesn't respect the more advanced cursor location escape codes that would let us overwrite preceding lines. We should be happy that it accepts `'\f'` in the first place!
 
+Flickering starts at resolutions around 48x32 (1500 total pixels) and gets linearly worse in chunks as that increases. Framerate has no effect. Gaming with flickering is manageable but somewhat unpleasant, especially at higher resolutions.
+
 

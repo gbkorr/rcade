@@ -37,6 +37,7 @@
 #' #ASCII art
 #' badger = matrix(c(0,3,0,0,0,2,1,0,2,0,0,2,1,0,2,0,0,2,0,3,0), ncol = 7)
 #' render.matrix(badger, palette = c(' ', 'O', 'H', '='))
+#' @export
 render.matrix = function(M, clear_console = FALSE, palette = c('  ', '[]', '  ')){
 	cat(
 		ifelse(clear_console,'\f',''),
@@ -94,20 +95,17 @@ render.matrix = function(M, clear_console = FALSE, palette = c('  ', '[]', '  ')
 #'
 #' Inversion:
 #'
-#' [][][][][]. .                     [][][][][]. .
-#' [][][][][]. .                     [][][][][]. .
-#' [][][][][]. .      [][][][][]     [][]. . . [][]
-#' [][][][][]. .   ~  [][][][][]  =  [][]. . . [][]
-#' [][][][][]. .      [][][][][]     [][]. . . [][]
-#' . . . . . . .      [][][][][]     . . [][][][][]
-#' . . . . . . .      [][][][][]     . . [][][][][]
+#' [][][][][]                    [][][][][]
+#' [][][][][]                    [][][][][]
+#' [][][][][]     [][][][][]     [][]      [][]
+#' [][][][][]  ~  [][][][][]  =  [][]      [][]
+#' [][][][][]     [][][][][]     [][]      [][]
+#'                [][][][][]         [][][][][]
+#'                [][][][][]         [][][][][]
 #'
 #' ```
-#' ```{r}
-#'   print('wow')
-#' ```
-#' [i hate these examples]
 #' @examples
+#' #background to draw everything onto so they don't get clipped out
 #' bg = matrix(2,7,7)
 #'
 #' box = matrix(1,5,5)
@@ -132,6 +130,7 @@ render.matrix = function(M, clear_console = FALSE, palette = c('  ', '[]', '  ')
 #'   render.overlay(box) |>
 #'   render.overlay(box, 3, 3, invert=TRUE) |>
 #'   render.matrix()
+#' @export
 render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 	#draws a sprite onto the scene
 
@@ -168,7 +167,7 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 
 #' Sprite Animations
 #'
-#' Retrieves the current frame from a sprite animation. [todo examples]
+#' Retrieves the current frame from a sprite animation.
 #'
 #' @details
 #' A sprite defined in `ROM$sprites` can either be *simple* or *complex*;
@@ -189,6 +188,8 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 #' |`$offset.y`||Offset relative to y.|
 #'
 #' Animated sprites can be tested using [render.test_animation()].
+#'
+#' [todo: example of simple animation]
 #' @returns
 #' Returns a sprite matrix suitable for `render.sprite()`.
 #' @param spritename String; name of sprite as defined in `sprites`.
@@ -197,7 +198,7 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 #' @param render_framerate `RAM$ROM$framerate`; game framerate.
 #' @examples
 #' #simple two-part animation using sprite$next_animation
-#'
+#' @export
 render.animate = function(spritename, timer, sprites, render_framerate = 60){ #timer = frame of animation
 	sprite = sprites[[spritename]]
 
@@ -219,8 +220,6 @@ render.animate = function(spritename, timer, sprites, render_framerate = 60){ #t
 
 #' Test an Animated Sprite
 #'
-#'
-#' [need to do an examples pass and adad examples to everyhting]
 #' Plays a sprite's animation into the console. `^C` to stop.
 #'
 #' @param spritename Name of sprite in `sprites`
@@ -232,6 +231,8 @@ render.animate = function(spritename, timer, sprites, render_framerate = 60){ #t
 #' It handles `sprite$next_animation` properly, so it can be used to test multi-stage animations too.
 #'
 #' [todo: examples with mario runcycle]
+#' @examples
+#' @export
 render.test_animation = function(spritename, sprites){
 	timer = 1
 	while (TRUE){
@@ -275,10 +276,10 @@ render.test_animation = function(spritename, sprites){
 #'
 #' @examples
 #' smiley = render.makesprite('
-#'   o o
-#'   o o
-#' o     o
-#'  ooooo
+#'   O O
+#'   O O
+#' O     O
+#'  OOOOO
 #' ')
 #'
 #' render.matrix(smiley)
@@ -293,6 +294,7 @@ render.test_animation = function(spritename, sprites){
 #'
 #' print(badger)
 #' render.matrix(badger, palette = c(' ', 'O', 'H', '='))
+#' @export
 render.makesprite = function(txt, width = NULL, default = 1, lookup = c(' ' = 0, '.' = 0, '_' = 2)){
 	data = strsplit(txt, '\n', fixed = TRUE)[[1]][-1] #removes leading \n
 	data = trimws(data, 'right')
