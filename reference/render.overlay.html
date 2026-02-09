@@ -21,13 +21,14 @@ Specifically, sprite is placed on top of background, and its position can be alt
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/engine.html">High-Level Engine Structure</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/engine.html">1. High-Level Engine Structure</a></li>
     <li><a class="dropdown-item" href="../articles/guide.html">Basic Package Usage</a></li>
-    <li><a class="dropdown-item" href="../articles/inputs.html">Input Handling</a></li>
-    <li><a class="dropdown-item" href="../articles/render.html">Drawing to Console</a></li>
-    <li><a class="dropdown-item" href="../articles/rollback.html">Rollback in the rcade Engine</a></li>
+    <li><a class="dropdown-item" href="../articles/inputs.html">2. Input Handling</a></li>
+    <li><a class="dropdown-item" href="../articles/r2studio.html">R^2^Studio</a></li>
+    <li><a class="dropdown-item" href="../articles/render.html">4. Rendering System</a></li>
+    <li><a class="dropdown-item" href="../articles/rollback.html">Rollback System</a></li>
     <li><a class="dropdown-item" href="../articles/snake.html">Snake Devlog</a></li>
-    <li><a class="dropdown-item" href="../articles/timing.html">Frame Timing</a></li>
+    <li><a class="dropdown-item" href="../articles/timing.html">3. Frame Timing</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -121,22 +122,20 @@ Specifically, sprite is placed on top of background, and its position can be alt
 <span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a></span>
 <span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>Inversion<span class="sc">:</span></span>
 <span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>[][][][][]. .                     [][][][][]. .</span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>[][][][][]. .                     [][][][][]. .</span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>[][][][][]. .      [][][][][]     [][]. . . [][]</span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>[][][][][]. .   <span class="sc">~</span>  [][][][][]  <span class="ot">=</span>  [][]. . . [][]</span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>[][][][][]. .      [][][][][]     [][]. . . [][]</span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>. . . . . . .      [][][][][]     . . [][][][][]</span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>. . . . . . .      [][][][][]     . . [][][][][]</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>[][][][][]                    [][][][][]</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>[][][][][]                    [][][][][]</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>[][][][][]     [][][][][]     [][]      [][]</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>[][][][][]  <span class="sc">~</span>  [][][][][]  <span class="ot">=</span>  [][]      [][]</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>[][][][][]     [][][][][]     [][]      [][]</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>               [][][][][]         [][][][][]</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>               [][][][][]         [][][][][]</span>
 <span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a></span></code></pre><p></p></div>
-<p></p><div class="sourceCode r"><pre><code><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="st">'wow'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "wow"</span></span></code></pre><p></p></div>
-<p>i hate these examples</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bg</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#background to draw everything onto so they don't get clipped out</span></span></span>
+<span class="r-in"><span><span class="va">bg</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">7</span>,<span class="fl">7</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">box</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">box.white</span> <span class="op">=</span> <span class="va">box</span>; <span class="va">box.white</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op">=</span> <span class="fl">2</span></span></span>
@@ -148,21 +147,39 @@ Specifically, sprite is placed on top of background, and its position can be alt
 <span class="r-in"><span>  <span class="fu">render.overlay</span><span class="op">(</span><span class="va">box.white</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">render.overlay</span><span class="op">(</span><span class="va">box.white</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="render.matrix.html">render.matrix</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in render.matrix(render.overlay(render.overlay(bg, box.white), box.white,     3, 3)):</span> could not find function "render.matrix"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][][][][]    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []      []    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []  [][][][][]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []  []      []</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][][]      []</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     []      []</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     [][][][][]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#transparency</span></span></span>
 <span class="r-in"><span><span class="va">bg</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">render.overlay</span><span class="op">(</span><span class="va">box.transparent</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">render.overlay</span><span class="op">(</span><span class="va">box.transparent</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="render.matrix.html">render.matrix</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in render.matrix(render.overlay(render.overlay(bg, box.transparent),     box.transparent, 3, 3)):</span> could not find function "render.matrix"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][][][][]    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []      []    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []  [][][][][]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []  []  []  []</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][][][][]  []</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     []      []</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     [][][][][]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#inversion</span></span></span>
 <span class="r-in"><span><span class="va">bg</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">render.overlay</span><span class="op">(</span><span class="va">box</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">render.overlay</span><span class="op">(</span><span class="va">box</span>, <span class="fl">3</span>, <span class="fl">3</span>, invert<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="render.matrix.html">render.matrix</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in render.matrix(render.overlay(render.overlay(bg, box), box, 3,     3, invert = TRUE)):</span> could not find function "render.matrix"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][][][][]    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][][][][]    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][]      [][]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][]      [][]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][]      [][]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     [][][][][]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     [][][][][]</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

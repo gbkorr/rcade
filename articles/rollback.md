@@ -1,7 +1,7 @@
-# Rollback in the rcade Engine
+# Rollback System
 
 This article provides a description of why, when, and how the game rolls
-back to stay in sync with inputs. This system isn’t that relevant for
+back to stay in sync with inputs. This system isn’t very relevant for
 the current iteration of rcade, but I might rewrite the article when I
 add online play.
 

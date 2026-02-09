@@ -23,5 +23,5 @@ since 1970 with sub-millisecond precision.
 
 ``` r
 print(time.sec(),digits=20)
-#> Error in time.sec(): could not find function "time.sec"
+#> [1] 1770670106.3169896603
 ```

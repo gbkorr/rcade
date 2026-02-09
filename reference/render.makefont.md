@@ -99,12 +99,13 @@ ooo ooo o   o o oo  oo  o   ooo  o   o  oo  o   ooo o o o o ooo o o oo   o   o  
 o o ooo ooo oo  ooo o   ooo o o ooo oo  o o ooo ooo o o ooo o    oo o o oo   o  ooo  o  ooo o o  o   oo
 ')
 )
-#> Error in render.makefont("uppercase", width = 3, "\n o  oo  ooo oo  ooo ooo  o  o o ooo ooo o o o   o o ooo ooo ooo  o  ooo  oo ooo o o o o o o o o o o oo\nooo ooo o   o o oo  oo  o   ooo  o   o  oo  o   ooo o o o o ooo o o oo   o   o  o o o o ooo  o   o   o\no o ooo ooo oo  ooo o   ooo o o ooo oo  o o ooo ooo o o ooo o    oo o o oo   o  ooo  o  ooo o o  o   oo\n"): could not find function "render.makefont"
 
 render.matrix(cbind(
   example_font$sprites$H,
   matrix(0,3,1),
   example_font$sprites$I
 ))
-#> Error in render.matrix(cbind(example_font$sprites$H, matrix(0, 3, 1),     example_font$sprites$I)): could not find function "render.matrix"
+#> []  []  [][][]
+#> [][][]    []  
+#> []  []  [][][]
 ```

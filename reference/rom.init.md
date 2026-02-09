@@ -4,7 +4,9 @@ A ROM object contains all the static data for running a game. ROM
 elements can be set with this function or after the fact, e.g. with
 `ROM$framerate = 30`.
 
-See \`vignette("engine") for more info.
+See
+[`vignette("engine")`](https://gbkorr.github.io/rcade/articles/engine.md)
+for more info.
 
 ## Usage
 
@@ -83,7 +85,7 @@ rom.init(
 
   Seconds to add to the timestamp of every input. Makes inputs get
   processed slightly after they were sent, to reduce the frequency of
-  rollbacks.
+  rollbacks. Shouldn't need to be changed.
 
 ## Game Code
 
@@ -96,11 +98,8 @@ stored in the ROM, demonstrated below.
 
 ``` r
 testrom = rom.init(64,16)
-#> Error in rom.init(64, 16): could not find function "rom.init"
 testrom$example_function = function(){print('foo')}
-#> Error: object 'testrom' not found
 testrom$startup = function(RAM){RAM$ROM$example_function(); return(RAM)}
-#> Error: object 'testrom' not found
 RAM = ram.init(testrom)
-#> Error in ram.init(testrom): could not find function "ram.init"
+#> [1] "foo"
 ```

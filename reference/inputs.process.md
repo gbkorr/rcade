@@ -78,3 +78,9 @@ set to TRUE for one frame.
 
 The game should read RAM\$actions to control game behavior; see
 `vignette('rrio')` to see this in action.
+
+## Examples
+
+``` r
+#only used internally, in ram.update()
+```

@@ -31,3 +31,9 @@ ram.resume(RAM, start_at = NULL)
   [`time.sec()`](https://gbkorr.github.io/rcade/reference/time.sec.md)
   when the RAM should start the gameloop; may be useful for syncing
   online play.
+
+## Examples
+
+``` r
+#only used internally. To resume gameplay, use RAM = ram.run(RAM).
+```

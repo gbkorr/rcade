@@ -195,7 +195,7 @@ RAM = ram.init(Snake) #initialize RAM
 RAM = ram.run(RAM) #run game with RAM
 ```
 
-![](snake_1.gif)
+![](images/snake_1.gif)
 
 ## 4. Border
 
@@ -360,7 +360,7 @@ Snake$custom = function(RAM){
 quickload(Snake)
 ```
 
-![](snake_2.gif)
+![](images/snake_2.gif)
 
 ### 5.4 quickload()
 
@@ -654,7 +654,7 @@ Snake$custom = function(RAM){
 quickload(Snake)
 ```
 
-![Working great!](snake_3.gif)
+![Working great!](images/snake_3.gif)
 
 Working great!
 
@@ -994,7 +994,7 @@ Snake$custom = function(RAM){
 quickload(Snake)
 ```
 
-![](snake_4.gif)
+![](images/snake_4.gif)
 
 You can see me:
 

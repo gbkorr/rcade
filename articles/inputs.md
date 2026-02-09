@@ -1,4 +1,4 @@
-# Input Handling
+# 2. Input Handling
 
 This article aims to explain the motivation behind how the inputs system
 works, as well as giving an understanding of its structure; the

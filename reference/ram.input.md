@@ -29,3 +29,13 @@ ram.input(RAM, input, timestamp = NULL)
 Adds an input to `RAM$inputs` as if it were a new input in `inputs.csv`.
 The input is set to occur on the next tick unless specified by
 `timestamp`.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+RAM = ram.init(SuperRrio)
+RAM = ram.input(RAM,'d ',30) #will jump one second after the game starts
+RAM = ram.run(RAM) #start the game
+} # }
+```

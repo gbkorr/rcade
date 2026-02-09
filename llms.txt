@@ -2,9 +2,14 @@ In-progress package for a game engine in vanilla RStudio.
 
 The goal is to make it to CRAN!
 
-Note: the documentation for this package was formatted to look nicest
-natively in RStudio, i.e. through `?foo`. Formatting may be occasionally
-wonky on the website, but it shouldn’t interfere with reading.
+still todo: R2studio point types (pch) and some images in the article!
+
+\[IMAGES OF THE PACKAGE FROM the rcade doc\]
+![](articles/images/thumbnail.png)
+
+The package is fully documented and written up; see the
+[website](https://gbkorr.github.io/rcade/articles/rcade.html) for
+convenient navigation.
 
 # Package index
 
@@ -13,6 +18,8 @@ wonky on the website, but it shouldn’t interfere with reading.
 - [`BadApple`](https://gbkorr.github.io/rcade/reference/BadApple.md)
   [`BadApple.data`](https://gbkorr.github.io/rcade/reference/BadApple.md)
   : Bad Apple
+- [`R2Studio`](https://gbkorr.github.io/rcade/reference/R2Studio.md) :
+  R\\^2\\Studio
 - [`Snake`](https://gbkorr.github.io/rcade/reference/Snake.md) : Snake
   Game
 - [`fonts.3x3`](https://gbkorr.github.io/rcade/reference/fonts.3x3.md) :
@@ -92,16 +99,18 @@ wonky on the website, but it shouldn’t interfere with reading.
 
 ### All vignettes
 
-- [High-Level Engine
+- [1. High-Level Engine
   Structure](https://gbkorr.github.io/rcade/articles/engine.md):
 - [Basic Package
   Usage](https://gbkorr.github.io/rcade/articles/guide.md):
-- [Input Handling](https://gbkorr.github.io/rcade/articles/inputs.md):
+- [2. Input
+  Handling](https://gbkorr.github.io/rcade/articles/inputs.md):
+- [R^2^Studio](https://gbkorr.github.io/rcade/articles/r2studio.md):
 - [The 'rcade'
   Package](https://gbkorr.github.io/rcade/articles/rcade.md):
-- [Drawing to
-  Console](https://gbkorr.github.io/rcade/articles/render.md):
-- [Rollback in the rcade
-  Engine](https://gbkorr.github.io/rcade/articles/rollback.md):
+- [4. Rendering
+  System](https://gbkorr.github.io/rcade/articles/render.md):
+- [Rollback
+  System](https://gbkorr.github.io/rcade/articles/rollback.md):
 - [Snake Devlog](https://gbkorr.github.io/rcade/articles/snake.md):
-- [Frame Timing](https://gbkorr.github.io/rcade/articles/timing.md):
+- [3. Frame Timing](https://gbkorr.github.io/rcade/articles/timing.md):

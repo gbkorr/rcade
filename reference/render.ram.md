@@ -30,3 +30,13 @@ calls
 on every object to draw them onto this scene,  
 and then calls
 [`render.scene()`](https://gbkorr.github.io/rcade/reference/render.scene.md).
+
+## Examples
+
+``` r
+RAM = ram.init(R2Studio)
+#> Error in RStudio.Version(): could not find function "RStudio.Version"
+render.ram(RAM)
+#> Error: object 'RAM' not found
+#always zoom out with `cmd -` if the render doesn't display properly
+```

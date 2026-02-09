@@ -23,13 +23,14 @@ All fonts are monospaced."></head><body>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/engine.html">High-Level Engine Structure</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/engine.html">1. High-Level Engine Structure</a></li>
     <li><a class="dropdown-item" href="../articles/guide.html">Basic Package Usage</a></li>
-    <li><a class="dropdown-item" href="../articles/inputs.html">Input Handling</a></li>
-    <li><a class="dropdown-item" href="../articles/render.html">Drawing to Console</a></li>
-    <li><a class="dropdown-item" href="../articles/rollback.html">Rollback in the rcade Engine</a></li>
+    <li><a class="dropdown-item" href="../articles/inputs.html">2. Input Handling</a></li>
+    <li><a class="dropdown-item" href="../articles/r2studio.html">R^2^Studio</a></li>
+    <li><a class="dropdown-item" href="../articles/render.html">4. Rendering System</a></li>
+    <li><a class="dropdown-item" href="../articles/rollback.html">Rollback System</a></li>
     <li><a class="dropdown-item" href="../articles/snake.html">Snake Devlog</a></li>
-    <li><a class="dropdown-item" href="../articles/timing.html">Frame Timing</a></li>
+    <li><a class="dropdown-item" href="../articles/timing.html">3. Frame Timing</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -104,14 +105,15 @@ All fonts are monospaced.</p>
 <span class="r-in"><span><span class="st">o o ooo ooo oo  ooo o   ooo o o ooo oo  o o ooo ooo o o ooo o    oo o o oo   o  ooo  o  ooo o o  o   oo</span></span></span>
 <span class="r-in"><span><span class="st">'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in render.makefont("uppercase", width = 3, "\n o  oo  ooo oo  ooo ooo  o  o o ooo ooo o o o   o o ooo ooo ooo  o  ooo  oo ooo o o o o o o o o o o oo\nooo ooo o   o o oo  oo  o   ooo  o   o  oo  o   ooo o o o o ooo o o oo   o   o  o o o o ooo  o   o   o\no o ooo ooo oo  ooo o   ooo o o ooo oo  o o ooo ooo o o ooo o    oo o o oo   o  ooo  o  ooo o o  o   oo\n"):</span> could not find function "render.makefont"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="render.matrix.html">render.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">example_font</span><span class="op">$</span><span class="va">sprites</span><span class="op">$</span><span class="va">H</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="va">example_font</span><span class="op">$</span><span class="va">sprites</span><span class="op">$</span><span class="va">I</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in render.matrix(cbind(example_font$sprites$H, matrix(0, 3, 1),     example_font$sprites$I)):</span> could not find function "render.matrix"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []  []  [][][]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [][][]    []  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> []  []  [][][]</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

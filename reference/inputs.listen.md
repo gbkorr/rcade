@@ -50,13 +50,13 @@ for storing package data.
 Only one `inputs.csv` file exists and is read by the package; the file
 is wiped every time
 [`ram.init()`](https://gbkorr.github.io/rcade/reference/ram.init.md) is
-called.
+called. @examples @export
 
 ## See also
 
 [`vignette("inputs")`](https://gbkorr.github.io/rcade/articles/inputs.md)
 gives an overview of each part of the input system.
 
-[?inputs.process](https://gbkorr.github.io/rcade/reference/inputs.process.md)
+[`inputs.process()`](https://gbkorr.github.io/rcade/reference/inputs.process.md)
 provides a more focused description of how an input gets from the
 player's keyboard to the game code.

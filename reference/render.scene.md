@@ -67,14 +67,42 @@ The gameloop creates and renders the scene in
 scene = list(width=16, height=16)
 box = matrix(c(1,1,1,1,1,1,2,2,2,1,1,2,2,2,1,1,2,2,2,1,1,1,1,1,1), ncol = 5)
 for (i in 1:5) scene = render.sprite(scene, box, x=2*i, y=2*i, layer=6-i)
-#> Error in render.sprite(scene, box, x = 2 * i, y = 2 * i, layer = 6 - i): could not find function "render.sprite"
 render.scene(scene)
-#> Error in render.scene(scene): could not find function "render.scene"
+#>                                 
+#>   [][][][][]                    
+#>   []      []                    
+#>   []      [][][]                
+#>   []      []  []                
+#>   [][][][][]  [][][]            
+#>       []      []  []            
+#>       [][][][][]  [][][]        
+#>           []      []  []        
+#>           [][][][][]  [][][]    
+#>               []      []  []    
+#>               [][][][][]  []    
+#>                   []      []    
+#>                   [][][][][]    
+#>                                 
+#>                                 
 
 #inversion layer
 bigbox = matrix(1,11,11)
 scene = render.sprite(scene, bigbox, x=1, y=1, layer='invert')
-#> Error in render.sprite(scene, bigbox, x = 1, y = 1, layer = "invert"): could not find function "render.sprite"
 render.scene(scene)
-#> Error in render.scene(scene): could not find function "render.scene"
+#> [][][][][][][][][][][]          
+#> []          [][][][][]          
+#> []  [][][]  [][][][][]          
+#> []  [][][]      [][][]          
+#> []  [][][]  []  [][][]          
+#> []          []      []          
+#> [][][]  [][][]  []  []          
+#> [][][]          []    []        
+#> [][][][][]  [][][]  [][]        
+#> [][][][][]          [][][][]    
+#> [][][][][][][]  [][][][]  []    
+#>               [][][][][]  []    
+#>                   []      []    
+#>                   [][][][][]    
+#>                                 
+#>                                 
 ```

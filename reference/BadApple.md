@@ -4,9 +4,10 @@ A ROM that plays the video [Bad
 Apple](https://www.youtube.com/watch?v=FtutLA63Cp8).  
 See `vignette("badapple")` for more details.
 
-    RAM = ram.init(BadApple); RAM = ram.run(RAM)
+    quickload(BadApple)
 
-You may have to zoom out a bit with `cmd -`.
+Viewing recommendation: looks much better when viewed from afar or very
+zoomed out.
 
 `BadApple.data` stores the compressed video frames, which are
 decompressed in `BadApple$startup()`.
@@ -40,6 +41,8 @@ saving the resultant frames as a single animation in `RAM$ROM$sprites`.
 A single object then loops the animation constantly.
 
 The frames are from <https://github.com/Timendus/chip-8-bad-apple>.
+rcade can actually run the high-resolution version at full speed, but it
+experiences significant flickering due to the high volume of pixels.
 
 ## Compression
 
@@ -51,6 +54,5 @@ blank frame.
 
 Much stronger forms of compression have been devised for Bad Apple
 projects, but this is a simple, naive approach that works well enough
-(50 -\> 1MB) for the application. More importantly, rcade shouldn't
-really require compressed videos since you can read frames directly from
-a file.
+for the application. More importantly, rcade shouldn't really require
+compressed videos since you can read frames directly from a file.

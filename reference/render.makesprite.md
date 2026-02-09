@@ -65,15 +65,17 @@ and `lookup`. The default character conversion is:
 
 ``` r
 smiley = render.makesprite('
-  o o
-  o o
-o     o
- ooooo
+  O O
+  O O
+O     O
+ OOOOO
 ')
-#> Error in render.makesprite("\n  o o\n  o o\no     o\n ooooo\n"): could not find function "render.makesprite"
 
 render.matrix(smiley)
-#> Error in render.matrix(smiley): could not find function "render.matrix"
+#>     []  []    
+#>     []  []    
+#> []          []
+#>   [][][][][]  
 
 #multicolor
 palette =
@@ -82,10 +84,14 @@ badger = render.makesprite('
 =     =
  HHHHH
 ', lookup = c(' ' = 0, 'O' = 1, '=' = 2, 'H' = 3))
-#> Error in render.makesprite("\n  O O\n=     =\n HHHHH\n", lookup = c(` ` = 0,     O = 1, `=` = 2, H = 3)): could not find function "render.makesprite"
 
 print(badger)
-#> Error: object 'badger' not found
+#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+#> [1,]    0    0    1    0    1    0    0
+#> [2,]    2    0    0    0    0    0    2
+#> [3,]    0    3    3    3    3    3    0
 render.matrix(badger, palette = c(' ', 'O', 'H', '='))
-#> Error in render.matrix(badger, palette = c(" ", "O", "H", "=")): could not find function "render.matrix"
+#>   O O  
+#> H     H
+#>  ===== 
 ```

@@ -5,12 +5,13 @@ articles:
   engine: engine.html
   guide: guide.html
   inputs: inputs.html
+  r2studio: r2studio.html
   rcade: rcade.html
   render: render.html
   rollback: rollback.html
   snake: snake.html
   timing: timing.html
-last_built: 2026-01-30T19:22Z
+last_built: 2026-02-09T20:48Z
 urls:
   reference: https://gbkorr.github.io/rcade/reference
   article: https://gbkorr.github.io/rcade/articles

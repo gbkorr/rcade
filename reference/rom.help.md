@@ -83,3 +83,15 @@ To iterate through `RAM$objects`, use the syntax
 
 This is required due to how R handles nested lists; the format  
 `for (obj in RAM$objects)` will **NOT** work.
+
+## Examples
+
+``` r
+#traceback demo:
+RAM = ram.init(SuperRrio)
+#> Error: object 'SuperRrio' not found
+RAM$ROM$sprites = NULL #this will make the game crash
+#> Error: object 'RAM' not found
+RAM = ram.run(RAM)
+#> Error: object 'RAM' not found
+```

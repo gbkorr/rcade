@@ -25,13 +25,14 @@ Each input is only submitted when the Enter key is pressed. This can make intera
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/engine.html">High-Level Engine Structure</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/engine.html">1. High-Level Engine Structure</a></li>
     <li><a class="dropdown-item" href="../articles/guide.html">Basic Package Usage</a></li>
-    <li><a class="dropdown-item" href="../articles/inputs.html">Input Handling</a></li>
-    <li><a class="dropdown-item" href="../articles/render.html">Drawing to Console</a></li>
-    <li><a class="dropdown-item" href="../articles/rollback.html">Rollback in the rcade Engine</a></li>
+    <li><a class="dropdown-item" href="../articles/inputs.html">2. Input Handling</a></li>
+    <li><a class="dropdown-item" href="../articles/r2studio.html">R^2^Studio</a></li>
+    <li><a class="dropdown-item" href="../articles/render.html">4. Rendering System</a></li>
+    <li><a class="dropdown-item" href="../articles/rollback.html">Rollback System</a></li>
     <li><a class="dropdown-item" href="../articles/snake.html">Snake Devlog</a></li>
-    <li><a class="dropdown-item" href="../articles/timing.html">Frame Timing</a></li>
+    <li><a class="dropdown-item" href="../articles/timing.html">3. Frame Timing</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -72,12 +73,15 @@ Each input is only submitted when the Enter key is pressed. This can make intera
 
 
 <p><code>inputs.csv</code> is stored in <code>tools::R_user_dir('rcade')</code>, the directory for storing package data.</p>
-<p>Only one <code>inputs.csv</code> file exists and is read by the package; the file is wiped every time <code><a href="ram.init.html">ram.init()</a></code> is called.</p>
+<p>Only one <code>inputs.csv</code> file exists and is read by the package; the file is wiped every time <code><a href="ram.init.html">ram.init()</a></code> is called.
+@examples
+
+@export</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="../articles/inputs.html">vignette("inputs")</a></code> gives an overview of each part of the input system.</p>
-<p><a href="inputs.process.html">?inputs.process</a> provides a more focused description of how an input gets from the player's keyboard to the game code.</p></div>
+<p><code><a href="inputs.process.html">inputs.process()</a></code> provides a more focused description of how an input gets from the player's keyboard to the game code.</p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

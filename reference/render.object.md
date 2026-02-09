@@ -69,3 +69,22 @@ the default value (second column) will be used.
 | `$palette`    |     | `NULL`         | Vector to swap the colors of the object's sprite around, e.g. `c(0,2,1)` swaps values of 2 and 1. Index starts at 0. Defaults to no swapping.  |
 |               |     |                |                                                                                                                                                |
 | `$draw()`     |     | `NULL`         | Overwrites the default drawing behavior for the sprite; see above.                                                                             |
+
+## Examples
+
+``` r
+smileysprite = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
+RAM = ram.init(rom.init(16,8,sprites=list(smiley=smileysprite)))
+RAM$objects$smiley = list(x = 3, y = 3, spritename = 'smiley')
+scene = list(width=16,height=8)
+scene = render.object(scene,RAM$objects$smiley,RAM)
+render.scene(scene)
+#>                                 
+#>                                 
+#>         []  []                  
+#>         []  []                  
+#>     []          []              
+#>       [][][][][]                
+#>                                 
+#>                                 
+```

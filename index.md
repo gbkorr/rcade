@@ -2,6 +2,11 @@ In-progress package for a game engine in vanilla RStudio.
 
 The goal is to make it to CRAN!
 
-Note: the documentation for this package was formatted to look nicest
-natively in RStudio, i.e. through `?foo`. Formatting may be occasionally
-wonky on the website, but it shouldn’t interfere with reading.
+still todo: R2studio point types (pch) and some images in the article!
+
+\[IMAGES OF THE PACKAGE FROM the rcade doc\]
+![](articles/images/thumbnail.png)
+
+The package is fully documented and written up; see the
+[website](https://gbkorr.github.io/rcade/articles/rcade.html) for
+convenient navigation.

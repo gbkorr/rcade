@@ -44,3 +44,18 @@ Since drawing is by far the slowest part of the gameloop, this allows it
 to recover and catch up to the present very quickly after time is
 rewound in a
 [rollback](https://gbkorr.github.io/rcade/reference/ram.rollback.md).
+
+## See also
+
+[`vignette("timing")`](https://gbkorr.github.io/rcade/articles/timing.md)
+for more detail on how time is synced.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+#ram.run() contains the following code:
+while(TRUE) RAM = ram.update(RAM)
+} # }
+```

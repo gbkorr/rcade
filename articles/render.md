@@ -1,6 +1,4 @@
-# Drawing to Console
-
-NEEDS LOTS OF IMAGES
+# 4. Rendering System
 
 This article goes over the motivation behind the parts of the rendering
 system. It builds up from simple console printing to rendering
@@ -46,32 +44,21 @@ cat('
 []      []
   [][][]
 ')
-#> 
-#>   []  []
-#>   []  []
-#> 
-#> []      []
-#>   [][][]
 ```
 
 But we run into an issue. Art can be printed to the console, but there’s
-no guarantee it shows up in the right position…
+no guarantee it shows up in the right position vertically…
 
-Luckily, clearning the console means that the next message will always
+Luckily, clearing the console means that the next message will always
 show up in the same place— we can just clear the console every time we
 draw. RStudio supports this with the escape character
 `cat('\f')`[¹](#fn1), though R.app unfortunately doesn’t.
 
-Redrawing the canvas with `cat` works quite well, but takes long enough
-to cause flickering at higher resolutions. This is sadly unavoidable.
-Games can still be played and enjoyed with this flickering, however, and
-it usually does not impact the true framerate.
-
 ### 2.2 Storing Pixel Art
 
-If we want to , we can’t just store everything as strings— it would be a
-nightmare to work with because of how clunky strings are to edit.
-Instead, we can write a function,
+If we want to print lots of images, we can’t just store everything as
+strings— it would be a nightmare to work with because of how clunky
+strings are to edit. Instead, we can write a function,
 [`render.matrix()`](https://gbkorr.github.io/rcade/reference/render.matrix.md),
 to convert directly from a bitmap matrix to a drawable string:
 
@@ -148,7 +135,7 @@ you see is what you get”.
 **Example**\`
 
 ``` r
-sprite = render.makesprite('
+circle = render.makesprite('
   OOO
  O   O
 O     O
@@ -158,7 +145,7 @@ O     O
   OOO
 ')
 
-render.matrix(sprite)
+render.matrix(circle)
 #>     [][][]    
 #>   []      []  
 #> []          []
@@ -235,9 +222,10 @@ render.matrix(background)
 #>         [][][]
 ```
 
-The issue with this is that replacing values directly with
-`matrix[a:b,c:d]` will always overwrite the original value. We can get
-around this with code like this:
+The problem with this is that replacing values directly with
+`matrix[a:b,c:d]` will always overwrite the original values. We can get
+around this with code like this to allow for sprites with transparency—
+we just encode transparent pixels as a value of `0`.
 
 ``` r
   overwrite = sprite
@@ -250,16 +238,6 @@ around this with code like this:
 **Example**
 
 ``` r
-circle = render.makesprite('
-  OOO
- O   O
-O     O
-O     O
-O     O
- O   O
-  OOO
-')
-
 background = matrix(0,9,9)
 
 background[1:7,1:7] = circle
@@ -319,14 +297,12 @@ own `background` from the previous section. The engine draws sprites
 onto specific layers, and then finally takes all the layers and overlays
 them one-by-one to produce the final matrix to be drawn.
 
-\[would like an image of this: sprites -\> layer (like stickers), then
+\#\[would like an image of this: sprites -\> layer (like stickers), then
 layers stacked like paper\]
 
 To draw a sprite onto a layer, we use
 [`render.sprite()`](https://gbkorr.github.io/rcade/reference/render.sprite.md),
-which is really just a wrapper for
-[`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md)
-to work on a layer.
+which is really just a wrapper for `render.overlay(layer,sprite)`.
 
 ### 5.1 The Inversion Layer
 
@@ -340,6 +316,33 @@ rcade implements this with a dedicated `scene` layer called
 `scene$layers$invert`, which is drawn last and inverts anything it
 covers. This uses the `invert` argument of
 [`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md).
+
+**Example**
+
+``` r
+scene = list(width=48, height=12)
+block = upper.tri(matrix(1,12,32))[12:1,]
+
+scene = render.sprite(scene,block,12,1)
+
+txt = render.text('inversion\nof colors')
+
+scene = render.sprite(scene,txt,2,1,layer='invert')
+
+render.scene(scene)
+#>                                               [][][][][][][][][][][][][][][][][][][][]          
+#>   [][][]  [][][]  []  []  [][][]  [][][]        []      []      []      [][][][][][][]          
+#>     []    []  []  []  []  [][]    [][]    []  [][][]  [][]  []  []  []  [][][][][][][]          
+#>   [][][]  []  []    []    [][][]  []  [][]    [][]      []      []  []  [][][][][][][]          
+#>                                       [][][][][][][][][][][][][][][][][][][][][][][][]          
+#>                                     [][][][][][][][][][][][][][][][][][][][][][][][][]          
+#>   [][][]  [][][]          [][][]        []  [][][]      []      [][]    [][][][][][][]          
+#>   []  []  [][]            []    []  []  []  [][][]  []  []    [][][]  [][][][][][][][]          
+#>   [][][]  []              [][]  []      []      []      []  []  []    [][][][][][][][]          
+#>                             [][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          
+#>                           [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          
+#>                         [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+```
 
 ## 6. Drawing the RAM
 
@@ -379,6 +382,41 @@ These control things like position and whether or not this particular
 object should swap around the colors in its sprite. ‘palette swapping’
 of the colors like this is an easy way to increase the variety of images
 in a game without needing to make new sprites.
+
+**Example**
+
+``` r
+sprite = render.makesprite('
+
+ ...
+.O=O.
+.....
+ ===
+ 
+',lookup = c(' ' = 0, '.' = 1, '=' = 2, 'O' = 3))
+
+render.matrix(sprite, palette=c('  ','..','==','()'))
+#>           
+#>   ......  
+#> ..()==()..
+#> ..........
+#>   ======  
+#> 
+render.matrix(sprite, palette=c('  ','..','++','\\/'))
+#>           
+#>   ......  
+#> ..\/++\/..
+#> ..........
+#>   ++++++  
+#> 
+render.matrix(sprite, palette=c('  ','||','MM','()'))
+#>           
+#>   ||||||  
+#> ||()MM()||
+#> ||||||||||
+#>   MMMMMM  
+#> 
+```
 
 ### 6.3 Custom Drawing Code
 
@@ -493,11 +531,42 @@ render.matrix(
 [`?render.text`](https://gbkorr.github.io/rcade/reference/render.text.md)
 provides some more examples of its capabilities.
 
+## 9. Rendering Pipeline
+
+## 10. Engine Limitations
+
+The timing system
+([`vignette("timing")`](https://gbkorr.github.io/rcade/articles/timing.md))
+is robust enough that slow draw times (i.e. for large resolutions) won’t
+impact the fluidity of gameplay. However, rcade has one major (and
+unavoidable) flaw: flickering.
+
+[`base::cat()`](https://rdrr.io/r/base/cat.html) prints output in large
+chunks of characters, and each chunk takes a tiny bit of time to print.
+(Try `cat(rep(1,100000))`: it takes a good second for the whole output
+to finish printing). This creates a problem: when we clear the console
+with `'\f'`, the first chunk of characters are immediately printed to
+fill the blank space, but it takes a split second for the rest of the
+characters to get drawn. The background is blank during that split
+second, so we end up with a brief flicker of white on every frame that
+gets stronger the more characters (including whitespaces!) are drawn.
+
+This would be a nonissue if we could draw *over* the previous frame, as
+many R loading bars do with `'\r'`, but alas RStudio doesn’t respect the
+more advanced cursor location escape codes that would let us overwrite
+preceding lines. We should be happy that it accepts `'\f'` in the first
+place!
+
+Flickering starts at resolutions around 48x32 (1500 total pixels) and
+gets linearly worse in chunks as that increases. Framerate has no
+effect. Gaming with flickering is manageable but somewhat unpleasant,
+especially at higher resolutions.
+
 ------------------------------------------------------------------------
 
-1.  Try it! It’s very useful in general R work along with cat(’), which
-    overwrites the current line (and is how things like loading bars are
-    animated).
+1.  Try it! It’s very useful in general R work along with `cat('\r')`,
+    which overwrites the current line (and is how things like loading
+    bars are animated).
 
 2.  Unless you draw it on a patterned surface. In that case, an opaque
     outline (like a highlighter or shadow) is needed to make the text
@@ -506,7 +575,7 @@ provides some more examples of its capabilities.
 3.  This is because if we had a particularly large image file, as images
     tend to be nowadays, it would be expensive to store and copy
     constantly in RAM. The same was true back in the day; graphics have
-    always taken up a large portion of most games’ filesize.
+    always taken up a large portion of games’ filesize.
 
 4.  Though this code could use some improvement. It does its job but
     isn’t very robust— I figured it was already too niche to warrant

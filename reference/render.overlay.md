@@ -92,22 +92,18 @@ extra space.
 
     Inversion:
 
-    [][][][][]. .                     [][][][][]. .
-    [][][][][]. .                     [][][][][]. .
-    [][][][][]. .      [][][][][]     [][]. . . [][]
-    [][][][][]. .   ~  [][][][][]  =  [][]. . . [][]
-    [][][][][]. .      [][][][][]     [][]. . . [][]
-    . . . . . . .      [][][][][]     . . [][][][][]
-    . . . . . . .      [][][][][]     . . [][][][][]
-
-      print('wow')
-    #> [1] "wow"
-
-i hate these examples
+    [][][][][]                    [][][][][]
+    [][][][][]                    [][][][][]
+    [][][][][]     [][][][][]     [][]      [][]
+    [][][][][]  ~  [][][][][]  =  [][]      [][]
+    [][][][][]     [][][][][]     [][]      [][]
+                   [][][][][]         [][][][][]
+                   [][][][][]         [][][][][]
 
 ## Examples
 
 ``` r
+#background to draw everything onto so they don't get clipped out
 bg = matrix(2,7,7)
 
 box = matrix(1,5,5)
@@ -120,19 +116,37 @@ bg |>
   render.overlay(box.white) |>
   render.overlay(box.white, 3, 3) |>
   render.matrix()
-#> Error in render.matrix(render.overlay(render.overlay(bg, box.white), box.white,     3, 3)): could not find function "render.matrix"
+#> [][][][][]    
+#> []      []    
+#> []  [][][][][]
+#> []  []      []
+#> [][][]      []
+#>     []      []
+#>     [][][][][]
 
 #transparency
 bg |>
   render.overlay(box.transparent) |>
   render.overlay(box.transparent, 3, 3) |>
   render.matrix()
-#> Error in render.matrix(render.overlay(render.overlay(bg, box.transparent),     box.transparent, 3, 3)): could not find function "render.matrix"
+#> [][][][][]    
+#> []      []    
+#> []  [][][][][]
+#> []  []  []  []
+#> [][][][][]  []
+#>     []      []
+#>     [][][][][]
 
 #inversion
 bg |>
   render.overlay(box) |>
   render.overlay(box, 3, 3, invert=TRUE) |>
   render.matrix()
-#> Error in render.matrix(render.overlay(render.overlay(bg, box), box, 3,     3, invert = TRUE)): could not find function "render.matrix"
+#> [][][][][]    
+#> [][][][][]    
+#> [][]      [][]
+#> [][]      [][]
+#> [][]      [][]
+#>     [][][][][]
+#>     [][][][][]
 ```

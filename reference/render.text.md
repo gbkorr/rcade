@@ -70,10 +70,16 @@ with `\n`).
 ## Examples
 
 ``` r
+#basic usage
 sprite = render.text('Hello World.', fonts.3x5)
-#> Error in render.text("Hello World.", fonts.3x5): could not find function "render.text"
 render.matrix(sprite)
-#> Error in render.matrix(sprite): could not find function "render.matrix"
+#>                                                                                                 
+#> []  []                                          []  []                              []          
+#> []  []  [][]    [][]    [][]                    []  []                  [][]        []          
+#> [][][]  [][]      []      []      []            [][][]    []    [][][]    []      [][]          
+#> []  []  []        []      []    []  []          [][][]  []  []  []        []    []  []          
+#> []  []    []      []      []      []            []  []    []    []        []      [][]  []      
+#>                                                                                                 
 
 #alignment and wrapping
 render.matrix(render.text(
@@ -81,18 +87,56 @@ render.matrix(render.text(
   wrap = 32,
   alignment = 'right'
 ))
-#> Error in render.matrix(render.text("this text is aligned to the right",     wrap = 32, alignment = "right")): could not find function "render.matrix"
+#>                                                                 
+#>                                 [][][]  []  []  [][][]    [][]  
+#>                                   []    [][][]    []      []    
+#>                                   []    []  []  [][][]  [][]    
+#>                                                                 
+#>                                                                 
+#>         [][][]  [][][]  []  []  [][][]          [][][]    [][]  
+#>           []    [][]      []      []              []      []    
+#>           []    [][][]  []  []    []            [][][]  [][]    
+#>                                                                 
+#>                                                                 
+#>           []    []      [][][]    []    [][][]  [][][]  [][]    
+#>         [][][]  []        []    []      []  []  [][]    []  []  
+#>         []  []  [][][]  [][][]  [][][]  []  []  [][][]  [][]    
+#>                                                                 
+#>                                                                 
+#>                 [][][]  [][][]          [][][]  []  []  [][][]  
+#>                   []    []  []            []    [][][]  [][]    
+#>                   []    [][][]            []    []  []  [][][]  
+#>                                                                 
+#>                                                                 
+#>                         [][][]  [][][]    []    []  []  [][][]  
+#>                         [][]      []    []      [][][]    []    
+#>                         []  []  [][][]  [][][]  []  []    []    
+#>                                                                 
 
 #kerning and linespacing
 render.matrix(render.text(
   'very spaced text',
   kerning = 3
 ))
-#> Error in render.matrix(render.text("very spaced text", kerning = 3)): could not find function "render.matrix"
+#>                                                                                                                                                                                                 
+#> []  []      [][][]      [][][]      []  []                    [][]      [][][]        []        [][][]      [][][]      [][]                    [][][]      [][][]      []  []      [][][]      
+#> []  []      [][]        [][]          []                      []        [][][]      [][][]      []          [][]        []  []                    []        [][]          []          []        
+#>   []        [][][]      []  []        []                    [][]        []          []  []      [][][]      [][][]      [][]                      []        [][][]      []  []        []        
+#>                                                                                                                                                                                                 
+#(zoom out with `cmd -` if needed)
 
 #newlines with '\n'
 render.matrix(render.text(
   'Newlines:\nAre supported.'
 ))
-#> Error in render.matrix(render.text("Newlines:\nAre supported.")): could not find function "render.matrix"
+#>                                                                                                                 
+#> [][][]  [][][]  []  []  []      [][][]  [][][]  [][][]    [][]  []                                              
+#> []  []  [][]    [][][]  []        []    []  []  [][]      []                                                    
+#> []  []  [][][]  [][][]  [][][]  [][][]  []  []  [][][]  [][]    []                                              
+#>                                                                                                                 
+#>                                                                                                                 
+#>   []    [][][]  [][][]            [][]  []  []  [][][]  [][][]  [][][]  [][][]  [][][]  [][][]  [][]            
+#> [][][]  [][]    [][]              []    []  []  [][][]  [][][]  []  []  [][]      []    [][]    []  []          
+#> []  []  []  []  [][][]          [][]    [][][]  []      []      [][][]  []  []    []    [][][]  [][]    []      
+#>                                                                                                                 
 ```

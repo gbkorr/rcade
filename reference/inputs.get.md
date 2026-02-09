@@ -53,3 +53,9 @@ set to `-1` so they will never be registered.
 
 Then `RAM$inputs` is updated to contain all the new inputs, matching
 `inputs.csv`.
+
+## Examples
+
+``` r
+#only used internally, in ram.update()
+```

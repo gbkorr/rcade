@@ -1,6 +1,8 @@
 # Play a Game
 
-Starts a game immediately using a ROM.
+Starts a game immediately using a ROM. See
+[`vignette("guide")`](https://gbkorr.github.io/rcade/articles/guide.md)
+for how to play.
 
 ## Usage
 
@@ -27,6 +29,7 @@ the RAM can be accessed afterwards as if it were run manually.
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 quickload(Snake)
-#> Error in quickload(Snake): could not find function "quickload"
+} # }
 ```

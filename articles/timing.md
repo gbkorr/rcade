@@ -1,4 +1,4 @@
-# Frame Timing
+# 3. Frame Timing
 
 This article describes the intricacies of how the game runs (drawing an
 updating) at the desired framerate. This information is interesting for

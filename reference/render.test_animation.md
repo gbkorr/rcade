@@ -1,7 +1,6 @@
 # Test an Animated Sprite
 
-need to do an examples pass and adad examples to everyhting Plays a
-sprite's animation into the console. `^C` to stop.
+Plays a sprite's animation into the console. `^C` to stop.
 
 ## Usage
 
@@ -26,4 +25,4 @@ This function is intended to aid in the sprite creation process.
 It handles `sprite$next_animation` properly, so it can be used to test
 multi-stage animations too.
 
-todo: examples with mario runcycle
+todo examples with mario runcycle

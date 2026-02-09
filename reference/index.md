@@ -5,6 +5,8 @@
 - [`BadApple`](https://gbkorr.github.io/rcade/reference/BadApple.md)
   [`BadApple.data`](https://gbkorr.github.io/rcade/reference/BadApple.md)
   : Bad Apple
+- [`R2Studio`](https://gbkorr.github.io/rcade/reference/R2Studio.md) :
+  R\\^2\\Studio
 - [`Snake`](https://gbkorr.github.io/rcade/reference/Snake.md) : Snake
   Game
 - [`fonts.3x3`](https://gbkorr.github.io/rcade/reference/fonts.3x3.md) :

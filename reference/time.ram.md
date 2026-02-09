@@ -23,3 +23,15 @@ time.ram()
 ## Details
 
 `= RAM$time - time.sec()`
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+#the time.ram() at the end of each frame is stored in RAM$debug$ahead.
+#Plotting it can help visualize how the RAM stays synced in time:
+quickload(BadApple)
+#^C after 10 seconds or so
+plot(RAM$debug$ahead, type='l', xlab='Tick')
+} # }
+```

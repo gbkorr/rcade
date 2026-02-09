@@ -57,10 +57,15 @@ print(smiley)
 #> [3,]    1    0    0    0    0    0    1
 #> [4,]    0    1    1    1    1    1    0
 render.matrix(smiley)
-#> Error in render.matrix(smiley): could not find function "render.matrix"
+#>     []  []    
+#>     []  []    
+#> []          []
+#>   [][][][][]  
 
 #ASCII art
 badger = matrix(c(0,3,0,0,0,2,1,0,2,0,0,2,1,0,2,0,0,2,0,3,0), ncol = 7)
 render.matrix(badger, palette = c(' ', 'O', 'H', '='))
-#> Error in render.matrix(badger, palette = c(" ", "O", "H", "=")): could not find function "render.matrix"
+#>   O O  
+#> =     =
+#>  HHHHH 
 ```

@@ -33,3 +33,19 @@ This output is stored in the main RAM's `$intermediate` and `$backup`.
 The game uses this to periodically back up the gamestate so that it can
 restore it in a
 [rollback](https://gbkorr.github.io/rcade/reference/ram.rollback.md).
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+RAM = ram.init(SuperRrio)
+
+#copy
+RAM_copy = RAM
+print(names(RAM_copy))
+
+#backup
+RAM_backup = ram.backup(RAM)
+print(names(RAM_backup))
+} # }
+```

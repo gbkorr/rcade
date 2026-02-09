@@ -47,7 +47,8 @@ every frame (see
 ` `[`inputs.read()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)  
 ` `[`inputs.command()`](https://gbkorr.github.io/rcade/reference/inputs.command.md)
 if any commands are sent  
-` ``inputs.rollback()` if any inputs were received late  
+` `[`ram.rollback()`](https://gbkorr.github.io/rcade/reference/ram.rollback.md)
+if any inputs were received late  
 ` `[`inputs.process()`](https://gbkorr.github.io/rcade/reference/inputs.process.md)  
 ` `[`ram.tick()`](https://gbkorr.github.io/rcade/reference/ram.tick.md)  
 ` ``RAM$ROM$custom()`  
@@ -66,3 +67,15 @@ or custom `obj$draw()`
 ` `[`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md)
 for every layer in `scene$layers`  
 ` `[`render.matrix()`](https://gbkorr.github.io/rcade/reference/render.matrix.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+RAM = ram.init(BadApple)
+RAM = ram.run(RAM)
+
+#pause with ^C,
+RAM = ram.run(RAM) #to resume
+} # }
+```

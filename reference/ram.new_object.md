@@ -35,3 +35,45 @@ This is because the syntax for adding a nested list to a list is
 Nested lists in R can be confusing, so it's better to have a function
 that does this automatically than to trust users to remember the correct
 syntax.
+
+## Examples
+
+``` r
+RAM = ram.init(rom.init(16,8))
+
+#named object
+RAM$objects$blueberry = list(x=1,y=5,sprite='blueberry',layer=4)
+
+#unnamed object
+RAM = ram.new_object(RAM, list(x=1,y=5,sprite='fruit',layer=3))
+
+print(RAM$objects)
+#> $blueberry
+#> $blueberry$x
+#> [1] 1
+#> 
+#> $blueberry$y
+#> [1] 5
+#> 
+#> $blueberry$sprite
+#> [1] "blueberry"
+#> 
+#> $blueberry$layer
+#> [1] 4
+#> 
+#> 
+#> [[2]]
+#> [[2]]$x
+#> [1] 1
+#> 
+#> [[2]]$y
+#> [1] 5
+#> 
+#> [[2]]$sprite
+#> [1] "fruit"
+#> 
+#> [[2]]$layer
+#> [1] 3
+#> 
+#> 
+```

@@ -53,7 +53,7 @@ details everything that goes into **drawing the game** to the console.
 
 [`vignette("snake")`](https://gbkorr.github.io/rcade/articles/snake.md)
 
-\[IMAGE FOR EACH GAME\]
+![](images/thumbnail_snake.png)
 
 A port of the classic game Snake, running quite smoothly. Demonstrates
 the interactivity of rcade well and serves as a great guide for ROM
@@ -67,7 +67,7 @@ creation.
 
 `vignette("badapple")`
 
-\[IMAGE\]
+![](images/thumbnail_badapple.png)
 
 This ROM is a proof of concept for the graphical capabilities of rcade,
 which can comfortably play videos at resolutions exceeding 64x64.
@@ -87,9 +87,9 @@ the first time it’s been done on the R console.
 
 ### 3.4 R²Studio
 
-`vignette("r2studio")`
+[`vignette("r2studio")`](https://gbkorr.github.io/rcade/articles/r2studio.md)
 
-\[IMAGE\]
+![](images/thumbnail_r2studio.png)
 
 It’s RStudio in RStudio\![¹](#fn1) This ROM draws its own little console
 and plotting window, and the user can run R code by sending it through
@@ -163,6 +163,10 @@ process” take the form `render.foo()`. This is against S3 conventions
 (where the prefix indicates what class a function operates on) but I
 find it to be an immensely valuable tool for writing understandable
 code.
+
+The documentation for this package was formatted to look nicest natively
+in RStudio, i.e. through `?foo`. Formatting may be occasionally wonky on
+the website, but it shouldn’t interfere with reading.
 
 ### 6.2 The Name ‘rcade’
 

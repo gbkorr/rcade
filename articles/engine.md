@@ -1,4 +1,4 @@
-# High-Level Engine Structure
+# 1. High-Level Engine Structure
 
 This article describes how the package handles and runs games at a high
 level.  

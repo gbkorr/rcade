@@ -33,3 +33,13 @@ The following happens to the RAM object:
 - `RAM$backup` is occasionally updated; see
   [ram.rollback](https://gbkorr.github.io/rcade/reference/ram.rollback.md).  
   (the game is occasionally backed up)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+quickload(BadApple)
+#^C to pause
+RAM = ram.tick(RAM); render.ram(RAM)
+} # }
+```

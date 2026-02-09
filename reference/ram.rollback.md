@@ -1,8 +1,11 @@
 # Execute a Rollback
 
-Restores the RAM state from several seconds ago.
+Restores the RAM state from several seconds ago;
 [`ram.update()`](https://gbkorr.github.io/rcade/reference/ram.update.md)
 will then rapidly advance the game to catch up with the current time.
+See
+[`vignette("rollback")`](https://gbkorr.github.io/rcade/articles/rollback.md)
+for more details.
 
 This is usually triggered by
 [`inputs.read()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
@@ -48,3 +51,10 @@ to catch the RAM back up.
 
 This catchup process runs the inputs again, so if any inputs were
 received late, they will now be registered on time.
+
+## Examples
+
+``` r
+#inputting '/rollback' during gameplay will manually trigger a rollback, though it'll be hard to notice.
+#RAM$debug$rollbacks saves a timestamp of each rollback that occurs.
+```
