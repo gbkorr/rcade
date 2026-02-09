@@ -18,4 +18,4 @@
 - [Game: Super Rrio
   Platformer](https://gbkorr.github.io/rcade/articles/rrio.md):
 - [Game:
-  R\<sup\>2\</sup\>Studio](https://gbkorr.github.io/rcade/articles/r2studio.md):
+  R^2Studio](https://gbkorr.github.io/rcade/articles/r2studio.md):

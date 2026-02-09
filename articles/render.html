@@ -42,7 +42,7 @@
     <li><a class="dropdown-item" href="../articles/rollback.html">5: Rollback System</a></li>
     <li><a class="dropdown-item" href="../articles/snake.html">Game: Snake Devlog</a></li>
     <li><a class="dropdown-item" href="../articles/rrio.html">Game: Super Rrio Platformer</a></li>
-    <li><a class="dropdown-item" href="../articles/r2studio.html">Game: R&lt;sup&gt;2&lt;/sup&gt;Studio</a></li>
+    <li><a class="dropdown-item" href="../articles/r2studio.html">Game: R^2Studio</a></li>
   </ul>
 </li>
       </ul>
@@ -560,6 +560,52 @@ capabilities.</p>
 <div class="section level2">
 <h2 id="rendering-pipeline">9. Rendering Pipeline<a class="anchor" aria-label="anchor" href="#rendering-pipeline"></a>
 </h2>
+<p>Let’s go through the process to get an ingame object drawn on the
+console.</p>
+<div class="section level3">
+<h3 id="setup">9.1 Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h3>
+<ol style="list-style-type: lower-roman">
+<li><p>We start with an object called Blueberry It’s at the xy
+coordinates (5,6) and is on layer 5.</p></li>
+<li><p>Blueberry is stored in RAM as the list
+<code>RAM$objects$blueberry</code>, and has the following
+elements:</p></li>
+</ol>
+<pre><code>$x: 5
+$y: 6
+$spritename: 'blueberry'
+$layer: 5</code></pre>
+<ol start="3" style="list-style-type: lower-roman">
+<li>We also have a corresponding sprite stored as
+<code>RAM$ROM$sprites$blueberry</code> as a simple matrix.</li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="pipeline">9.2 Pipeline<a class="anchor" aria-label="anchor" href="#pipeline"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li><p>We’re going to draw the current frame of RAM. This starts with
+calling <code><a href="../reference/render.ram.html">render.ram()</a></code>, which initializes a
+<code>scene</code> onto which all the sprites will be drawn.</p></li>
+<li><p><code><a href="../reference/render.ram.html">render.ram()</a></code> iterates through every object in
+<code>RAM$objects</code> and calls <code>render.obj()</code> on it to
+draw it on the <code>scene</code>.</p></li>
+<li><p>So <code>render.obj()</code> is called on
+<code>RAM$objects$blueberry</code>. This reads Blueberry’s elements and
+feeds them into <code><a href="../reference/render.sprite.html">render.sprite()</a></code>:</p></li>
+<li><p><code><a href="../reference/render.sprite.html">render.sprite()</a></code> retrieves Blueberry’s sprite from
+<code>RAM$ROM$sprites</code> and draws it (using
+<code><a href="../reference/render.overlay.html">render.overlay()</a></code>) on layer 5 of the <code>scene</code> at
+coordinates (5,6).</p></li>
+<li><p>After <code>render.obj()</code> is called for all objects,
+<code><a href="../reference/render.scene.html">render.scene()</a></code> is called, which stacks the layers of the
+<code>scene</code> onto one matrix using
+<code><a href="../reference/render.overlay.html">render.overlay()</a></code>.</p></li>
+<li><p>This single matrix is fed into <code><a href="../reference/render.matrix.html">render.matrix()</a></code>,
+which clears the console and then renders the matrix.</p></li>
+</ol>
+</div>
 </div>
 <div class="section level2">
 <h2 id="engine-limitations">10. Engine Limitations<a class="anchor" aria-label="anchor" href="#engine-limitations"></a>

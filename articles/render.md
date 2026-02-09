@@ -533,6 +533,59 @@ provides some more examples of its capabilities.
 
 ## 9. Rendering Pipeline
 
+Let’s go through the process to get an ingame object drawn on the
+console.
+
+### 9.1 Setup
+
+1.  We start with an object called Blueberry It’s at the xy coordinates
+    (5,6) and is on layer 5.
+
+2.  Blueberry is stored in RAM as the list `RAM$objects$blueberry`, and
+    has the following elements:
+
+&nbsp;
+
+    $x: 5
+    $y: 6
+    $spritename: 'blueberry'
+    $layer: 5
+
+3.  We also have a corresponding sprite stored as
+    `RAM$ROM$sprites$blueberry` as a simple matrix.
+
+### 9.2 Pipeline
+
+1.  We’re going to draw the current frame of RAM. This starts with
+    calling
+    [`render.ram()`](https://gbkorr.github.io/rcade/reference/render.ram.md),
+    which initializes a `scene` onto which all the sprites will be
+    drawn.
+
+2.  [`render.ram()`](https://gbkorr.github.io/rcade/reference/render.ram.md)
+    iterates through every object in `RAM$objects` and calls
+    `render.obj()` on it to draw it on the `scene`.
+
+3.  So `render.obj()` is called on `RAM$objects$blueberry`. This reads
+    Blueberry’s elements and feeds them into
+    [`render.sprite()`](https://gbkorr.github.io/rcade/reference/render.sprite.md):
+
+4.  [`render.sprite()`](https://gbkorr.github.io/rcade/reference/render.sprite.md)
+    retrieves Blueberry’s sprite from `RAM$ROM$sprites` and draws it
+    (using
+    [`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md))
+    on layer 5 of the `scene` at coordinates (5,6).
+
+5.  After `render.obj()` is called for all objects,
+    [`render.scene()`](https://gbkorr.github.io/rcade/reference/render.scene.md)
+    is called, which stacks the layers of the `scene` onto one matrix
+    using
+    [`render.overlay()`](https://gbkorr.github.io/rcade/reference/render.overlay.md).
+
+6.  This single matrix is fed into
+    [`render.matrix()`](https://gbkorr.github.io/rcade/reference/render.matrix.md),
+    which clears the console and then renders the matrix.
+
 ## 10. Engine Limitations
 
 The timing system
