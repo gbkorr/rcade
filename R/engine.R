@@ -89,8 +89,10 @@ rom.init = function(
 #' @section Notes:
 #' Custom game code (in [`RAM$ROM$custom`][rom.init]) should typically only modify `RAM$objects`. This makes inspecting and handling the RAM more consistent across games.
 #' @examples
+#' \dontrun{
 #' RAM = ram.init(Snake)
 #' View(RAM)
+#' }
 #' @export
 ram.init = function(ROM){
 	#wipe inputs (clear inputs.csv)

@@ -22,5 +22,7 @@ RAM = ram.run(RAM)
 This saves RAM in the environment in which \code{quickload()} was called, so the RAM can be accessed afterwards as if it were run manually.
 }
 \examples{
+\dontrun{
 quickload(Snake)
+}
 }

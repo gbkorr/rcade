@@ -20,7 +20,9 @@ Allows the user to input to RAM while RAM is not being run.
 Adds an input to \code{RAM$inputs} as if it were a new input in \code{inputs.csv}. The input is set to occur on the next tick unless specified by \code{timestamp}.
 }
 \examples{
+\dontrun{
 RAM = ram.init(SuperRrio)
 RAM = ram.input(RAM,'d ',30) #will jump one second after the game starts
 RAM = ram.run(RAM) #start the game
+}
 }

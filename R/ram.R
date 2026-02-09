@@ -60,6 +60,7 @@ ram.end = function(){
 #' @param RAM [RAM](ram.init) object.
 #' @param seed Integer used for [base::set.seed].
 #' @examples
+#' \dontrun{
 #' #example of a random situation:
 #'
 #' quickload(Snake)
@@ -73,6 +74,7 @@ ram.end = function(){
 #' RAM = ram.run(RAM)
 #'
 #' #no matter how many times you run this, the apple will always spawn in the same location.
+#' }
 #' @export
 ram.set_rng = function(RAM, seed){
 	global_RNG = .Random.seed #back up actual RNG seed to restore at the end of function to comply with "leave no trace"
@@ -102,6 +104,7 @@ ram.set_rng = function(RAM, seed){
 #' @param RAM [RAM](ram.init) object.
 #' @returns RAM, minus `$ROM, $inputs, $debug, $intermediate, $backup,` and `$paused`.\cr This output is stored in the main RAM's `$intermediate` and `$backup`.
 #' @examples
+#' \dontrun{
 #' RAM = ram.init(SuperRrio)
 #'
 #' #copy
@@ -111,7 +114,7 @@ ram.set_rng = function(RAM, seed){
 #' #backup
 #' RAM_backup = ram.backup(RAM)
 #' print(names(RAM_backup))
-#'
+#' }
 #' @export
 ram.backup = function(RAM){
 	return(RAM[!(names(RAM) %in% c('ROM', 'inputs', 'debug', 'intermediate', 'backup','paused'))])	#exclude the backups and ROM from being copied into the backups

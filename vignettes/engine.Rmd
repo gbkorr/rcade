@@ -1,5 +1,5 @@
 ---
-title: "High-Level Engine Structure"
+title: "1. High-Level Engine Structure"
 output:
   rmarkdown::html_vignette:
     toc: true

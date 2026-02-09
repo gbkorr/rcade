@@ -43,6 +43,7 @@ If the game is paused and an input is entered, it will be processed next \verb{/
 }
 
 \examples{
+\dontrun{
 quickload(SuperRrio)
 #in a separate R session:
 inputs.listen()
@@ -53,4 +54,5 @@ inputs.listen()
 #/tick
 #/tick
 #/resume
+}
 }

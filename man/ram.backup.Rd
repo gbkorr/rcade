@@ -24,6 +24,7 @@ Creates a backup of RAM. This is different from a full copy (e.g. \code{my_copy 
 The game uses this to periodically back up the gamestate so that it can restore it in a \link[=ram.rollback]{rollback}.
 }
 \examples{
+\dontrun{
 RAM = ram.init(SuperRrio)
 
 #copy
@@ -33,5 +34,5 @@ print(names(RAM_copy))
 #backup
 RAM_backup = ram.backup(RAM)
 print(names(RAM_backup))
-
+}
 }

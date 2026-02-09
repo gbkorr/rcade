@@ -49,9 +49,11 @@ Functions are nested in the gameloop like so:
 }
 
 \examples{
+\dontrun{
 RAM = ram.init(BadApple)
 RAM = ram.run(RAM)
 
 #pause with ^C,
 RAM = ram.run(RAM) #to resume
+}
 }

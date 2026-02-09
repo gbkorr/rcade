@@ -31,10 +31,12 @@
 #'
 #'  Only one `inputs.csv` file exists and is read by the package; the file is wiped every time [ram.init()] is called.
 #'  @examples
+#'  \dontrun{
 #'  quickload(SuperRrio)
 #'  #in a separate R session:
 #'  inputs.listen()
 #'  #type 'd' and press Enter.
+#'  }
 #'  @export
 inputs.listen = function(){
 	path = paste(tools::R_user_dir('rcade'),'/inputs',sep='')
@@ -68,9 +70,11 @@ inputs.read = function(){
 #' @details
 #' Adds an input to `RAM$inputs` as if it were a new input in `inputs.csv`. The input is set to occur on the next tick unless specified by `timestamp`.
 #' @examples
+#' \dontrun{
 #' RAM = ram.init(SuperRrio)
 #' RAM = ram.input(RAM,'d ',30) #will jump one second after the game starts
 #' RAM = ram.run(RAM) #start the game
+#' }
 #' @export
 ram.input = function(RAM, input, timestamp = NULL){
 	if (is.null(timestamp)) timestamp = RAM$ticks #next frame
@@ -245,6 +249,7 @@ inputs.process = function(RAM){
 #' ```
 #' Which also allows the user to copy and restore RAMs as savestates, etc.
 #' @examples
+#' \dontrun{
 #' quickload(SuperRrio)
 #' #in a separate R session:
 #' inputs.listen()
@@ -255,6 +260,7 @@ inputs.process = function(RAM){
 #' #/tick
 #' #/tick
 #' #/resume
+#' }
 #' @export
 inputs.command = function(RAM, command){
 	switch(command,
