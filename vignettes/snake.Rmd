@@ -1,5 +1,5 @@
 ---
-title: "Snake Devlog"
+title: "Game: Snake Devlog"
 output:
   rmarkdown::html_vignette:
     toc: true

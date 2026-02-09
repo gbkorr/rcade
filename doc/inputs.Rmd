@@ -1,5 +1,5 @@
 ---
-title: "Input Handling"
+title: "2. Input Handling"
 output:
   rmarkdown::html_vignette:
     toc: true

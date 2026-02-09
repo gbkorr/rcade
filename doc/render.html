@@ -12,7 +12,7 @@
 
 
 
-<title>Drawing to Console</title>
+<title>4. Rendering System</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -336,7 +336,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Drawing to Console</h1>
+<h1 class="title toc-ignore">4. Rendering System</h1>
 
 
 <div id="TOC">
@@ -378,7 +378,9 @@ Custom Drawing Code</a></li>
 <li><a href="#render.text" id="toc-render.text">8.2
 render.text()</a></li>
 </ul></li>
-<li><a href="#engine-limitations" id="toc-engine-limitations">9. Engine
+<li><a href="#rendering-pipeline" id="toc-rendering-pipeline">9.
+Rendering Pipeline</a></li>
+<li><a href="#engine-limitations" id="toc-engine-limitations">10. Engine
 Limitations</a></li>
 </ul>
 </div>
@@ -870,8 +872,11 @@ left/right/center.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></
 capabilities.</p>
 </div>
 </div>
+<div id="rendering-pipeline" class="section level2">
+<h2>9. Rendering Pipeline</h2>
+</div>
 <div id="engine-limitations" class="section level2">
-<h2>9. Engine Limitations</h2>
+<h2>10. Engine Limitations</h2>
 <p>The timing system (<code>vignette(&quot;timing&quot;)</code>) is robust enough
 that slow draw times (i.e. for large resolutions) won’t impact the
 fluidity of gameplay. However, rcade has one major (and unavoidable)

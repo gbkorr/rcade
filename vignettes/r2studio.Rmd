@@ -1,5 +1,5 @@
 ---
-title: "R^2^Studio"
+title: "Game: R<sup>2</sup>Studio"
 output: 
   rmarkdown::html_vignette:
     toc: true

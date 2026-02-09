@@ -1,5 +1,5 @@
 ---
-title: "Frame Timing"
+title: "3. Frame Timing"
 output:
   rmarkdown::html_vignette:
     toc: true
