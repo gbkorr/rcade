@@ -7,4 +7,9 @@ still todo: R2studio point types (pch) and some images in the article!
 [IMAGES OF THE PACKAGE FROM the rcade doc] 
 ![](vignettes/images/thumbnail.png)
 
+[why is this image broken on only the website?]
+
+
+`vignette("snake")` and `vignette("render")` are perhaps the best pieces here (and maybe `vignette("timing")` too)
+
 The package is fully documented and written up; see the [website](https://gbkorr.github.io/rcade/articles/rcade.html) for convenient navigation.
