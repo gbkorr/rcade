@@ -333,7 +333,7 @@ Let's go through the process to get an ingame object drawn on the console.
 
 ### 9.1 Setup
 
-i. We start with an object called Blueberry It's at the xy coordinates (5,6) and is on layer 5.
+i. We start with an object called Blueberry. It's at the xy coordinates (5,6) and is on layer 5 of the game scene.
 
 ii. Blueberry is stored in RAM as the list `RAM$objects$blueberry`, and has the following elements:
 

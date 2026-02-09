@@ -68,7 +68,7 @@ A port of the classic game Snake, running quite smoothly. Demonstrates the inter
 
 This ROM is a proof of concept for the graphical capabilities of rcade, which can comfortably play videos at resolutions exceeding 64x64.
 
-Bad Apple is the canonical video to demonstrate the graphical capabilities of hardware that... shouldn't really have these graphical capabilities. People have run it on everything from original IBM [computers](https://www.youtube.com/watch?v=E0h8BUUboP0) to [oscilloscopes](https://www.youtube.com/watch?v=7pzvEouWino) to [calculators](https://www.youtube.com/watch?v=6pAeWf3NPNU) to glitching [pokemon](https://www.youtube.com/watch?v=ciIkpw3glH4) to run the video ingame via ACE.
+Bad Apple is the canonical video to demonstrate the graphical capabilities of hardware that... shouldn't really have these graphical capabilities. People have run it on everything from original [IBM computers](https://www.youtube.com/watch?v=E0h8BUUboP0) to [oscilloscopes](https://www.youtube.com/watch?v=7pzvEouWino) to [calculators](https://www.youtube.com/watch?v=6pAeWf3NPNU) to glitching [pokemon](https://www.youtube.com/watch?v=ciIkpw3glH4) to run the video ingame via ACE.
 
 I'm certainly not the first to make this on a CLI console, nor [in R](https://www.youtube.com/watch?v=cCK_-yRJ0Ow). but I believe this is the first time it's been done on the R console.
 

@@ -86,7 +86,7 @@
 
 
 #R2STUDIO DOCUMENTATION: short description, how to use section, plotting section, settings section
-#' R\eqn{^2}Studio
+#' R^2Studio
 #'
 #' @description
 #' RStudio in RStudio! Type R code into the input session to execute it in a simulated R console.
@@ -101,7 +101,7 @@
 #' @section Plotting:
 #' Entering a `plot` command will draw the plot inside the game display. All other plotting commands are unsupported.
 #'
-#' R\eqn{^2}Studio's scatterplots respect several parameters from `base::plot()`:
+#' R<sup>2</sup>Studio's scatterplots respect several parameters from `base::plot()`:
 #' ```
 #' x
 #' y

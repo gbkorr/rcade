@@ -3,7 +3,7 @@
 \docType{data}
 \name{R2Studio}
 \alias{R2Studio}
-\title{R\eqn{^2}Studio}
+\title{R^2Studio}
 \format{
 A game \link[=rom.init]{ROM}; see \code{vignette("engine")}.
 }
@@ -24,7 +24,7 @@ Now, any text entered in the input session will be interpreted as R code in the 
 
 Entering a \code{plot} command will draw the plot inside the game display. All other plotting commands are unsupported.
 
-R\eqn{^2}Studio's scatterplots respect several parameters from \code{base::plot()}:
+R\if{html}{\out{<sup>}}2\if{html}{\out{</sup>}}Studio's scatterplots respect several parameters from \code{base::plot()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{x
 y
