@@ -107,17 +107,17 @@ background = render.overlay(background, circle, 11, 1)
 
 render.matrix(background)
 
-## -----------------------------------------------------------------------------
-scene = list(width=48, height=12)
-block = upper.tri(matrix(1,12,32))[12:1,]
-
-scene = render.sprite(scene,block,12,1)
-
-txt = render.text('inversion\nof colors')
-
-scene = render.sprite(scene,txt,2,1,layer='invert')
-
-render.scene(scene)
+## ----eval=F-------------------------------------------------------------------
+# scene = list(width=48, height=12)
+# block = upper.tri(matrix(1,12,32))[12:1,]
+# 
+# scene = render.sprite(scene,block,12,1)
+# 
+# txt = render.text('inversion\nof colors')
+# 
+# scene = render.sprite(scene,txt,2,1,layer='invert')
+# 
+# render.scene(scene)
 
 ## -----------------------------------------------------------------------------
 sprite = render.makesprite('
