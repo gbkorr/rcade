@@ -8,7 +8,7 @@
 #' @returns A [double] representing the seconds since 1970 with sub-millisecond precision.
 #' @examples
 #' print(time.sec(),digits=20)
-#' @export
+#' @export time.sec
 time.sec = function(){
 	return(as.double(Sys.time()))
 }
@@ -31,7 +31,7 @@ time.sec = function(){
 #' quickload(BadApple)
 #' #^C after 10 seconds or so
 #' plot(RAM$debug$ahead, type='l', xlab='Tick')
-#' @export
+#' @export time.ram
 time.ram = function(RAM){
 		return(RAM$time - time.sec())
 }

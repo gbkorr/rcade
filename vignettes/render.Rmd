@@ -21,7 +21,6 @@ knitr::opts_chunk$set(
 devtools::load_all(".")
 ```
 
-NEEDS LOTS OF IMAGES
 
 This article goes over the motivation behind the parts of the rendering system. It builds up from simple console printing to rendering animations ingame.
 
@@ -40,7 +39,7 @@ Printing to the console like this is quite simple. Strings like this are quickly
 
 <details>
   <summary>**Example**</summary>
-```{r}
+```{r eval=F}
 cat('
   []  []
   []  []
@@ -51,16 +50,14 @@ cat('
 ```
 </details>
 
-But we run into an issue. Art can be printed to the console, but there's no guarantee it shows up in the right position... 
+But we run into an issue. Art can be printed to the console, but there's no guarantee it shows up in the right position vertically... 
 
-Luckily, clearning the console means that the next message will always show up in the same place--- we can just clear the console every time we draw. RStudio supports this with the escape character `cat('\f')`[^1], though R.app unfortunately doesn't.
+Luckily, clearing the console means that the next message will always show up in the same place--- we can just clear the console every time we draw. RStudio supports this with the escape character `cat('\f')`[^1], though R.app unfortunately doesn't.
 
-[^1]: Try it! It's very useful in general R work along with cat('\r'), which overwrites the current line (and is how things like loading bars are animated).
-
-Redrawing the canvas with `cat` works quite well, but takes long enough to cause flickering at higher resolutions. This is sadly unavoidable. Games can still be played and enjoyed with this flickering, however, and it usually does not impact the true framerate.
+[^1]: Try it! It's very useful in general R work along with `cat('\r')`, which overwrites the current line (and is how things like loading bars are animated).
 
 ### 2.2 Storing Pixel Art
-If we want to , we can't just store everything as strings--- it would be a nightmare to work with because of how clunky strings are to edit. Instead, we can write a function, `render.matrix()`, to convert directly from a bitmap matrix to a drawable string:
+If we want to print lots of images, we can't just store everything as strings--- it would be a nightmare to work with because of how clunky strings are to edit. Instead, we can write a function, `render.matrix()`, to convert directly from a bitmap matrix to a drawable string:
 
 <details>
   <summary>`render.matrix`</summary>
@@ -109,7 +106,7 @@ Typically, the game stores and handles sprites directly (as matrices), and the g
 <details>
   <summary>**Example**`</summary>
 ```{r}
-sprite = render.makesprite('
+circle = render.makesprite('
   OOO
  O   O
 O     O
@@ -119,7 +116,7 @@ O     O
   OOO
 ')
 
-render.matrix(sprite)
+render.matrix(circle)
 ```
 </details>
 
@@ -164,7 +161,7 @@ render.matrix(background)
 ```
 </details>
 
-The issue with this is that replacing values directly with `matrix[a:b,c:d]` will always overwrite the original value. We can get around this with code like this:
+The problem with this is that replacing values directly with `matrix[a:b,c:d]` will always overwrite the original values. We can get around this with code like this to allow for sprites with transparency--- we just encode transparent pixels as a value of `0`.
 
 ```{r eval=F}
   overwrite = sprite
@@ -177,16 +174,6 @@ The issue with this is that replacing values directly with `matrix[a:b,c:d]` wil
 <details>
   <summary>**Example**</summary>
 ```{r}
-circle = render.makesprite('
-  OOO
- O   O
-O     O
-O     O
-O     O
- O   O
-  OOO
-')
-
 background = matrix(0,9,9)
 
 background[1:7,1:7] = circle
@@ -219,14 +206,30 @@ Now that we can combine sprites, we run into the issue of convenient **ordering*
 
 rcade addresses this with `render.scene()`. We create a 'scene' object containing **layers**, each of which is their own `background` from the previous section. The engine draws sprites onto specific layers, and then finally takes all the layers and overlays them one-by-one to produce the final matrix to be drawn.
 
-[would like an image of this: sprites -> layer (like stickers), then layers stacked like paper]
+#[would like an image of this: sprites -> layer (like stickers), then layers stacked like paper]
 
-To draw a sprite onto a layer, we use `render.sprite()`, which is really just a wrapper for `render.overlay()` to work on a layer.
+To draw a sprite onto a layer, we use `render.sprite()`, which is really just a wrapper for `render.overlay(layer,sprite)`.
 
 ### 5.1 The Inversion Layer
 In monochrome displays, you'll sometimes run into the issue where something important, like text, is drawn over a black background and becomes impossible to see. A simple fix is to, rather than drawing the text as set color, just allow it to invert the color it's drawn on--- that way it'll always be visible[^2].
 
 rcade implements this with a dedicated `scene` layer called `scene$layers$invert`, which is drawn last and inverts anything it covers. This uses the `invert` argument of `render.overlay()`.
+
+<details>
+  <summary>**Example**</summary>
+```{r}
+scene = list(width=48, height=12)
+block = upper.tri(matrix(1,12,32))[12:1,]
+
+scene = render.sprite(scene,block,12,1)
+
+txt = render.text('inversion\nof colors')
+
+scene = render.sprite(scene,txt,2,1,layer='invert')
+
+render.scene(scene)
+```
+</details>
 
 [^2]: Unless you draw it on a patterned surface. In that case, an opaque outline (like a highlighter or shadow) is needed to make the text pop.
 
@@ -238,7 +241,7 @@ In this function, a `scene` object is created, and then each game object (in `RA
 ### 6.1 Sprites in ROM
 By convention, sprites/images are stored in ROM when possible.[^3] They are stored by name in `ROM$sprites`, and referenced during the rendering process.
 
-[^3]: This is because if we had a particularly large image file, as images tend to be nowadays, it would be expensive to store and copy constantly in RAM. The same was true back in the day; graphics have always taken up a large portion of most games' filesize.
+[^3]: This is because if we had a particularly large image file, as images tend to be nowadays, it would be expensive to store and copy constantly in RAM. The same was true back in the day; graphics have always taken up a large portion of games' filesize.
 
 ### 6.2 Object Drawing Specifics
 Object drawing is handled by `render.object()`, which figures out how and where to draw the object with `render.sprite()`.
@@ -246,6 +249,24 @@ Object drawing is handled by `render.object()`, which figures out how and where 
 Objects are only drawn if they have a `$spritename`, which indicates which sprite they use. This is a character string corresponding to a sprite matrix in `ROM$sprites`--- then `render.object()` retrieves the sprite from `ROM$sprites` and feeds it into `render.sprite()`.
 
 Objects have quite a few optional properties, listed in `?render.object`. These control things like position and whether or not this particular object should swap around the colors in its sprite. 'palette swapping' of the colors like this is an easy way to increase the variety of images in a game without needing to make new sprites.
+
+<details>
+  <summary>**Example**</summary>
+```{r}
+sprite = render.makesprite('
+
+ ...
+.O=O.
+.....
+ ===
+ 
+',lookup = c(' ' = 0, '.' = 1, '=' = 2, 'O' = 3))
+
+render.matrix(sprite, palette=c('  ','..','==','()'))
+render.matrix(sprite, palette=c('  ','..','++','\\/'))
+render.matrix(sprite, palette=c('  ','||','MM','()'))
+```
+</details>
 
 ### 6.3 Custom Drawing Code
 It is often useful to override this basic drawing behavior--- for example, if an object's sprite should be generated procedurally rather than copying from a static sprite in `ROM$sprites`. This can be done by defining `obj$draw()`, which will run instead of the regular code in `render.object()`.

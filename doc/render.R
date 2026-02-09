@@ -8,14 +8,14 @@ knitr::opts_chunk$set(
 
 devtools::load_all(".")
 
-## -----------------------------------------------------------------------------
-cat('
-  []  []
-  []  []
-
-[]      []
-  [][][]
-')
+## ----eval=F-------------------------------------------------------------------
+# cat('
+#   []  []
+#   []  []
+# 
+# []      []
+#   [][][]
+# ')
 
 ## -----------------------------------------------------------------------------
 render.matrix = function(M, palette = c('  ', '[]', '  ')){
@@ -44,7 +44,7 @@ print(sprite)
 render.matrix(sprite)
 
 ## -----------------------------------------------------------------------------
-sprite = render.makesprite('
+circle = render.makesprite('
   OOO
  O   O
 O     O
@@ -54,7 +54,7 @@ O     O
   OOO
 ')
 
-render.matrix(sprite)
+render.matrix(circle)
 
 ## -----------------------------------------------------------------------------
 box = matrix(1,8,16)
@@ -88,16 +88,6 @@ render.matrix(background)
 #   matrix[a:b,c:d] = overwrite
 
 ## -----------------------------------------------------------------------------
-circle = render.makesprite('
-  OOO
- O   O
-O     O
-O     O
-O     O
- O   O
-  OOO
-')
-
 background = matrix(0,9,9)
 
 background[1:7,1:7] = circle
@@ -116,6 +106,32 @@ background = render.overlay(background, circle, 3, 3)
 background = render.overlay(background, circle, 11, 1)
 
 render.matrix(background)
+
+## -----------------------------------------------------------------------------
+scene = list(width=48, height=12)
+block = upper.tri(matrix(1,12,32))[12:1,]
+
+scene = render.sprite(scene,block,12,1)
+
+txt = render.text('inversion\nof colors')
+
+scene = render.sprite(scene,txt,2,1,layer='invert')
+
+render.scene(scene)
+
+## -----------------------------------------------------------------------------
+sprite = render.makesprite('
+
+ ...
+.O=O.
+.....
+ ===
+ 
+',lookup = c(' ' = 0, '.' = 1, '=' = 2, 'O' = 3))
+
+render.matrix(sprite, palette=c('  ','..','==','()'))
+render.matrix(sprite, palette=c('  ','..','++','\\/'))
+render.matrix(sprite, palette=c('  ','||','MM','()'))
 
 ## -----------------------------------------------------------------------------
 #manually stitching letters with a 1-wide gap between

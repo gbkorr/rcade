@@ -383,7 +383,6 @@ Limitations</a></li>
 </ul>
 </div>
 
-<p>NEEDS LOTS OF IMAGES</p>
 <p>This article goes over the motivation behind the parts of the
 rendering system. It builds up from simple console printing to rendering
 animations ingame.</p>
@@ -422,32 +421,22 @@ are quickly interpreted by users as imagery:</p>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="st">[]      []</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="st">  [][][]</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="st">&#39;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt;   []  []</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;   []  []</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; []      []</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt;   [][][]</span></span></code></pre></div>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="st">&#39;</span>)</span></code></pre></div>
 </details>
 <p>But we run into an issue. Art can be printed to the console, but
-there’s no guarantee it shows up in the right position…</p>
-<p>Luckily, clearning the console means that the next message will
-always show up in the same place— we can just clear the console every
-time we draw. RStudio supports this with the escape character
+there’s no guarantee it shows up in the right position vertically…</p>
+<p>Luckily, clearing the console means that the next message will always
+show up in the same place— we can just clear the console every time we
+draw. RStudio supports this with the escape character
 <code>cat(&#39;\f&#39;)</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, though R.app unfortunately doesn’t.</p>
-<p>Redrawing the canvas with <code>cat</code> works quite well, but
-takes long enough to cause flickering at higher resolutions. This is
-sadly unavoidable. Games can still be played and enjoyed with this
-flickering, however, and it usually does not impact the true
-framerate.</p>
 </div>
 <div id="storing-pixel-art" class="section level3">
 <h3>2.2 Storing Pixel Art</h3>
-<p>If we want to , we can’t just store everything as strings— it would
-be a nightmare to work with because of how clunky strings are to edit.
-Instead, we can write a function, <code>render.matrix()</code>, to
-convert directly from a bitmap matrix to a drawable string:</p>
+<p>If we want to print lots of images, we can’t just store everything as
+strings— it would be a nightmare to work with because of how clunky
+strings are to edit. Instead, we can write a function,
+<code>render.matrix()</code>, to convert directly from a bitmap matrix
+to a drawable string:</p>
 <details>
 <summary>
 <code>render.matrix</code>
@@ -520,7 +509,7 @@ WYSIWYG for maximal convenience: “what you see is what you get”.</p>
 <summary>
 <strong>Example</strong>`
 </summary>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>circle <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="st">  OOO</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="st"> O   O</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="st">O     O</span></span>
@@ -530,7 +519,7 @@ WYSIWYG for maximal convenience: “what you see is what you get”.</p>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="st">  OOO</span></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="st">&#39;</span>)</span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">render.matrix</span>(sprite)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">render.matrix</span>(circle)</span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;     [][][]    </span></span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   []      []  </span></span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; []          []</span></span>
@@ -604,9 +593,11 @@ image.</p>
 <span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;       []      []    </span></span>
 <span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt;         [][][]</span></span></code></pre></div>
 </details>
-<p>The issue with this is that replacing values directly with
-<code>matrix[a:b,c:d]</code> will always overwrite the original value.
-We can get around this with code like this:</p>
+<p>The problem with this is that replacing values directly with
+<code>matrix[a:b,c:d]</code> will always overwrite the original values.
+We can get around this with code like this to allow for sprites with
+transparency— we just encode transparent pixels as a value of
+<code>0</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>  overwrite <span class="ot">=</span> sprite</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  overwrite[sprite <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">=</span> matrix[a<span class="sc">:</span>b,c<span class="sc">:</span>d][sprite <span class="sc">==</span> <span class="dv">0</span>] </span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="co">#replace values of 0 with the value underneath </span></span>
@@ -616,34 +607,24 @@ We can get around this with code like this:</p>
 <summary>
 <strong>Example</strong>
 </summary>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>circle <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="st">  OOO</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="st"> O   O</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="st">O     O</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="st">O     O</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="st">O     O</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="st"> O   O</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="st">  OOO</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="st">&#39;</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">9</span>,<span class="dv">9</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>background[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">=</span> circle</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>overwrite <span class="ot">=</span> circle</span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>overwrite[circle <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">=</span> background[<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>][circle <span class="sc">==</span> <span class="dv">0</span>] </span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>background[<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">=</span> overwrite</span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="fu">render.matrix</span>(background)</span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;     [][][]        </span></span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt;   []    [][][]    </span></span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; []    []    [][]  </span></span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; []  []      []  []</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; []  []      []  []</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt;   [][]    []    []</span></span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt;     [][][]    []  </span></span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt;         [][][]    </span></span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>background <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">9</span>,<span class="dv">9</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>background[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">=</span> circle</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>overwrite <span class="ot">=</span> circle</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>overwrite[circle <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">=</span> background[<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>][circle <span class="sc">==</span> <span class="dv">0</span>] </span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>background[<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,<span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>] <span class="ot">=</span> overwrite</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">render.matrix</span>(background)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;     [][][]        </span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;   []    [][][]    </span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; []    []    [][]  </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; []  []      []  []</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; []  []      []  []</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;   [][]    []    []</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;     [][][]    []  </span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt;         [][][]    </span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
 </details>
 <p>This whole process is automated by <code>render.overlay()</code>,
 which also clips the sprite to ensure that everything is kept within the
@@ -684,8 +665,8 @@ drawn.</p>
 <p>[would like an image of this: sprites -&gt; layer (like stickers),
 then layers stacked like paper]</p>
 <p>To draw a sprite onto a layer, we use <code>render.sprite()</code>,
-which is really just a wrapper for <code>render.overlay()</code> to work
-on a layer.</p>
+which is really just a wrapper for
+<code>render.overlay(layer,sprite)</code>.</p>
 <div id="the-inversion-layer" class="section level3">
 <h3>5.1 The Inversion Layer</h3>
 <p>In monochrome displays, you’ll sometimes run into the issue where
@@ -697,6 +678,33 @@ way it’ll always be visible<a href="#fn2" class="footnote-ref" id="fnref2"><su
 called <code>scene$layers$invert</code>, which is drawn last and inverts
 anything it covers. This uses the <code>invert</code> argument of
 <code>render.overlay()</code>.</p>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>scene <span class="ot">=</span> <span class="fu">list</span>(<span class="at">width=</span><span class="dv">48</span>, <span class="at">height=</span><span class="dv">12</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>block <span class="ot">=</span> <span class="fu">upper.tri</span>(<span class="fu">matrix</span>(<span class="dv">1</span>,<span class="dv">12</span>,<span class="dv">32</span>))[<span class="dv">12</span><span class="sc">:</span><span class="dv">1</span>,]</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>scene <span class="ot">=</span> <span class="fu">render.sprite</span>(scene,block,<span class="dv">12</span>,<span class="dv">1</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>txt <span class="ot">=</span> <span class="fu">render.text</span>(<span class="st">&#39;inversion</span><span class="sc">\n</span><span class="st">of colors&#39;</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>scene <span class="ot">=</span> <span class="fu">render.sprite</span>(scene,txt,<span class="dv">2</span>,<span class="dv">1</span>,<span class="at">layer=</span><span class="st">&#39;invert&#39;</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="fu">render.scene</span>(scene)</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;                                               [][][][][][][][][][][][][][][][][][][][]          </span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;   [][][]  [][][]  []  []  [][][]  [][][]        []      []      []      [][][][][][][]          </span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt;     []    []  []  []  []  [][]    [][]    []  [][][]  [][]  []  []  []  [][][][][][][]          </span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;   [][][]  []  []    []    [][][]  []  [][]    [][]      []      []  []  [][][][][][][]          </span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;                                       [][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;                                     [][][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt;   [][][]  [][][]          [][][]        []  [][][]      []      [][]    [][][][][][][]          </span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt;   []  []  [][]            []    []  []  []  [][][]  []  []    [][][]  [][][][][][][][]          </span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt;   [][][]  []              [][]  []      []      []      []  []  []    [][][][][][][][]          </span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt;                             [][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;                           [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt;                         [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]</span></span></code></pre></div>
+</details>
 </div>
 </div>
 <div id="drawing-the-ram" class="section level2">
@@ -730,6 +738,41 @@ whether or not this particular object should swap around the colors in
 its sprite. ‘palette swapping’ of the colors like this is an easy way to
 increase the variety of images in a game without needing to make new
 sprites.</p>
+<details>
+<summary>
+<strong>Example</strong>
+</summary>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>sprite <span class="ot">=</span> <span class="fu">render.makesprite</span>(<span class="st">&#39;</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="st"> ...</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="st">.O=O.</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="st">.....</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="st"> ===</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="st"> </span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="st">&#39;</span>,<span class="at">lookup =</span> <span class="fu">c</span>(<span class="st">&#39; &#39;</span> <span class="ot">=</span> <span class="dv">0</span>, <span class="st">&#39;.&#39;</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">&#39;=&#39;</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">&#39;O&#39;</span> <span class="ot">=</span> <span class="dv">3</span>))</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="fu">render.matrix</span>(sprite, <span class="at">palette=</span><span class="fu">c</span>(<span class="st">&#39;  &#39;</span>,<span class="st">&#39;..&#39;</span>,<span class="st">&#39;==&#39;</span>,<span class="st">&#39;()&#39;</span>))</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt;           </span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt;   ......  </span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; ..()==()..</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; ..........</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt;   ======  </span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="fu">render.matrix</span>(sprite, <span class="at">palette=</span><span class="fu">c</span>(<span class="st">&#39;  &#39;</span>,<span class="st">&#39;..&#39;</span>,<span class="st">&#39;++&#39;</span>,<span class="st">&#39;</span><span class="sc">\\</span><span class="st">/&#39;</span>))</span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt;           </span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt;   ......  </span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#&gt; ..\/++\/..</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#&gt; ..........</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co">#&gt;   ++++++  </span></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="fu">render.matrix</span>(sprite, <span class="at">palette=</span><span class="fu">c</span>(<span class="st">&#39;  &#39;</span>,<span class="st">&#39;||&#39;</span>,<span class="st">&#39;MM&#39;</span>,<span class="st">&#39;()&#39;</span>))</span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt;           </span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt;   ||||||  </span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt; ||()MM()||</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co">#&gt; ||||||||||</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt;   MMMMMM  </span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+</details>
 </div>
 <div id="custom-drawing-code" class="section level3">
 <h3>6.3 Custom Drawing Code</h3>
@@ -797,31 +840,31 @@ left/right/center.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></
 <summary>
 <strong>Example</strong>
 </summary>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">#manually stitching letters with a 1-wide gap between</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">render.matrix</span>(</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>T,</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>E,</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>X,</span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>T</span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  )</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>)</span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; [][][]  [][][]  []  []  [][][]</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;   []    [][]      []      []  </span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt;   []    [][][]  []  []    []</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#render.text() does this automatically</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="fu">render.matrix</span>(</span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  <span class="fu">render.text</span>(<span class="st">&#39;text&#39;</span>, <span class="at">kerning =</span> <span class="dv">1</span>)  </span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>)</span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;                                 </span></span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; [][][]  [][][]  []  []  [][][]  </span></span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;   []    [][]      []      []    </span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;   []    [][][]  []  []    []    </span></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co">#manually stitching letters with a 1-wide gap between</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">render.matrix</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">cbind</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>T,</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>E,</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>X,</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>    <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">1</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>    fonts<span class="fl">.3</span>x3<span class="sc">$</span>sprites<span class="sc">$</span>T</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>  )</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>)</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt; [][][]  [][][]  []  []  [][][]</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt;   []    [][]      []      []  </span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt;   []    [][][]  []  []    []</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co">#render.text() does this automatically</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="fu">render.matrix</span>(</span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>  <span class="fu">render.text</span>(<span class="st">&#39;text&#39;</span>, <span class="at">kerning =</span> <span class="dv">1</span>)  </span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>)</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="co">#&gt;                                 </span></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co">#&gt; [][][]  [][][]  []  []  [][][]  </span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co">#&gt;   []    [][]      []      []    </span></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co">#&gt;   []    [][][]  []  []    []    </span></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
 </details>
 <p><code>?render.text</code> provides some more examples of its
 capabilities.</p>
@@ -857,8 +900,8 @@ especially at higher resolutions.</p>
 <hr />
 <ol>
 <li id="fn1"><p>Try it! It’s very useful in general R work along with
-cat(’), which overwrites the current line (and is how things like
-loading bars are animated).<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<code>cat(&#39;\r&#39;)</code>, which overwrites the current line (and is how
+things like loading bars are animated).<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>Unless you draw it on a patterned surface. In that case,
 an opaque outline (like a highlighter or shadow) is needed to make the
 text pop.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
