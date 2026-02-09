@@ -11,6 +11,7 @@ articles:
   - inputs
   - timing
   - render
+  - rollback
   - snake
   - rrio
   - r2studio
