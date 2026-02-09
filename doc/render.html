@@ -379,7 +379,11 @@ Custom Drawing Code</a></li>
 render.text()</a></li>
 </ul></li>
 <li><a href="#rendering-pipeline" id="toc-rendering-pipeline">9.
-Rendering Pipeline</a></li>
+Rendering Pipeline</a>
+<ul>
+<li><a href="#setup" id="toc-setup">9.1 Setup</a></li>
+<li><a href="#pipeline" id="toc-pipeline">9.2 Pipeline</a></li>
+</ul></li>
 <li><a href="#engine-limitations" id="toc-engine-limitations">10. Engine
 Limitations</a></li>
 </ul>
@@ -874,6 +878,50 @@ capabilities.</p>
 </div>
 <div id="rendering-pipeline" class="section level2">
 <h2>9. Rendering Pipeline</h2>
+<p>Let’s go through the process to get an ingame object drawn on the
+console.</p>
+<div id="setup" class="section level3">
+<h3>9.1 Setup</h3>
+<ol style="list-style-type: lower-roman">
+<li><p>We start with an object called Blueberry It’s at the xy
+coordinates (5,6) and is on layer 5.</p></li>
+<li><p>Blueberry is stored in RAM as the list
+<code>RAM$objects$blueberry</code>, and has the following
+elements:</p></li>
+</ol>
+<pre><code>$x: 5
+$y: 6
+$spritename: &#39;blueberry&#39;
+$layer: 5</code></pre>
+<ol start="3" style="list-style-type: lower-roman">
+<li>We also have a corresponding sprite stored as
+<code>RAM$ROM$sprites$blueberry</code> as a simple matrix.</li>
+</ol>
+</div>
+<div id="pipeline" class="section level3">
+<h3>9.2 Pipeline</h3>
+<ol style="list-style-type: decimal">
+<li><p>We’re going to draw the current frame of RAM. This starts with
+calling <code>render.ram()</code>, which initializes a
+<code>scene</code> onto which all the sprites will be drawn.</p></li>
+<li><p><code>render.ram()</code> iterates through every object in
+<code>RAM$objects</code> and calls <code>render.obj()</code> on it to
+draw it on the <code>scene</code>.</p></li>
+<li><p>So <code>render.obj()</code> is called on
+<code>RAM$objects$blueberry</code>. This reads Blueberry’s elements and
+feeds them into <code>render.sprite()</code>:</p></li>
+<li><p><code>render.sprite()</code> retrieves Blueberry’s sprite from
+<code>RAM$ROM$sprites</code> and draws it (using
+<code>render.overlay()</code>) on layer 5 of the <code>scene</code> at
+coordinates (5,6).</p></li>
+<li><p>After <code>render.obj()</code> is called for all objects,
+<code>render.scene()</code> is called, which stacks the layers of the
+<code>scene</code> onto one matrix using
+<code>render.overlay()</code>.</p></li>
+<li><p>This single matrix is fed into <code>render.matrix()</code>,
+which clears the console and then renders the matrix.</p></li>
+</ol>
+</div>
 </div>
 <div id="engine-limitations" class="section level2">
 <h2>10. Engine Limitations</h2>
