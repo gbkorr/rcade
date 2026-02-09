@@ -206,7 +206,7 @@ Now that we can combine sprites, we run into the issue of convenient **ordering*
 
 rcade addresses this with `render.scene()`. We create a 'scene' object containing **layers**, each of which is their own `background` from the previous section. The engine draws sprites onto specific layers, and then finally takes all the layers and overlays them one-by-one to produce the final matrix to be drawn.
 
-[would like an image of this: sprites -> layer (like stickers), then layers stacked like paper]
+#[would like an image of this: sprites -> layer (like stickers), then layers stacked like paper]
 
 To draw a sprite onto a layer, we use `render.sprite()`, which is really just a wrapper for `render.overlay(layer,sprite)`.
 
@@ -241,7 +241,7 @@ In this function, a `scene` object is created, and then each game object (in `RA
 ### 6.1 Sprites in ROM
 By convention, sprites/images are stored in ROM when possible.[^3] They are stored by name in `ROM$sprites`, and referenced during the rendering process.
 
-[^3]: This is because if we had a particularly large image file, as images tend to be nowadays, it would be expensive to store and copy constantly in RAM. The same was true back in the day; graphics have always taken up a large portion of most games' filesize.
+[^3]: This is because if we had a particularly large image file, as images tend to be nowadays, it would be expensive to store and copy constantly in RAM. The same was true back in the day; graphics have always taken up a large portion of games' filesize.
 
 ### 6.2 Object Drawing Specifics
 Object drawing is handled by `render.object()`, which figures out how and where to draw the object with `render.sprite()`.

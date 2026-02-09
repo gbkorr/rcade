@@ -19,5 +19,5 @@ This function is intended to aid in the sprite creation process.
 
 It handles \code{sprite$next_animation} properly, so it can be used to test multi-stage animations too.
 
-\link{todo: examples with mario runcycle}
+\link{todo examples with mario runcycle}
 }

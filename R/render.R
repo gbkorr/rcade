@@ -230,8 +230,7 @@ render.animate = function(spritename, timer, sprites, render_framerate = 60){ #t
 #'
 #' It handles `sprite$next_animation` properly, so it can be used to test multi-stage animations too.
 #'
-#' [todo: examples with mario runcycle]
-#' @examples
+#' [todo examples with mario runcycle]
 #' @export
 render.test_animation = function(spritename, sprites){
 	timer = 1
