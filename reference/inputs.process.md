@@ -77,7 +77,8 @@ When a key is registered, the corresponding action in `RAM$actions` is
 set to TRUE for one frame.
 
 The game should read RAM\$actions to control game behavior; see
-`vignette('rrio')` to see this in action.
+[`vignette('rrio')`](https://gbkorr.github.io/rcade/articles/rrio.md) to
+see this in action.
 
 ## Examples
 

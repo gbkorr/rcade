@@ -1,4 +1,4 @@
-# R^2^Studio
+# Game: R\<sup\>2\</sup\>Studio
 
 We have a graphics system. Why not render an R console?
 

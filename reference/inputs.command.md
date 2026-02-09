@@ -3,7 +3,9 @@
 Allow the user to interact with the RAM from the listening session by
 inputting `/[command]` during listening.
 
-See `vignette("rrio")` to see these in action.
+See
+[`vignette("rrio")`](https://gbkorr.github.io/rcade/articles/rrio.md) to
+see these in action.
 
 ## Usage
 

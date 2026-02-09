@@ -1,4 +1,4 @@
-# Snake Devlog
+# Game: Snake Devlog
 
 This article goes through the full process of making and testing the
 `Snake` ROM. Snake is a good game to demonstrate the basic input and

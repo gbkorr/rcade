@@ -1,4 +1,4 @@
-# Rollback System
+# 5: Rollback System
 
 This article provides a description of why, when, and how the game rolls
 back to stay in sync with inputs. This system isn’t very relevant for
