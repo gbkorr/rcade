@@ -9,17 +9,17 @@
     #> Warning in fun(libname, pkgname): Please use RStudio! rcade may not work in
     #> other environments.
 
-\[the rom\] a downside is that a game like this deserves its own
-documentation (since it uses complex systems), which I don’t have reason
-enough to make… but this rom at least shows that rcade is capable of
-letting you do pretty much whatever you want in terms of gamedev if you
-know how
+This ROM and article are not finished yet! Here you can see a sneak peek
+of some of the systems and parts of it.
 
-\#turning around?
+## Intro
 
-\#vertical scrolling where? a staircase is a great demo for this
+a downside is that a game like this deserves its own documentation
+(since it uses complex systems), which I don’t have reason enough to
+document… but this rom at least shows that rcade is capable of letting
+you do pretty much whatever you want in terms of gamedev if you know how
 
-## ???. Obstacles: the Collision
+## 3. Obstacles: the Collision
 
 Before we can add more control to Rrio, we have to create ground for him
 to interact with. I’d like to take the approach *Super Mario Bros.*
@@ -29,7 +29,7 @@ tiles the *collision*.
 
 ![](images/rrio_1.jpeg)
 
-### ??? Storing the Collision
+### 3.1 Storing the Collision
 
 We can encode our grid of tiles with a matrix, where 0s indicate empty
 space and different numbers specify different tiles. For this game,
@@ -37,16 +37,25 @@ we’ll end up treating all tiles the same—as solid tiles that block
 Rrio—but they’ll have different graphics depending on which tile they
 are.
 
-## ?? Tile Graphics (make sure these are accurate to the final)
+## 3.2 Tile Graphics (make sure these are accurate to the final)
 
 Let’s make some sprites for the different tiles. I’ve already decided
-that I want each tile to occupy 4x4 pixels on the screen.
+that I want each tile to occupy 4x4 pixels on the screen. This isn’t
+much to work with, so the sprites will be relatively simple.
 
-\<\>\<\>\<\>\< \|\|\|\|\|
+We could actually make the game a lot prettier if we changed it to use
+ASCII graphics (see
+[`?render.matrix`](https://gbkorr.github.io/rcade/reference/render.matrix.md)
+for an example), but I’m sticking to pure pixel art for the sake of it.
 
-\\——-
+Anyway, here are the basic tile sprites: each one is repeated 3 in a
+row, as they’re intended to *tile* together.
 
-### ??? Tile Stitching
+![](images/rrio_tiles.png) These are `SuperRrio$sprites$ground_tile`,
+`$brick_tile`, and `$rock_tile` respectively, used for the ground,
+floating platforms, and uneven terrain.
+
+### 3.3 Tile Stitching
 
 To render the collision, we could draw each tile as its own sprite and
 location, but this is needessly expensive. Instead, we can use the
@@ -55,11 +64,11 @@ onscreen portion of collision, and draw that sprite in a static
 location. Rather than make the *sprite* move its xy position, we let
 math move the tiles inside the sprite every time we generate it.
 
-\#image
+\[image?\]
 
-**Code TODOTODO**
+**Code TODO**
 
-## ???. Collision Physics
+## 4. Collision Physics
 
 Now for the main purpose of the collision: colliding. The collision is
 there to block Rrio’s (and other enemies’) motion, and provide surfaces
@@ -77,14 +86,14 @@ same implementation and I doubt the details are novel. There are
 definitely better systems out there too[¹](#fn1), but this one works
 well enough and is pretty satisfying!
 
-### ???.1 Checking if a Collision has Happened
+### 4.1 Checking if a Collision has Happened
 
 The first step is to see if the object has actually hit anything. To do
 that, we see if the object’s *bounding box*—the invisible box around
 them that we use to check collision—has overlapped any tiles of
 collision this frame.
 
-I usually make the bounding box roughly match the positiona and size of
+I usually make the bounding box roughly match the position and size of
 the object’s sprite, but this doesn’t always have to be the case; giving
 an object a smaller bounding box than its sprite suggests can make it
 feel more lithe and mobile, and I set Rrio’s bounding box to have a
@@ -96,9 +105,9 @@ This is achieved in code by calculating the subset of tiles the bounding
 box occupies (i.e. every tile the bounding box is present in), and
 seeing if any of those tiles are solid.
 
-**Code TODOTODO**
+**Code TODO**
 
-### ???.2 Checking Collision Direction
+### 4.2 Checking Collision Direction
 
 If a collision occurred, the next step is resolve it. We’d like to move
 the object’s bounding box flush with the edge of the tile it
@@ -125,9 +134,9 @@ However, this reasoning only works in one dimension. So we do this
 collision checking process twice: once vertically (landing on tiles),
 then horizontally.
 
-**Code TODOTODO**
+**Code TODO**
 
-### ??.3 Landing
+### 4.3 Landing
 
 The player expects to start falling if they walk off a cliff. We have to
 add some code[³](#fn3) to make sure that happens.
@@ -143,7 +152,37 @@ to false, and then reset it to true if the object lands on a flat
 surface; since this is entirely contained in the function, the rest of
 the game code will think the object has been grounded this whole time.
 
-\#\[\[\]\]\] GIF or DRAWING of a guy falling off a cliff or ledge
+\[GIF of rrio falling off a cliff\]
+
+## 6. Game Camera
+
+Here’s the plan for how the screen should scroll:
+
+- Rrio will always be fixed in the center of the screen, like in most
+  games of this genre.
+- The screen will only scroll vertically when it ‘needs to’— when Rrio
+  is *grounded* 3+ tiles above/below the center of the screen. Some
+  other games use this effect and it feels pretty intuitive.
+
+Since Rrio’s position on the screen is determined by his
+`RAM$objects$rrio$x` and `$y`, we can fix `$x` in the center of the
+screen and have `$y` react to his real position in the level (`$pos.y`).
+
+**Code TODO**
+
+## ?? Level End
+
+check level end, spawn in next level
+
+## ?? Level design
+
+here’s the other levels rendered out! you can see how easy they are to
+make
+
+## Todo
+
+- rename collisiondata to leveldata
+- spawn enemies using leveldata
 
 ------------------------------------------------------------------------
 

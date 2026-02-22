@@ -2,9 +2,8 @@ In-progress package for a game engine in vanilla RStudio.
 
 The goal is to make it to CRAN!
 
-still todo: R2studio point types (pch) and some images in the article!
+readme needs to be finished! or maybe just merge with vignette(‘rcade’)
 
-\[IMAGES OF THE PACKAGE FROM the rcade doc\]
 ![](articles/images/thumbnail.png)
 
 \[why is this image broken on only the website?\]

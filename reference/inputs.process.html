@@ -85,9 +85,9 @@ This input is written to <a href="inputs.read"><code>inputs.csv</code></a>.<br><
 <li><p>When the gameloop runs <code><a href="inputs.get.html">inputs.get()</a></code>, this input is added to <code>RAM$inputs</code> and its timestamp is converted to the tick it should be processed on.<br></p></li>
 <li><p>When <code>RAM$ticks ==</code> the tick timestamp of this input in <code>RAM$inputs</code>, the input is processed:<br></p></li>
 <li><p>The input is split into individual characters: <code>"w"</code> and <code>"a"</code>.<br></p></li>
-<li><p>The actions corresponding to these keys, <code>RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]</code>, are set to <code>TRUE</code> in <code>RAM$actions</code> (see below).<br></p></li>
+<li><p>The actions corresponding to these keys, <code>RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]</code>, are set to <code>1</code> in <code>RAM$actions</code> (see below).<br></p></li>
 <li><p>Game code in <code>RAM$ROM$custom()</code> reads <code>RAM$actions</code> and move the player character accordingly.</p></li>
-<li><p>On the next frame, all <code>RAM$actions</code> are set to FALSE before inputs are checked again.</p></li>
+<li><p>On the next frame, all <code>RAM$actions</code> are set to <code>0</code> before inputs are checked again.</p></li>
 </ol></div>
     <div class="section level2">
     <h2 id="keybinds">Keybinds<a class="anchor" aria-label="anchor" href="#keybinds"></a></h2>
@@ -97,8 +97,8 @@ This input is written to <a href="inputs.read"><code>inputs.csv</code></a>.<br><
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>ROM<span class="sc">$</span>keybinds <span class="ot">=</span> <span class="fu">c</span>(<span class="at">k =</span> <span class="st">'attack'</span>, <span class="at">w =</span> <span class="st">'up'</span>, <span class="at">a =</span> <span class="st">'left'</span>, <span class="at">s =</span> <span class="st">'down'</span>, <span class="at">d =</span> <span class="st">'right'</span>)</span></code></pre><p></p></div>
 <p>This stores the actions ('attack', 'up', etc.) and the keys (k, w, etc.) that, when input, activate the actions.
 These keybinds populate <code>RAM$actions</code> when RAM is <a href="ram.init">initialized</a>:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>RAM<span class="sc">$</span>actions <span class="ot">=</span> <span class="fu">c</span>(<span class="at">attack =</span> <span class="cn">FALSE</span>, <span class="at">up =</span> <span class="cn">FALSE</span>, <span class="at">left =</span> <span class="cn">FALSE</span>, <span class="at">down =</span> FALSE. <span class="at">right =</span> <span class="cn">FALSE</span>)</span></code></pre><p></p></div>
-<p>When a key is registered, the corresponding action in <code>RAM$actions</code> is set to TRUE for one frame.</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>RAM<span class="sc">$</span>actions <span class="ot">=</span> <span class="fu">c</span>(<span class="at">attack =</span> <span class="dv">0</span>, <span class="at">up =</span> <span class="dv">0</span>, <span class="at">left =</span> <span class="dv">0</span>, <span class="at">down =</span> <span class="dv">0</span> <span class="at">right =</span> <span class="dv">0</span>)</span></code></pre><p></p></div>
+<p>When a key is registered, the corresponding action in <code>RAM$actions</code> is set to <code>1</code> for one frame. (If a key is pressed multiple times in the same input, e.g. <code>ww</code>, the action will be set to <code>2</code>, and so on. This is useful for allowing for more input combinations with a single button.)</p>
 <p>The game should read RAM$actions to control game behavior; see <code><a href="../articles/rrio.html">vignette('rrio')</a></code> to see this in action.</p>
     </div>
 

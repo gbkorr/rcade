@@ -13,10 +13,6 @@ this article is not meant to be a detailed walkthrough and instead just
 provides an overview of how this ROM works. You can always inspect the
 ROM object (`View(R2Studio)`) to take a closer look at its code.
 
-## NEED PCH/CEX
-
-## GO THROUGH SNAKE and organize the source code into nice chunks \#—-
-
 ### 1. Goals
 
 I wanted this ROM to provide the full R console experience and have some
@@ -42,7 +38,7 @@ window. The sprites are reconstructed and drawn every frame in
 resolution. All the function really does is make a few bordered boxes
 with a little text.
 
-\[image of just the ui w/ blank plot and console\]
+![](images/r2studio_ui.png)
 
 ### 3. R Console
 
@@ -72,7 +68,7 @@ it and the result’s string as entries in `RAM$objects$console$text`.
     RAM$objects$console$text
     c('> 3+5', '[1] 8')
 
-**Evaluation Code \[click to open\]**
+**Evaluation Code \[click to expand\]**
 
 ``` r
 output = utils::capture.output(
@@ -120,6 +116,8 @@ I chose not to wrap lines because of the limited space— if text wrapped,
 single lines would end up filling the whole console and I think it’d be
 harder to read overall.
 
+![](images/r2studio_console.png)
+
 ### 4. Plotting
 
 `R2Studio$draw_plot():`
@@ -141,7 +139,12 @@ like R does.
 The point sprites are made in `R2Studio$pch()`, which makes little
 geometric shapes at the desired `cex` size.
 
-\[image demo of pch sprites\]
+![Different pch sprites at cex =
+c(0,0.2,0.5,1,1.5,2,2.5,...)](images/r2studio_pch.png)
+
+Different pch sprites at `cex = c(0,0.2,0.5,1,1.5,2,2.5,...)`
+
+## TODOTDO xlim ylim and title (main)
 
 #### 4.1 Hooking `plot()`
 

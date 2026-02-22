@@ -32,8 +32,6 @@ systems.
 [`vignette("snake")`](https://gbkorr.github.io/rcade/articles/snake.md)
 provides a **full walkthrough of game creation** using the package.
 
-\[MORE VIGS NEEDED: rrio, r2studio\]
-
 ### 2.2 Systems Vignettes
 
 [`vignette("timing")`](https://gbkorr.github.io/rcade/articles/timing.md)
@@ -45,9 +43,10 @@ describes how the engine **captures and interprets user input**.
 [`vignette("render")`](https://gbkorr.github.io/rcade/articles/render.md)
 details everything that goes into **drawing the game** to the console.
 
-## 3. Prebuilt Games
+## 3. Prebuilt ROMs
 
-\[COPY SECTIONS FROM GUIDE VIGNETTE?\]
+Rcade comes with several games included to demonstrate the various
+capabilities of the package.
 
 ### 3.1 Snake
 
@@ -59,13 +58,17 @@ A port of the classic game Snake, running quite smoothly. Demonstrates
 the interactivity of rcade well and serves as a great guide for ROM
 creation.
 
-### 3.2 Super Rrio
+### 3.2 Super Rrio (In Development)
 
-\[TODO TODO\]\[\]
+[`vignette("rrio")`](https://gbkorr.github.io/rcade/articles/rrio.md)
+
+![](images/thumbnail_rrio.png) Super Rrio is rcade’s premier game, a
+platformer in the style of *Super Mario Bros.*. ROM and article
+currently in the works!
 
 ### 3.3 Bad Apple
 
-`vignette("badapple")`
+[`?BadApple`](https://gbkorr.github.io/rcade/reference/BadApple.md)
 
 ![](images/thumbnail_badapple.png)
 
@@ -101,7 +104,25 @@ be when pushed to its limits.
 
 (…yes, it can run itself too.)
 
-## 4. History and Motivation
+## 4. Future Plans and Ideas
+
+The package’s code and systems are complete, but there’s plenty more to
+do with it:
+
+1.  I found a way to completely remove the flickering present when
+    rendering at higher resolutions— I’ll need to rewrite and redocument
+    some things to implement this.
+
+2.  I need to finish Super Rrio and its devlog article.
+
+3.  I want to make an addon package for online multiplayer
+    functionality, with a *Tron* ROM+devlog for reference.
+
+4.  A game demonstrating the ASCII (and/or unicode) capabilites of rcade
+    could be cool— the package is capable of much prettier things than
+    I’ve demonstrated so far.
+
+## 5. History and Motivation
 
 There are a few excellent resources[³](#fn3) detailing the former state
 of R gaming.
@@ -122,7 +143,7 @@ an R package for the sake of practice and exhibition. Many of the
 concepts used by the package originate from the old engine, but all the
 code is new and much nicer, and fully documented!
 
-## 5. Goals
+## 6. Goals
 
 Adapting the systems from my original project, this package had many
 goals:
@@ -149,9 +170,9 @@ goals:
 I’m happy to say that this project achieved every goal, and it was a
 pleasure to develop. Enjoy!
 
-## 6. Notes
+## 7. Notes
 
-### 6.1 Style
+### 7.1 Style
 
 I choose to write R code in a way that’s slightly easier for people
 unfamiliar with R to understand;[⁴](#fn4) mainly forgoing the use of \<-
@@ -168,7 +189,7 @@ The documentation for this package was formatted to look nicest natively
 in RStudio, i.e. through `?foo`. Formatting may be occasionally wonky on
 the website, but it shouldn’t interfere with reading.
 
-### 6.2 The Name ‘rcade’
+### 7.2 The Name ‘rcade’
 
 The name “rcade” was too perfect to pass up for a host of reasons. Two
 packages already ‘exist’ with this name, but I don’t think this will
@@ -185,12 +206,12 @@ cause any conflict:
 Both packages are obscure and nearly a decade old— may the R gods be
 merciful on my usurping of the name.
 
-### 6.3 AI Disclaimer
+### 7.3 AI Disclaimer
 
 **No LLMs** were used[⁵](#fn5) in the making of this package. All
 writing and code was done by me!
 
-## 7. But Can it Run Doom?
+## 8. But Can it Run Doom?
 
 Absolutely, but I’m not good at making 3D games. Someone else will have
 to do the port.

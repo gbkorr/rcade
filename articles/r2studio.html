@@ -80,14 +80,6 @@ ROM, which lets you run RStudio… in RStudio. See its documentation
 be a detailed walkthrough and instead just provides an overview of how
 this ROM works. You can always inspect the ROM object
 (<code>View(R2Studio)</code>) to take a closer look at its code.</p>
-<div class="section level2">
-<h2 id="need-pchcex">NEED PCH/CEX<a class="anchor" aria-label="anchor" href="#need-pchcex"></a>
-</h2>
-</div>
-<div class="section level2">
-<h2 id="go-through-snake-and-organize-the-source-code-into-nice-chunks--">GO THROUGH SNAKE and organize the source code into nice chunks
-#—-<a class="anchor" aria-label="anchor" href="#go-through-snake-and-organize-the-source-code-into-nice-chunks--"></a>
-</h2>
 <div class="section level3">
 <h3 id="goals">1. Goals<a class="anchor" aria-label="anchor" href="#goals"></a>
 </h3>
@@ -113,7 +105,7 @@ window. The sprites are reconstructed and drawn every frame in
 <code>R2Studio$draw_ui()</code>, allowing them to adapt to changes in
 the display resolution. All the function really does is make a few
 bordered boxes with a little text.</p>
-<p>[image of just the ui w/ blank plot and console]</p>
+<p><img src="images/r2studio_ui.png"></p>
 </div>
 <div class="section level3">
 <h3 id="r-console">3. R Console<a class="anchor" aria-label="anchor" href="#r-console"></a>
@@ -137,7 +129,7 @@ both it and the result’s string as entries in
 <code>RAM$objects$console$text</code>.</p>
 <pre><code><span><span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">console</span><span class="op">$</span><span class="va">text</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'&gt; 3+5'</span>, <span class="st">'[1] 8'</span><span class="op">)</span></span></code></pre>
-<details><summary><strong>Evaluation Code [click to open]</strong>
+<details><summary><strong>Evaluation Code [click to expand]</strong>
 </summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">output</span> <span class="op">=</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/capture.output.html" class="external-link">capture.output</a></span><span class="op">(</span></span>
 <span>        <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
@@ -178,6 +170,7 @@ only enough to fit the vertical width of the display area.</p>
 <p>I chose not to wrap lines because of the limited space— if text
 wrapped, single lines would end up filling the whole console and I think
 it’d be harder to read overall.</p>
+<p><img src="images/r2studio_console.png"></p>
 </div>
 </div>
 <div class="section level3">
@@ -197,7 +190,15 @@ interpret the likes of <code>plot(1:5)</code> and
 <code>plot(1:5,rep(1,5))</code> differently like R does.</p>
 <p>The point sprites are made in <code>R2Studio$pch()</code>, which
 makes little geometric shapes at the desired <code>cex</code> size.</p>
-<p>[image demo of pch sprites]</p>
+<div class="float">
+<img src="images/r2studio_pch.png" alt="Different pch sprites at cex = c(0,0.2,0.5,1,1.5,2,2.5,...)"><div class="figcaption">Different pch sprites at
+<code>cex = c(0,0.2,0.5,1,1.5,2,2.5,...)</code>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="todotdo-xlim-ylim-and-title-main">TODOTDO xlim ylim and title (main)<a class="anchor" aria-label="anchor" href="#todotdo-xlim-ylim-and-title-main"></a>
+</h2>
 <div class="section level4">
 <h4 id="hooking-plot">4.1 Hooking <code>plot()</code><a class="anchor" aria-label="anchor" href="#hooking-plot"></a>
 </h4>
@@ -214,7 +215,6 @@ code can edit the RAM; we can use this here to save the new plot info to
 <code>R2Studio$draw_plot()</code> uses to draw the plot. Access to the
 RAM also lets us change its ‘settings’, as shown in the next
 section:</p>
-</div>
 </div>
 <div class="section level3">
 <h3 id="meta-functions">5. Meta Functions<a class="anchor" aria-label="anchor" href="#meta-functions"></a>

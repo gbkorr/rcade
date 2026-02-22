@@ -51,13 +51,13 @@ input to it being registered by the game.
 5.  The input is split into individual characters: `"w"` and `"a"`.  
 
 6.  The actions corresponding to these keys,
-    `RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]`, are set to `TRUE`
-    in `RAM$actions` (see below).  
+    `RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]`, are set to `1` in
+    `RAM$actions` (see below).  
 
 7.  Game code in `RAM$ROM$custom()` reads `RAM$actions` and move the
     player character accordingly.
 
-8.  On the next frame, all `RAM$actions` are set to FALSE before inputs
+8.  On the next frame, all `RAM$actions` are set to `0` before inputs
     are checked again.
 
 ## Keybinds
@@ -71,10 +71,12 @@ that, when input, activate the actions. These keybinds populate
 `RAM$actions` when RAM is
 [initialized](https://gbkorr.github.io/rcade/reference/ram.init):
 
-    RAM$actions = c(attack = FALSE, up = FALSE, left = FALSE, down = FALSE. right = FALSE)
+    RAM$actions = c(attack = 0, up = 0, left = 0, down = 0 right = 0)
 
 When a key is registered, the corresponding action in `RAM$actions` is
-set to TRUE for one frame.
+set to `1` for one frame. (If a key is pressed multiple times in the
+same input, e.g. `ww`, the action will be set to `2`, and so on. This is
+useful for allowing for more input combinations with a single button.)
 
 The game should read RAM\$actions to control game behavior; see
 [`vignette('rrio')`](https://gbkorr.github.io/rcade/articles/rrio.md) to

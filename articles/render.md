@@ -34,7 +34,7 @@ square pixels.
 Printing to the console like this is quite simple. Strings like this are
 quickly interpreted by users as imagery:
 
-**Example**
+**Example \[click to expand\]**
 
 ``` r
 cat('
@@ -578,13 +578,13 @@ console.
     [`render.matrix()`](https://gbkorr.github.io/rcade/reference/render.matrix.md),
     which clears the console and then renders the matrix.
 
-## 10. Engine Limitations
+## 10. Flickering
 
 The timing system
 ([`vignette("timing")`](https://gbkorr.github.io/rcade/articles/timing.md))
 is robust enough that slow draw times (i.e. for large resolutions) won’t
-impact the fluidity of gameplay. However, rcade has one major (and
-unavoidable) flaw: flickering.
+impact the fluidity of gameplay. However, the basic drawing system has a
+big flaw: flickering.
 
 [`base::cat()`](https://rdrr.io/r/base/cat.html) prints output in large
 chunks of characters, and each chunk takes a tiny bit of time to print.
@@ -596,16 +596,18 @@ characters to get drawn. The background is blank during that split
 second, so we end up with a brief flicker of white on every frame that
 gets stronger the more characters (including whitespaces!) are drawn.
 
-This would be a nonissue if we could draw *over* the previous frame, as
-many R loading bars do with `'\r'`, but alas RStudio doesn’t respect the
-more advanced cursor location escape codes that would let us overwrite
-preceding lines. We should be happy that it accepts `'\f'` in the first
-place!
+Thankfully, there’s a workaround! We can abuse text wrapping to render
+things all on “one line” whi, and then use `'\r'` to overwrite it each
+frame. All we need to do is replace `'\n'` with a long series of tab
+characters—`'\t'`—which have the property of essentially doing the same
+thing visually as `'\n'` when they cause the text to wrap.
 
-Flickering starts at resolutions around 48x32 (1500 total pixels) and
-gets linearly worse in chunks as that increases. Framerate has no
-effect. Gaming with flickering is manageable but somewhat unpleasant,
-especially at higher resolutions.
+This has several benefits: in addition to removing flickering, this lets
+us animate the game without having to clear the console with `'\f'`—
+which means it can even run in R.app!
+
+I discovered this workaround very late into working on rcade: I plan on
+making it the package’s default, but haven’t gotten around to it yet.
 
 ------------------------------------------------------------------------
 

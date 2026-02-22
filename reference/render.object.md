@@ -62,7 +62,7 @@ the default value (second column) will be used.
 |               |     |                |                                                                                                                                                |
 | `$y`          |     | `1`            | Y-coordinate.                                                                                                                                  |
 |               |     |                |                                                                                                                                                |
-| `$offset.x`   |     | `0`            | Pixels to offset sprite horizontally from obj\$x.                                                                                              |
+| `$offset.x`   |     | `0`            | Pixels to offset sprite horizontally from `obj$x`.                                                                                             |
 |               |     |                |                                                                                                                                                |
 | `$offset.y`   |     | `0`            | Vertical offset.                                                                                                                               |
 |               |     |                |                                                                                                                                                |

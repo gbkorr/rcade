@@ -21,7 +21,7 @@ to zoom out with `cmd -` or equivalent.
 The second sessions is the **input session** and will be where you’ll
 interact with the game once it starts.
 
-[IMAGE OF A GOOD
+\#[IMAGE OF A GOOD
 SETUP](https://gbkorr.github.io/rcade/articles/A%20good%20setup.%20The%20display%20session%20is%20large%20and%20zoomed%20out,%20and%20the%20input%20session%20is%20accessible.)
 
 Once you have those two windows open, follow these steps:
@@ -29,25 +29,25 @@ Once you have those two windows open, follow these steps:
 1.  **Both sessions** need to load the package with
     [`library(rcade)`](https://gbkorr.github.io/rcade/).
 2.  In the **display session**, start the game you want to play. I
-    recommend `SuperRrio`:
+    recommend `Snake`:
 
 &nbsp;
 
-    quickload(SuperRrio)
+    quickload(Snake)
 
-3.  Then, go to the **input session** and run
+3.  Press Enter to skip the dialog and play the game with default
+    settings.
+4.  Then, go to the **input session** and run
 
 &nbsp;
 
     inputs.listen()
 
-4.  You should now be able to enter text in the input session to control
-    the game!  
-    The control scheme for Super Rrio is `A/D` to move and `SPACE` to
-    jump.
+5.  You should now be able to enter text in the input session to control
+    the game! Snake uses WASD.
 
 Because of how R works, you have to **press Enter** every time you want
-to send an input. So to jump right, you’d press the keys `W-SPACE-ENTER`
+to send an input. So to turn to the right, you’d have to press `D-ENTER`
 in succession.
 
 [GIF of this!](https://gbkorr.github.io/rcade/articles/)
@@ -71,6 +71,8 @@ the game.
 
 [IMAGE](https://gbkorr.github.io/rcade/articles/)
 
+all these need controls too
+
 ### Bad Apple
 
 [IMAGE](https://gbkorr.github.io/rcade/articles/) This one isn’t a game,
@@ -82,8 +84,6 @@ video to the console, no input session needed.
 [IMAGE](https://gbkorr.github.io/rcade/articles/) desc Pronounced
 “r-squared studio”— it’s a pun on the Pearson r², and the fact that it’s
 RStudio in RStudio!
-
-[TODOTDO](https://gbkorr.github.io/rcade/articles/)
 
 ## 3. Making Games
 
@@ -100,4 +100,5 @@ development.
 ------------------------------------------------------------------------
 
 1.  This package only works in RStudio, since regular R doesn’t support
-    console wiping with `cat('\f')`.
+    console wiping with `cat('\f')`. Though I may have found a
+    workaround…

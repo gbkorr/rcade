@@ -80,15 +80,19 @@
 <span><span class="co">#&gt; Open `vignette("guide")` to get started!</span></span>
 <span><span class="co">#&gt; Warning in fun(libname, pkgname): Please use RStudio! rcade may not work in</span></span>
 <span><span class="co">#&gt; other environments.</span></span></code></pre>
-<p>[the rom] a downside is that a game like this deserves its own
-documentation (since it uses complex systems), which I don’t have reason
-enough to make… but this rom at least shows that rcade is capable of
-letting you do pretty much whatever you want in terms of gamedev if you
-know how</p>
-<p>#turning around?</p>
-<p>#vertical scrolling where? a staircase is a great demo for this</p>
+<p>This ROM and article are not finished yet! Here you can see a sneak
+peek of some of the systems and parts of it.</p>
 <div class="section level2">
-<h2 id="obstacles-the-collision">???. Obstacles: the Collision<a class="anchor" aria-label="anchor" href="#obstacles-the-collision"></a>
+<h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
+</h2>
+<p>a downside is that a game like this deserves its own documentation
+(since it uses complex systems), which I don’t have reason enough to
+document… but this rom at least shows that rcade is capable of letting
+you do pretty much whatever you want in terms of gamedev if you know
+how</p>
+</div>
+<div class="section level2">
+<h2 id="obstacles-the-collision">3. Obstacles: the Collision<a class="anchor" aria-label="anchor" href="#obstacles-the-collision"></a>
 </h2>
 <p>Before we can add more control to Rrio, we have to create ground for
 him to interact with. I’d like to take the approach <em>Super Mario
@@ -97,7 +101,7 @@ to tweak and edit, and makes drawing a lot simpler as well. We’ll call
 this grid of tiles the <em>collision</em>.</p>
 <p><img src="images/rrio_1.jpeg"></p>
 <div class="section level3">
-<h3 id="storing-the-collision">??? Storing the Collision<a class="anchor" aria-label="anchor" href="#storing-the-collision"></a>
+<h3 id="storing-the-collision">3.1 Storing the Collision<a class="anchor" aria-label="anchor" href="#storing-the-collision"></a>
 </h3>
 <p>We can encode our grid of tiles with a matrix, where 0s indicate
 empty space and different numbers specify different tiles. For this
@@ -107,14 +111,22 @@ are.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="tile-graphics-make-sure-these-are-accurate-to-the-final">?? Tile Graphics (make sure these are accurate to the final)<a class="anchor" aria-label="anchor" href="#tile-graphics-make-sure-these-are-accurate-to-the-final"></a>
+<h2 id="tile-graphics-make-sure-these-are-accurate-to-the-final">3.2 Tile Graphics (make sure these are accurate to the final)<a class="anchor" aria-label="anchor" href="#tile-graphics-make-sure-these-are-accurate-to-the-final"></a>
 </h2>
 <p>Let’s make some sprites for the different tiles. I’ve already decided
-that I want each tile to occupy 4x4 pixels on the screen.</p>
-<p>&lt;&gt;&lt;&gt;&lt;&gt;&lt; |||||</p>
-<p>\-——-</p>
+that I want each tile to occupy 4x4 pixels on the screen. This isn’t
+much to work with, so the sprites will be relatively simple.</p>
+<p>We could actually make the game a lot prettier if we changed it to
+use ASCII graphics (see <code><a href="../reference/render.matrix.html">?render.matrix</a></code> for an example), but
+I’m sticking to pure pixel art for the sake of it.</p>
+<p>Anyway, here are the basic tile sprites: each one is repeated 3 in a
+row, as they’re intended to <em>tile</em> together.</p>
+<p><img src="images/rrio_tiles.png"> These are
+<code>SuperRrio$sprites$ground_tile</code>, <code>$brick_tile</code>,
+and <code>$rock_tile</code> respectively, used for the ground, floating
+platforms, and uneven terrain.</p>
 <div class="section level3">
-<h3 id="tile-stitching">??? Tile Stitching<a class="anchor" aria-label="anchor" href="#tile-stitching"></a>
+<h3 id="tile-stitching">3.3 Tile Stitching<a class="anchor" aria-label="anchor" href="#tile-stitching"></a>
 </h3>
 <p>To render the collision, we could draw each tile as its own sprite
 and location, but this is needessly expensive. Instead, we can use the
@@ -122,13 +134,13 @@ collision matrix to fill in a single sprite corresponding to the
 onscreen portion of collision, and draw that sprite in a static
 location. Rather than make the <em>sprite</em> move its xy position, we
 let math move the tiles inside the sprite every time we generate it.</p>
-<p>#image</p>
-<details><summary><strong>Code TODOTODO</strong>
+<p>[image?]</p>
+<details><summary><strong>Code TODO</strong>
 </summary></details>
 </div>
 </div>
 <div class="section level2">
-<h2 id="collision-physics">???. Collision Physics<a class="anchor" aria-label="anchor" href="#collision-physics"></a>
+<h2 id="collision-physics">4. Collision Physics<a class="anchor" aria-label="anchor" href="#collision-physics"></a>
 </h2>
 <p>Now for the main purpose of the collision: colliding. The collision
 is there to block Rrio’s (and other enemies’) motion, and provide
@@ -145,13 +157,13 @@ same implementation and I doubt the details are novel. There are
 definitely better systems out there too<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Some of which I’ve used in previous games!&lt;/p&gt;"><sup>1</sup></a>, but this one works
 well enough and is pretty satisfying!</p>
 <div class="section level3">
-<h3 id="checking-if-a-collision-has-happened">???.1 Checking if a Collision has Happened<a class="anchor" aria-label="anchor" href="#checking-if-a-collision-has-happened"></a>
+<h3 id="checking-if-a-collision-has-happened">4.1 Checking if a Collision has Happened<a class="anchor" aria-label="anchor" href="#checking-if-a-collision-has-happened"></a>
 </h3>
 <p>The first step is to see if the object has actually hit anything. To
 do that, we see if the object’s <em>bounding box</em>—the invisible box
 around them that we use to check collision—has overlapped any tiles of
 collision this frame.</p>
-<p>I usually make the bounding box roughly match the positiona and size
+<p>I usually make the bounding box roughly match the position and size
 of the object’s sprite, but this doesn’t always have to be the case;
 giving an object a smaller bounding box than its sprite suggests can
 make it feel more lithe and mobile, and I set Rrio’s bounding box to
@@ -160,11 +172,11 @@ have a height of 1.8 tiles so he can fit through 2-tile gaps.</p>
 <p>This is achieved in code by calculating the subset of tiles the
 bounding box occupies (i.e. every tile the bounding box is present in),
 and seeing if any of those tiles are solid.</p>
-<details><summary><strong>Code TODOTODO</strong>
+<details><summary><strong>Code TODO</strong>
 </summary></details>
 </div>
 <div class="section level3">
-<h3 id="checking-collision-direction">???.2 Checking Collision Direction<a class="anchor" aria-label="anchor" href="#checking-collision-direction"></a>
+<h3 id="checking-collision-direction">4.2 Checking Collision Direction<a class="anchor" aria-label="anchor" href="#checking-collision-direction"></a>
 </h3>
 <p>If a collision occurred, the next step is resolve it. We’d like to
 move the object’s bounding box flush with the edge of the tile it hit<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This is our intuitive expectation; if I drop a book on
@@ -189,11 +201,11 @@ collided with a block on that edge.</p>
 <p>However, this reasoning only works in one dimension. So we do this
 collision checking process twice: once vertically (landing on tiles),
 then horizontally.</p>
-<details><summary><strong>Code TODOTODO</strong>
+<details><summary><strong>Code TODO</strong>
 </summary></details>
 </div>
 <div class="section level3">
-<h3 id="landing">??.3 Landing<a class="anchor" aria-label="anchor" href="#landing"></a>
+<h3 id="landing">4.3 Landing<a class="anchor" aria-label="anchor" href="#landing"></a>
 </h3>
 <p>The player expects to start falling if they walk off a cliff. We have
 to add some code<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Present in the previous sections’ code.&lt;/p&gt;"><sup>3</sup></a> to make sure that happens.</p>
@@ -208,8 +220,45 @@ collision function we set <code>grounded</code> to false, and then reset
 it to true if the object lands on a flat surface; since this is entirely
 contained in the function, the rest of the game code will think the
 object has been grounded this whole time.</p>
-<p>#[[]]] GIF or DRAWING of a guy falling off a cliff or ledge</p>
+<p>[GIF of rrio falling off a cliff]</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="game-camera">6. Game Camera<a class="anchor" aria-label="anchor" href="#game-camera"></a>
+</h2>
+<p>Here’s the plan for how the screen should scroll:</p>
+<ul>
+<li>Rrio will always be fixed in the center of the screen, like in most
+games of this genre.</li>
+<li>The screen will only scroll vertically when it ‘needs to’— when Rrio
+is <em>grounded</em> 3+ tiles above/below the center of the screen. Some
+other games use this effect and it feels pretty intuitive.</li>
+</ul>
+<p>Since Rrio’s position on the screen is determined by his
+<code>RAM$objects$rrio$x</code> and <code>$y</code>, we can fix
+<code>$x</code> in the center of the screen and have <code>$y</code>
+react to his real position in the level (<code>$pos.y</code>).</p>
+<details><summary><strong>Code TODO</strong>
+</summary></details>
+</div>
+<div class="section level2">
+<h2 id="level-end">?? Level End<a class="anchor" aria-label="anchor" href="#level-end"></a>
+</h2>
+<p>check level end, spawn in next level</p>
+</div>
+<div class="section level2">
+<h2 id="level-design">?? Level design<a class="anchor" aria-label="anchor" href="#level-design"></a>
+</h2>
+<p>here’s the other levels rendered out! you can see how easy they are
+to make</p>
+</div>
+<div class="section level2">
+<h2 id="todo">Todo<a class="anchor" aria-label="anchor" href="#todo"></a>
+</h2>
+<ul>
+<li>rename collisiondata to leveldata</li>
+<li>spawn enemies using leveldata</li>
+</ul>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

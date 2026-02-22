@@ -103,7 +103,7 @@ are wide, so we use pairs of characters—usually brackets:
 </h3>
 <p>Printing to the console like this is quite simple. Strings like this
 are quickly interpreted by users as imagery:</p>
-<details><summary><strong>Example</strong>
+<details><summary><strong>Example [click to expand]</strong>
 </summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'</span></span>
 <span><span class="st">  []  []</span></span>
@@ -599,12 +599,12 @@ which clears the console and then renders the matrix.</p></li>
 </div>
 </div>
 <div class="section level2">
-<h2 id="engine-limitations">10. Engine Limitations<a class="anchor" aria-label="anchor" href="#engine-limitations"></a>
+<h2 id="flickering">10. Flickering<a class="anchor" aria-label="anchor" href="#flickering"></a>
 </h2>
 <p>The timing system (<code><a href="../articles/timing.html">vignette("timing")</a></code>) is robust enough
 that slow draw times (i.e. for large resolutions) won’t impact the
-fluidity of gameplay. However, rcade has one major (and unavoidable)
-flaw: flickering.</p>
+fluidity of gameplay. However, the basic drawing system has a big flaw:
+flickering.</p>
 <p><code><a href="https://rdrr.io/r/base/cat.html" class="external-link">base::cat()</a></code> prints output in large chunks of characters,
 and each chunk takes a tiny bit of time to print. (Try
 <code>cat(rep(1,100000))</code>: it takes a good second for the whole
@@ -615,15 +615,18 @@ for the rest of the characters to get drawn. The background is blank
 during that split second, so we end up with a brief flicker of white on
 every frame that gets stronger the more characters (including
 whitespaces!) are drawn.</p>
-<p>This would be a nonissue if we could draw <em>over</em> the previous
-frame, as many R loading bars do with <code>'\r'</code>, but alas
-RStudio doesn’t respect the more advanced cursor location escape codes
-that would let us overwrite preceding lines. We should be happy that it
-accepts <code>'\f'</code> in the first place!</p>
-<p>Flickering starts at resolutions around 48x32 (1500 total pixels) and
-gets linearly worse in chunks as that increases. Framerate has no
-effect. Gaming with flickering is manageable but somewhat unpleasant,
-especially at higher resolutions.</p>
+<p>Thankfully, there’s a workaround! We can abuse text wrapping to
+render things all on “one line” whi, and then use <code>'\r'</code> to
+overwrite it each frame. All we need to do is replace <code>'\n'</code>
+with a long series of tab characters—<code>'\t'</code>—which have the
+property of essentially doing the same thing visually as
+<code>'\n'</code> when they cause the text to wrap.</p>
+<p>This has several benefits: in addition to removing flickering, this
+lets us animate the game without having to clear the console with
+<code>'\f'</code>— which means it can even run in R.app!</p>
+<p>I discovered this workaround very late into working on rcade: I plan
+on making it the package’s default, but haven’t gotten around to it
+yet.</p>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

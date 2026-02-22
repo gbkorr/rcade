@@ -100,7 +100,6 @@ package</strong> to play games.</p>
 structure</strong> of the game engine and its systems.</p>
 <p><code><a href="../articles/snake.html">vignette("snake")</a></code> provides a <strong>full walkthrough of
 game creation</strong> using the package.</p>
-<p>[MORE VIGS NEEDED: rrio, r2studio]</p>
 </div>
 <div class="section level3">
 <h3 id="systems-vignettes">2.2 Systems Vignettes<a class="anchor" aria-label="anchor" href="#systems-vignettes"></a>
@@ -114,9 +113,10 @@ game creation</strong> using the package.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="prebuilt-games">3. Prebuilt Games<a class="anchor" aria-label="anchor" href="#prebuilt-games"></a>
+<h2 id="prebuilt-roms">3. Prebuilt ROMs<a class="anchor" aria-label="anchor" href="#prebuilt-roms"></a>
 </h2>
-<p>[COPY SECTIONS FROM GUIDE VIGNETTE?]</p>
+<p>Rcade comes with several games included to demonstrate the various
+capabilities of the package.</p>
 <div class="section level3">
 <h3 id="snake">3.1 Snake<a class="anchor" aria-label="anchor" href="#snake"></a>
 </h3>
@@ -127,14 +127,17 @@ Demonstrates the interactivity of rcade well and serves as a great guide
 for ROM creation.</p>
 </div>
 <div class="section level3">
-<h3 id="super-rrio">3.2 Super Rrio<a class="anchor" aria-label="anchor" href="#super-rrio"></a>
+<h3 id="super-rrio-in-development">3.2 Super Rrio (In Development)<a class="anchor" aria-label="anchor" href="#super-rrio-in-development"></a>
 </h3>
-<p>[TODO TODO][]</p>
+<p><code><a href="../articles/rrio.html">vignette("rrio")</a></code></p>
+<p><img src="images/thumbnail_rrio.png"> Super Rrio is rcade’s premier
+game, a platformer in the style of <em>Super Mario Bros.</em>. ROM and
+article currently in the works!</p>
 </div>
 <div class="section level3">
 <h3 id="bad-apple">3.3 Bad Apple<a class="anchor" aria-label="anchor" href="#bad-apple"></a>
 </h3>
-<p><code>vignette("badapple")</code></p>
+<p><code><a href="../reference/BadApple.html">?BadApple</a></code></p>
 <p><img src="images/thumbnail_badapple.png"></p>
 <p>This ROM isn’t a game, but rather a proof of concept for the
 graphical capabilities of rcade.</p>
@@ -164,7 +167,24 @@ when pushed to its limits.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="history-and-motivation">4. History and Motivation<a class="anchor" aria-label="anchor" href="#history-and-motivation"></a>
+<h2 id="future-plans-and-ideas">4. Future Plans and Ideas<a class="anchor" aria-label="anchor" href="#future-plans-and-ideas"></a>
+</h2>
+<p>The package’s code and systems are complete, but there’s plenty more
+to do with it:</p>
+<ol style="list-style-type: decimal">
+<li><p>I found a way to completely remove the flickering present when
+rendering at higher resolutions— I’ll need to rewrite and redocument
+some things to implement this.</p></li>
+<li><p>I need to finish Super Rrio and its devlog article.</p></li>
+<li><p>I want to make an addon package for online multiplayer
+functionality, with a <em>Tron</em> ROM+devlog for reference.</p></li>
+<li><p>A game demonstrating the ASCII (and/or unicode) capabilites of
+rcade could be cool— the package is capable of much prettier things than
+I’ve demonstrated so far.</p></li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="history-and-motivation">5. History and Motivation<a class="anchor" aria-label="anchor" href="#history-and-motivation"></a>
 </h2>
 <p>There are a few excellent resources<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Many of these feature the same games.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.r-bloggers.com/2022/09/a-review-of-games-written-in-r-on-cran/amp/" class="external-link"&gt;“A
@@ -191,7 +211,7 @@ concepts used by the package originate from the old engine, but all the
 code is new and much nicer, and fully documented!</p>
 </div>
 <div class="section level2">
-<h2 id="goals">5. Goals<a class="anchor" aria-label="anchor" href="#goals"></a>
+<h2 id="goals">6. Goals<a class="anchor" aria-label="anchor" href="#goals"></a>
 </h2>
 <p>Adapting the systems from my original project, this package had many
 goals:</p>
@@ -216,10 +236,10 @@ is a top priority for an R package!</p></li>
 pleasure to develop. Enjoy!</p>
 </div>
 <div class="section level2">
-<h2 id="notes">6. Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
+<h2 id="notes">7. Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
 </h2>
 <div class="section level3">
-<h3 id="style">6.1 Style<a class="anchor" aria-label="anchor" href="#style"></a>
+<h3 id="style">7.1 Style<a class="anchor" aria-label="anchor" href="#style"></a>
 </h3>
 <p>I choose to write R code in a way that’s slightly easier for people
 unfamiliar with R to understand;<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Which is particularly important for this project; the
@@ -238,7 +258,7 @@ occasionally wonky on the website, but it shouldn’t interfere with
 reading.</p>
 </div>
 <div class="section level3">
-<h3 id="the-name-rcade">6.2 The Name ‘rcade’<a class="anchor" aria-label="anchor" href="#the-name-rcade"></a>
+<h3 id="the-name-rcade">7.2 The Name ‘rcade’<a class="anchor" aria-label="anchor" href="#the-name-rcade"></a>
 </h3>
 <p>The name “rcade” was too perfect to pass up for a host of reasons.
 Two packages already ‘exist’ with this name, but I don’t think this will
@@ -254,7 +274,7 @@ in R.</p></li>
 merciful on my usurping of the name.</p>
 </div>
 <div class="section level3">
-<h3 id="ai-disclaimer">6.3 AI Disclaimer<a class="anchor" aria-label="anchor" href="#ai-disclaimer"></a>
+<h3 id="ai-disclaimer">7.3 AI Disclaimer<a class="anchor" aria-label="anchor" href="#ai-disclaimer"></a>
 </h3>
 <p><strong>No LLMs</strong> were used<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Except for when Google results suggested a function
 before I could click on Stackexchgange, of course.&lt;/p&gt;"><sup>5</sup></a> in the making of this package. All writing
@@ -262,7 +282,7 @@ and code was done by me!</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="but-can-it-run-doom">7. But Can it Run Doom?<a class="anchor" aria-label="anchor" href="#but-can-it-run-doom"></a>
+<h2 id="but-can-it-run-doom">8. But Can it Run Doom?<a class="anchor" aria-label="anchor" href="#but-can-it-run-doom"></a>
 </h2>
 <p>Absolutely, but I’m not good at making 3D games. Someone else will
 have to do the port.</p>
