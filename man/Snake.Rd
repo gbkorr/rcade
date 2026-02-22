@@ -13,6 +13,9 @@ Snake
 \description{
 Plays the classic game Snake. A full walkthrough of the creation of this ROM can be found in \code{vignette("snake")}.
 }
+\details{
+\figure{thumbnail_snake.png}
+}
 \section{How to Play}{
 
 WASD to move the snake. \code{ENTER} \emph{must} be pressed after each input for it to be registered.

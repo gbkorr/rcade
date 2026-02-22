@@ -16,6 +16,8 @@ RStudio in RStudio! Type R code into the input session to execute it in a simula
 See \code{vignette("r2studio")} for details on the ROM's inner workings.
 }
 \details{
+\figure{thumbnail_r2studio.png}
+
 To start, run \code{quickload(R2Studio)} and start the input session with \code{inputs.listen()} in a separate RStudio window (as usual).
 
 Now, any text entered in the input session will be interpreted as R code in the R\eqn{^2}Studio console. You should be able to run text-based code as you would in the regular IDE!

@@ -40,7 +40,7 @@ This function prints out some timing-related debug information.
 }
 
 \examples{
-\dontrun{
+\donttest{
 #plot ram.time() over time to see rollbacks:
 plot(RAM$debug$time, RAM$debug$ahead, type='l')
 

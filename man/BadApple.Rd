@@ -31,6 +31,8 @@ Viewing recommendation: looks much better when viewed from afar or very zoomed o
 \code{BadApple.data} stores the compressed video frames, which are decompressed in \code{BadApple$startup()}.
 }
 \details{
+\figure{thumbnail_badapple.png}
+
 This is a proof of concept for rendering video in rcade. It's actually easier to render video by reading from a local file, but to fit a video to come preinstalled with the package, I had to compress it.
 
 \code{BadApple$startup()} reconstructs the video when the RAM is initialized, saving the resultant frames as a single animation in \code{RAM$ROM$sprites}. A single object then loops the animation constantly.

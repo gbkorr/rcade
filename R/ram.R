@@ -60,7 +60,7 @@ ram.end = function(){
 #' @param RAM [RAM](ram.init) object.
 #' @param seed Integer used for [base::set.seed].
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' #example of a random situation:
 #'
 #' quickload(Snake)
@@ -104,8 +104,8 @@ ram.set_rng = function(RAM, seed){
 #' @param RAM [RAM](ram.init) object.
 #' @returns RAM, minus `$ROM, $inputs, $debug, $intermediate, $backup,` and `$paused`.\cr This output is stored in the main RAM's `$intermediate` and `$backup`.
 #' @examples
-#' \dontrun{
-#' RAM = ram.init(SuperRrio)
+#' \donttest{
+#' RAM = ram.init(Snake)
 #'
 #' #copy
 #' RAM_copy = RAM
@@ -190,7 +190,7 @@ ram.new_object = function(RAM, object){
 #' |`$frames.drawn`||Records every frame of `RAM$ticks` that was drawn by [render.ram()], i.e. when `ahead` was positive (see `vignette("timing")`).|
 #' @param RAM [RAM](ram.init) object.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' #plot ram.time() over time to see rollbacks:
 #' plot(RAM$debug$time, RAM$debug$ahead, type='l')
 #'

@@ -11,13 +11,16 @@ A \link[=render.makefont]{font}; a list containing font-related properties and a
 fonts.3x5
 }
 \description{
-Basic \link[=render.makefont]{font} with all common characters. Horizontally compact, but much more readable than \link{fonts.3x3}. This should be the preferred low-res font for most situations.
+Basic \link[=render.makefont]{font} with all common characters. Horizontally compact, but much more readable than \code{\link{fonts.3x3}}. This should be the preferred low-res font for most situations.
 
 Made by yours truly. Some of these sprites are pretty snazzy.
 
 Use this with \code{\link[=render.text]{render.text()}}.
 }
+\details{
+\figure{fonts_3x5.png}
+}
 \seealso{
-\code{fonts.3x3}
+\code{\link{fonts.3x3}}
 }
 \keyword{datasets}

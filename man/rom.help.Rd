@@ -71,7 +71,7 @@ This is required due to how R handles nested lists; the format\cr \verb{for (obj
 
 \examples{
 #traceback demo:
-RAM = ram.init(SuperRrio)
+RAM = ram.init(Snake)
 RAM$ROM$sprites = NULL #this will make the game crash
 RAM = ram.run(RAM)
 }

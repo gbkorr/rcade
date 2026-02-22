@@ -22,7 +22,7 @@ Inputs and actions are stored in RAM like so:\tabular{lll}{
 \details{
 The following is an outline of the process from a player entering an input to it being registered by the game.
 \enumerate{
-\item Player types out "wa" in the \code{\link[=inputs.listen]{inputs.listen()}} listener.\cr
+\item Player types out "\code{wa}" in the \code{\link[=inputs.listen]{inputs.listen()}} listener.\cr
 \item Player presses Enter; an input is created consisting of the string \code{"wa"} and a timestamp (see \link{inputs.listen}).\cr
 This input is written to \href{inputs.read}{\code{inputs.csv}}.\cr
 \item When the gameloop runs \code{\link[=inputs.get]{inputs.get()}}, this input is added to \code{RAM$inputs} and its timestamp is converted to the tick it should be processed on.\cr
@@ -43,10 +43,10 @@ Keybinds are set by the dev with, e.g.
 This stores the actions ('attack', 'up', etc.) and the keys (k, w, etc.) that, when input, activate the actions.
 These keybinds populate \code{RAM$actions} when RAM is \href{ram.init}{initialized}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{RAM$actions = c(attack = 0, up = 0, left = 0, down = 0 right = 0)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{RAM$actions = list(attack = 0, up = 0, left = 0, down = 0, right = 0)
 }\if{html}{\out{</div>}}
 
-When a key is registered, the corresponding action in \code{RAM$actions} is set to \code{1} for one frame. (If a key is pressed multiple times in the same input, e.g. \code{ww}, the action will be set to \code{2}, and so on. This is useful for allowing for more input combinations with a single button.)
+When a key is registered, the corresponding action in \code{RAM$actions} is set to \code{1} for one frame. (If a key is pressed multiple times in the same input, e.g. "\code{ww}", the action will be set to \code{2}, and so on. This is useful for allowing for more input combinations with a single button.)
 
 The game should read RAM$actions to control game behavior; see \code{vignette('rrio')} to see this in action.
 }

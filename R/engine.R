@@ -89,7 +89,7 @@ rom.init = function(
 #' @section Notes:
 #' Custom game code (in [`RAM$ROM$custom`][rom.init]) should typically only modify `RAM$objects`. This makes inspecting and handling the RAM more consistent across games.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' RAM = ram.init(Snake)
 #' View(RAM)
 #' }
@@ -204,10 +204,12 @@ ram.init = function(ROM){
 #' ```
 #' This is required due to how R handles nested lists; the format\cr `for (obj in RAM$objects)` will **NOT** work.
 #' @examples
+#' \donttest{
 #' #traceback demo:
-#' RAM = ram.init(SuperRrio)
+#' RAM = ram.init(Snake)
 #' RAM$ROM$sprites = NULL #this will make the game crash
 #' RAM = ram.run(RAM)
+#' }
 #' @export
 rom.help = function(){
 	cat('See ?rom.help for help debugging common issues.')

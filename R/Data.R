@@ -8,19 +8,21 @@
 #'
 #' Use this with [render.text()].
 #' @format A [font][render.makefont]; a list containing font-related properties and a list of sprites for each character.
-#' @seealso `fonts.3x5`
+#' @details ![](fonts_3x3.png)
+#' @seealso [`fonts.3x5`]
 'fonts.3x3'
 
 #' 3x5 Font
 #'
 #' @description
-#' Basic [font][render.makefont] with all common characters. Horizontally compact, but much more readable than [fonts.3x3]. This should be the preferred low-res font for most situations.
+#' Basic [font][render.makefont] with all common characters. Horizontally compact, but much more readable than [`fonts.3x3`]. This should be the preferred low-res font for most situations.
 #'
 #' Made by yours truly. Some of these sprites are pretty snazzy.
 #'
 #' Use this with [render.text()].
 #' @format A [font][render.makefont]; a list containing font-related properties and a list of sprites for each character.
-#' @seealso `fonts.3x3`
+#' @details ![](fonts_3x5.png)
+#' @seealso [`fonts.3x3`]
 'fonts.3x5'
 
 
@@ -28,6 +30,7 @@
 #'
 #' Plays the classic game Snake. A full walkthrough of the creation of this ROM can be found in `vignette("snake")`.
 #' @format A game [ROM][rom.init]; see `vignette("engine")`.
+#' @details ![](thumbnail_snake.png)
 #' @section How to Play:
 #' WASD to move the snake. `ENTER` *must* be pressed after each input for it to be registered.
 #'
@@ -67,6 +70,8 @@
 #' @format |`BadApple`|\verb{      }|A [ROM][rom.init] object.|
 #' |-|-|-|
 #' @details
+#' ![](thumbnail_badapple.png)
+#'
 #' This is a proof of concept for rendering video in rcade. It's actually easier to render video by reading from a local file, but to fit a video to come preinstalled with the package, I had to compress it.
 #'
 #' `BadApple$startup()` reconstructs the video when the RAM is initialized, saving the resultant frames as a single animation in `RAM$ROM$sprites`. A single object then loops the animation constantly.
@@ -94,6 +99,8 @@
 #' See `vignette("r2studio")` for details on the ROM's inner workings.
 #' @format A game [ROM][rom.init]; see `vignette("engine")`.
 #' @details
+#' ![](thumbnail_r2studio.png)
+#'
 #' To start, run `quickload(R2Studio)` and start the input session with `inputs.listen()` in a separate RStudio window (as usual).
 #'
 #' Now, any text entered in the input session will be interpreted as R code in the R\eqn{^2}Studio console. You should be able to run text-based code as you would in the regular IDE!

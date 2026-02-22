@@ -15,7 +15,10 @@ Basic \link[=render.makefont]{font} with no lowercase. Readability is poor, but 
 
 Use this with \code{\link[=render.text]{render.text()}}.
 }
+\details{
+\figure{fonts_3x3.png}
+}
 \seealso{
-\code{fonts.3x5}
+\code{\link{fonts.3x5}}
 }
 \keyword{datasets}
