@@ -1,5 +1,6 @@
 #vignette("snake")
 
+# ---- ROM ----
 Snake = rom.init(
 	32,16, #default bounds, can be changed in ROM$startup()
 	framerate = 5, #10 is HARD!
@@ -13,7 +14,7 @@ Snake = rom.init(
 	sprites = list(pixel = matrix(1)) #all objects are a single (black) pixel in this game
 )
 
-
+# ---- Startup----
 #I prefer doing this stuff outside the rom.init() arguments to keep the code clean
 Snake$startup = function(RAM){
 		RAM$starting_segments = 10
@@ -49,7 +50,7 @@ Snake$startup = function(RAM){
 }
 
 
-# Game Functions ----
+# ---- Game Functions ----
 Snake$set_direction = function(RAM){
 	#name of the actions pressed on this tick, or NULL
 	actions = names(RAM$actions)[which(RAM$actions == TRUE)]
@@ -318,10 +319,8 @@ Snake$view_data = function(RAM){
 
 	par(op) #restore original settings
 }
-#----
 
-
-
+# ---- Custom ----
 Snake$custom = function(RAM){
   #only do segment stuff once the snake starts moving
   if (RAM$objects$head$direction != 'neutral'){
@@ -349,5 +348,5 @@ Snake$custom = function(RAM){
 }
 
 
-
+# ----
 usethis::use_data(Snake, overwrite = TRUE)

@@ -4,7 +4,7 @@
 \alias{render.sprite}
 \title{Render a Sprite to the Scene}
 \usage{
-render.sprite(scene, sprite, x, y, layer = 1, palette = NULL)
+render.sprite(scene, sprite, x = 1, y = 1, layer = 1, palette = NULL)
 }
 \arguments{
 \item{scene}{\link[=render.scene]{Scene} object.}

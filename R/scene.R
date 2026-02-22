@@ -22,7 +22,7 @@
 #' scene = render.sprite(scene, smiley, x=11, y=2, layer = 2, palette = c(0,2,1)) #reversed colors
 #' render.scene(scene)
 #' @export
-render.sprite = function(scene, sprite, x, y, layer = 1, palette = NULL){
+render.sprite = function(scene, sprite, x = 1, y = 1, layer = 1, palette = NULL){
 	#draws a sprite onto the scene
 
 	#palette swap
@@ -66,6 +66,10 @@ render.sprite = function(scene, sprite, x, y, layer = 1, palette = NULL){
 #' ||||
 #' |`$y`||`1`|Y-coordinate.|
 #' ||||
+#' |`$offset.x`||`0`|Pixels to offset sprite horizontally from `obj$x`.|
+#' ||||
+#' |`$offset.y`||`0`|Vertical offset.|
+#' ||||
 #' |`$layer`||`2`|Layer on which to draw the sprite. See [render.scene]; high layers are drawn on top.|
 #' ||||
 #' |`$timer`||`RAM$timer`\verb{ }|Tick count (ascending) for animations.|
@@ -73,6 +77,10 @@ render.sprite = function(scene, sprite, x, y, layer = 1, palette = NULL){
 #' |`$palette`||`NULL`|Vector to swap the colors of the object's sprite around, e.g. `c(0,2,1)` swaps values of 2 and 1. Index starts at 0. Defaults to no swapping.
 #' ||||
 #' |`$draw()`||`NULL`|Overwrites the default drawing behavior for the sprite; see above.|
+#' @section Offsets:
+#' Both the `obj` and `sprite` can have optional `offset.x`/`offset.y` properties to offset the draw location of their sprite from their position. This can be useful for animation and aligning an object's sprite with its actual hitbox.
+#'
+#' If both object and sprite have an offset property, the two are added.
 #' @examples
 #' smileysprite = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
 #' RAM = ram.init(rom.init(16,8,sprites=list(smiley=smileysprite)))
@@ -94,6 +102,8 @@ render.object = function(scene, obj, RAM){
 		draw = utils::modifyList(list(
 			x = 1,
 			y = 1,
+			offset.x = 0,
+			offset.y = 0,
 			palette = NULL,
 			layer = 2
 		), obj) #defaults replaced if defined in obj
@@ -101,8 +111,8 @@ render.object = function(scene, obj, RAM){
 		#complex sprite
 		if (is.list(sprite)) {
 			#static sprite offset from xy
-			draw$x = sum(draw$x, sprite$offset.x, na.rm = TRUE)
-			draw$y = sum(draw$y, sprite$offset.y, na.rm = TRUE)
+			draw$offset.x = sum(draw$offset.x, sprite$offset.x, na.rm = TRUE)
+			draw$offset.y = sum(draw$offset.y, sprite$offset.y, na.rm = TRUE)
 
 			draw$timer = obj$timer
 			if (is.null(draw$timer)) draw$timer = RAM$ticks #if no timer provided
@@ -110,7 +120,7 @@ render.object = function(scene, obj, RAM){
 			sprite = render.animate(obj$spritename, draw$timer, RAM$ROM$sprites, RAM$ROM$framerate) #retrieve which matrix to draw for animation
 		}
 
-		scene = render.sprite(scene, sprite, draw$x, draw$y, draw$layer, draw$palette)
+		scene = render.sprite(scene, sprite, draw$x + draw$offset.x, draw$y + draw$offset.y, draw$layer, draw$palette)
 	}
 
 	return(scene)

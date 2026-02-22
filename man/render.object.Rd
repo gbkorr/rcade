@@ -37,6 +37,10 @@ An object only needs a \verb{$spritename} to be drawn. Objects can also have the
     \tab  \tab  \tab  \cr
    \verb{$y} \tab  \tab \code{1} \tab Y-coordinate. \cr
     \tab  \tab  \tab  \cr
+   \verb{$offset.x} \tab  \tab \code{0} \tab Pixels to offset sprite horizontally from obj$x. \cr
+    \tab  \tab  \tab  \cr
+   \verb{$offset.y} \tab  \tab \code{0} \tab Vertical offset. \cr
+    \tab  \tab  \tab  \cr
    \verb{$layer} \tab  \tab \code{2} \tab Layer on which to draw the sprite. See \link{render.scene}; high layers are drawn on top. \cr
     \tab  \tab  \tab  \cr
    \verb{$timer} \tab  \tab \code{RAM$timer}\verb{ } \tab Tick count (ascending) for animations. \cr
@@ -46,6 +50,13 @@ An object only needs a \verb{$spritename} to be drawn. Objects can also have the
    \verb{$draw()} \tab  \tab \code{NULL} \tab Overwrites the default drawing behavior for the sprite; see above. \cr
 }
 }
+\section{Offsets}{
+
+Both the \code{obj} and \code{sprite} can have optional \code{offset.x}/\code{offset.y} properties to offset the draw location of their sprite from their position. This can be useful for animation and aligning an object's sprite with its actual hitbox.
+
+If both object and sprite have an offset property, the two are added.
+}
+
 \examples{
 smileysprite = matrix(c(0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,0), ncol = 7)
 RAM = ram.init(rom.init(16,8,sprites=list(smiley=smileysprite)))

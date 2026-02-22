@@ -66,11 +66,11 @@ A port of the classic game Snake, running quite smoothly. Demonstrates the inter
 
 ![](images/thumbnail_badapple.png)
 
-This ROM is a proof of concept for the graphical capabilities of rcade, which can comfortably play videos at resolutions exceeding 64x64.
+This ROM isn't a game, but rather a proof of concept for the graphical capabilities of rcade.
 
-Bad Apple is the canonical video to demonstrate the graphical capabilities of hardware that... shouldn't really have these graphical capabilities. People have run it on everything from original IBM [computers](https://www.youtube.com/watch?v=E0h8BUUboP0) to [oscilloscopes](https://www.youtube.com/watch?v=7pzvEouWino) to [calculators](https://www.youtube.com/watch?v=6pAeWf3NPNU) to glitching [pokemon](https://www.youtube.com/watch?v=ciIkpw3glH4) to run the video ingame via ACE.
+Bad Apple is the canonical video to demonstrate the graphical capabilities of hardware that... shouldn't really have these graphical capabilities. People have run it on everything from original [IBM computers](https://www.youtube.com/watch?v=E0h8BUUboP0) to [oscilloscopes](https://www.youtube.com/watch?v=7pzvEouWino) to [calculators](https://www.youtube.com/watch?v=6pAeWf3NPNU) to glitching [pokemon](https://www.youtube.com/watch?v=ciIkpw3glH4) to run the video ingame via ACE.
 
-I'm certainly not the first to make this on a CLI console, nor [in R](https://www.youtube.com/watch?v=cCK_-yRJ0Ow). but I believe this is the first time it's been done on the R console.
+I'm certainly not the first to make this on a CLI console, nor [in R](https://www.youtube.com/watch?v=cCK_-yRJ0Ow). But I believe this is the first time it's been done on the R console.
 
 ### 3.4 R^2^Studio
 `vignette("r2studio")`
@@ -81,7 +81,7 @@ It's RStudio in RStudio![^5] This ROM draws its own little console and plotting 
 
 Running a program in itself is the pinnacle of wacky software enginnering, in my mind.[^4] This really shows how robust rcade can be when pushed to its limits.
 
-(... yes, it can run itself too.)
+(...yes, it can run itself too.)
 
 [^4]: e.g. [Minecraft in Minecraft](https://www.youtube.com/watch?v=-BP7DhHTU-I).
 
@@ -127,7 +127,7 @@ I’m happy to say that this project achieved every goal, and it was a pleasure 
 ### 6.1 Style
 I choose to write R code in a way that's slightly easier for people unfamiliar with R to understand;[^10] mainly forgoing the use of <- and declaring function returns explicitly.
 
-Additionally, for the sake of organization, function names are prefixed by general context--- e.g., functions pertaining to “the rendering process” take the form `render.foo()`. This is against S3 conventions (where the prefix indicates what class a function operates on) but I find it to be an immensely valuable tool for writing understandable code.
+Additionally, for the sake of organization, function names are prefixed by general context--- e.g., functions pertaining to “the rendering process” take the form `render.foo()`. This is against S3 conventions (where the suffix indicates what class a function operates on) but I find it to be an immensely valuable tool for writing understandable code.
 
 [^10]: Which is particularly important for this project; the systems and concepts are generalizable to other languages and might actually be a good resource for making an engine like this.
 
