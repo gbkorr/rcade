@@ -59,7 +59,7 @@ c('> 3+5', '[1] 8')
 ```
 
 <details>
-  <summary>**Evaluation Code [click to open]**</summary>
+  <summary>**Evaluation Code [click to expand]**</summary>
 ```{r eval=F}
 output = utils::capture.output(
 		tryCatch(

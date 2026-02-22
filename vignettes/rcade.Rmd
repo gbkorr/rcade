@@ -35,8 +35,6 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 
 `vignette("snake")` provides a **full walkthrough of game creation** using the package.
 
-[MORE VIGS NEEDED: rrio, r2studio]
-
 ### 2.2 Systems Vignettes
 `vignette("timing")` explains in detail how the game **runs at the right speed**.
 
@@ -44,10 +42,8 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 
 `vignette("render")` details everything that goes into **drawing the game** to the console.
 
-
-## 3. Prebuilt Games
-[COPY SECTIONS FROM GUIDE VIGNETTE?]
-
+## 3. Prebuilt ROMs
+Rcade comes with several games included to demonstrate the various capabilities of the package.
 
 ### 3.1 Snake
 `vignette("snake")`
@@ -57,12 +53,14 @@ This package comes with a full suite of vignettes detailing every aspect of how 
 A port of the classic game Snake, running quite smoothly. Demonstrates the interactivity of rcade well and serves as a great guide for ROM creation.
 
 
-### 3.2 Super Rrio
+### 3.2 Super Rrio (In Development)
+`vignette("rrio")`
 
-[TODO TODO][]
+![](images/thumbnail_rrio.png)
+Super Rrio is rcade's premier game, a platformer in the style of *Super Mario Bros.*. ROM and article currently in the works!
 
 ### 3.3 Bad Apple
-`vignette("badapple")`
+`?BadApple`
 
 ![](images/thumbnail_badapple.png)
 
@@ -77,17 +75,29 @@ I'm certainly not the first to make this on a CLI console, nor [in R](https://ww
 
 ![](images/thumbnail_r2studio.png)
 
-It's RStudio in RStudio![^5] This ROM draws its own little console and plotting window, and the user can run R code by sending it through the input system. 
+It's RStudio in RStudio![^4] This ROM draws its own little console and plotting window, and the user can run R code by sending it through the input system. 
 
-Running a program in itself is the pinnacle of wacky software enginnering, in my mind.[^4] This really shows how robust rcade can be when pushed to its limits.
+Running a program in itself is the pinnacle of wacky software enginnering, in my mind.[^5] This really shows how robust rcade can be when pushed to its limits.
 
 (...yes, it can run itself too.)
 
-[^4]: e.g. [Minecraft in Minecraft](https://www.youtube.com/watch?v=-BP7DhHTU-I).
 
-[^5]: And a pun on the Pearson r^2^!
+[^4]: And a pun on the Pearson r^2^!
 
-## 4. History and Motivation
+[^5]: e.g. [Minecraft in Minecraft](https://www.youtube.com/watch?v=-BP7DhHTU-I).
+
+## 4. Future Plans and Ideas
+The package's code and systems are complete, but there's plenty more to do with it:
+
+1. I found a way to completely remove the flickering present when rendering at higher resolutions--- I'll need to rewrite and redocument some things to implement this.
+
+2. I need to finish Super Rrio and its devlog article.
+
+3. I want to make an addon package for online multiplayer functionality, with a *Tron* ROM+devlog for reference.
+
+4. A game demonstrating the ASCII (and/or unicode) capabilites of rcade could be cool--- the package is capable of much prettier things than I've demonstrated so far.
+
+## 5. History and Motivation
 There are a few excellent resources[^6] detailing the former state of R gaming. 
 
 [^6]: Many of these feature the same games.
@@ -107,7 +117,7 @@ I wanted to make a game in base R! It started as a joke idea I pitched to friend
 In the winter, I realized this was an excellent opportunity to turn into an R package for the sake of practice and exhibition. Many of the concepts used by the package originate from the old engine, but all the code is new and much nicer, and fully documented!
 
 
-## 5. Goals
+## 6. Goals
 Adapting the systems from my original project, this package had many goals:
 
 - To run in base R with no dependencies! (excepting preinstalled packages like `tools`)
@@ -122,9 +132,9 @@ Adapting the systems from my original project, this package had many goals:
 
 I’m happy to say that this project achieved every goal, and it was a pleasure to develop. Enjoy!
 
-## 6. Notes
+## 7. Notes
 
-### 6.1 Style
+### 7.1 Style
 I choose to write R code in a way that's slightly easier for people unfamiliar with R to understand;[^10] mainly forgoing the use of <- and declaring function returns explicitly.
 
 Additionally, for the sake of organization, function names are prefixed by general context--- e.g., functions pertaining to “the rendering process” take the form `render.foo()`. This is against S3 conventions (where the suffix indicates what class a function operates on) but I find it to be an immensely valuable tool for writing understandable code.
@@ -133,7 +143,7 @@ Additionally, for the sake of organization, function names are prefixed by gener
 
 The documentation for this package was formatted to look nicest natively in RStudio, i.e. through `?foo`. Formatting may be occasionally wonky on the website, but it shouldn't interfere with reading.
 
-### 6.2 The Name 'rcade'
+### 7.2 The Name 'rcade'
 
 The name “rcade” was too perfect to pass up for a host of reasons. Two packages already ‘exist’ with this name, but I don’t think this will cause any conflict:
 
@@ -143,11 +153,11 @@ The name “rcade” was too perfect to pass up for a host of reasons. Two packa
 
 Both packages are obscure and nearly a decade old— may the R gods be merciful on my usurping of the name.
 
-### 6.3 AI Disclaimer
+### 7.3 AI Disclaimer
 **No LLMs** were used[^11] in the making of this package. All writing and code was done by me!
 
 [^11]: Except for when Google results suggested a function before I could click on Stackexchgange, of course.
 
-## 7. But Can it Run Doom?
+## 8. But Can it Run Doom?
 Absolutely, but I’m not good at making 3D games. Someone else will have to do the port.
 

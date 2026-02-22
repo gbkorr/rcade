@@ -1,5 +1,5 @@
 
-
+#not finished yet!
 
 
 # ---- ROM ----
@@ -332,5 +332,5 @@ SuperRrio$custom = function(RAM){
 }
 
 # ----
-quickload(SuperRrio)
+#quickload(SuperRrio)
 #usethis::use_data(SuperRrio, overwrite = TRUE)
