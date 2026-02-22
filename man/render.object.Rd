@@ -37,7 +37,7 @@ An object only needs a \verb{$spritename} to be drawn. Objects can also have the
     \tab  \tab  \tab  \cr
    \verb{$y} \tab  \tab \code{1} \tab Y-coordinate. \cr
     \tab  \tab  \tab  \cr
-   \verb{$offset.x} \tab  \tab \code{0} \tab Pixels to offset sprite horizontally from obj$x. \cr
+   \verb{$offset.x} \tab  \tab \code{0} \tab Pixels to offset sprite horizontally from \code{obj$x}. \cr
     \tab  \tab  \tab  \cr
    \verb{$offset.y} \tab  \tab \code{0} \tab Vertical offset. \cr
     \tab  \tab  \tab  \cr

@@ -167,15 +167,15 @@ inputs.get = function(RAM){
 #'
 #' @details
 #' The following is an outline of the process from a player entering an input to it being registered by the game.
-#' 1. Player types out "wa" in the [inputs.listen()] listener.\cr
+#' 1. Player types out "`wa`" in the [inputs.listen()] listener.\cr
 #' 2. Player presses Enter; an input is created consisting of the string `"wa"` and a timestamp (see [inputs.listen]).\cr
 #' This input is written to [`inputs.csv`](inputs.read).\cr
 #' 3. When the gameloop runs [inputs.get()], this input is added to `RAM$inputs` and its timestamp is converted to the tick it should be processed on.\cr
 #' 4. When `RAM$ticks ==` the tick timestamp of this input in `RAM$inputs`, the input is processed:\cr
 #' 5. The input is split into individual characters: `"w"` and `"a"`.\cr
-#' 6. The actions corresponding to these keys, `RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]`, are set to `TRUE` in `RAM$actions` (see below).\cr
+#' 6. The actions corresponding to these keys, `RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]`, are set to `1` in `RAM$actions` (see below).\cr
 #' 7. Game code in `RAM$ROM$custom()` reads `RAM$actions` and move the player character accordingly.
-#' 8. On the next frame, all `RAM$actions` are set to FALSE before inputs are checked again.
+#' 8. On the next frame, all `RAM$actions` are set to `0` before inputs are checked again.
 #' @section Keybinds:
 #' Keybinds are set by the dev with, e.g.
 #' ```
@@ -185,10 +185,10 @@ inputs.get = function(RAM){
 #' This stores the actions ('attack', 'up', etc.) and the keys (k, w, etc.) that, when input, activate the actions.
 #' These keybinds populate `RAM$actions` when RAM is [initialized](ram.init):
 #' ```
-#' RAM$actions = c(attack = FALSE, up = FALSE, left = FALSE, down = FALSE. right = FALSE)
+#' RAM$actions = list(attack = 0, up = 0, left = 0, down = 0, right = 0)
 #' ```
 #'
-#' When a key is registered, the corresponding action in `RAM$actions` is set to TRUE for one frame.
+#' When a key is registered, the corresponding action in `RAM$actions` is set to `1` for one frame. (If a key is pressed multiple times in the same input, e.g. "`ww`", the action will be set to `2`, and so on. This is useful for allowing for more input combinations with a single button.)
 #'
 #' The game should read RAM$actions to control game behavior; see `vignette('rrio')` to see this in action.
 #' @param RAM [RAM](ram.init) object to update.
@@ -197,7 +197,7 @@ inputs.get = function(RAM){
 #' @export
 inputs.process = function(RAM){
 	#deactivate actions
-	RAM$actions[RAM$actions == TRUE] = FALSE
+	RAM$actions[RAM$actions > 0] = 0
 
 	#inputs falling between now and the next frame
 	current_frame_inputs = (RAM$inputs$timestamp == RAM$ticks)
@@ -208,7 +208,7 @@ inputs.process = function(RAM){
 	if (sum(current_frame_inputs) > 0 && input != ''){
 		for (key in strsplit(input, '', fixed = TRUE)[[1]]){
 			action = RAM$ROM$keybinds[key]
-			if (!is.na(action)) RAM$actions[action] = TRUE
+			if (!is.na(action)) RAM$actions[[action]] = RAM$actions[[action]] + 1
 		}
 	}
 

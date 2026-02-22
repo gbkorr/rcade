@@ -25,11 +25,14 @@ library(rcade)
 a downside is that a game like this deserves its own documentation (since it uses complex systems), which I don't have reason enough to make...
 but this rom at least shows that rcade is capable of letting you do pretty much whatever you want in terms of gamedev if you know how
 
+actually kinda frustrated with how the game turned out-- it could be way more fluid and good-looking, but it's not worth redoing everything
+
 
 #turning around?
 
 #vertical scrolling where?
 a staircase is a great demo for this
+
 
 
 ## ???. Obstacles: the Collision
@@ -41,12 +44,15 @@ Before we can add more control to Rrio, we have to create ground for him to inte
 We can encode our grid of tiles with a matrix, where 0s indicate empty space and different numbers specify different tiles. For this game, we'll end up treating all tiles the same---as solid tiles that block Rrio---but they'll have different graphics depending on which tile they are.
 
 ## ?? Tile Graphics (make sure these are accurate to the final)
-Let's make some sprites for the different tiles. I've already decided that I want each tile to occupy 4x4 pixels on the screen.
+Let's make some sprites for the different tiles. I've already decided that I want each tile to occupy 4x4 pixels on the screen. This isn't much to work with, so the sprites will be relatively simple.
 
-<><><><
-\|||||
+We could actually make the game a lot prettier if we changed it to use ASCII graphics (see `?render.matrix` for an example), but I'm sticking to pure pixel art for the sake of it.
 
-\\\--------
+Anyway, here are the basic tile sprites: each one is repeated 3 in a row, as they're intended to *tile* together.
+
+![](images/rrio_tiles.png)
+These are `SuperRrio$sprites$ground_tile`, `$brick_tile`, and `$rock_tile` respectively, used for the ground, floating platforms, and uneven terrain.
+
 
 ### ??? Tile Stitching
 To render the collision, we could draw each tile as its own sprite and location, but this is needessly expensive. Instead, we can use the collision matrix to fill in a single sprite corresponding to the onscreen portion of collision, and draw that sprite in a static location. Rather than make the *sprite* move its xy position, we let math move the tiles inside the sprite every time we generate it.
@@ -72,7 +78,7 @@ I came up with this specific implementation of collision detection and resolutio
 
 The first step is to see if the object has actually hit anything. To do that, we see if the object's *bounding box*---the invisible box around them that we use to check collision---has overlapped any tiles of collision this frame.
 
-I usually make the bounding box roughly match the positiona and size of the object's sprite, but this doesn't always have to be the case; giving an object a smaller bounding box than its sprite suggests can make it feel more lithe and mobile, and I set Rrio's bounding box to have a height of 1.8 tiles so he can fit through 2-tile gaps. 
+I usually make the bounding box roughly match the position and size of the object's sprite, but this doesn't always have to be the case; giving an object a smaller bounding box than its sprite suggests can make it feel more lithe and mobile, and I set Rrio's bounding box to have a height of 1.8 tiles so he can fit through 2-tile gaps. 
 
 ![](images/rrio_collide_box.jpeg)
 
@@ -122,7 +128,33 @@ I usually track falling status with a property called `grounded` for objects wit
 
 
 
+## ?? Game Camera
 
+Here's the plan for how the screen should scroll:
+
+- Rrio will always be fixed in the center of the screen, like in most games of this genre.
+- The screen will only scroll vertically when it 'needs to'--- when Rrio is *grounded* 3+ tiles above/below the center of the screen. Some other games use this effect and it feels pretty intuitive.
+
+Since Rrio's position on the screen is determined by his `RAM$objects$rrio$x` and `$y`, we can fix `$x` in the center of the screen and have `$y` react to his real position in the level (`$pos.y`).
+
+<details>
+  <summary>**CodeTODOTDO**</summary>
+screenscroll vertical or whatever but you need a better name for it
+</details>
+
+
+
+
+
+
+## ?? Level End
+check level end, spawn in next level
+
+## ?? level design
+here's the other levels rendered out! you can see how easy they are to make
+
+## (use the collision data to spawn enemies)
+## (maybe rename leveldata, yeah I like that!)
 
 
 

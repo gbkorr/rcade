@@ -28,9 +28,9 @@ This input is written to \href{inputs.read}{\code{inputs.csv}}.\cr
 \item When the gameloop runs \code{\link[=inputs.get]{inputs.get()}}, this input is added to \code{RAM$inputs} and its timestamp is converted to the tick it should be processed on.\cr
 \item When \verb{RAM$ticks ==} the tick timestamp of this input in \code{RAM$inputs}, the input is processed:\cr
 \item The input is split into individual characters: \code{"w"} and \code{"a"}.\cr
-\item The actions corresponding to these keys, \verb{RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]}, are set to \code{TRUE} in \code{RAM$actions} (see below).\cr
+\item The actions corresponding to these keys, \verb{RAM$ROM$keybinds["w"] and RAM$ROM$keybinds["a"]}, are set to \code{1} in \code{RAM$actions} (see below).\cr
 \item Game code in \code{RAM$ROM$custom()} reads \code{RAM$actions} and move the player character accordingly.
-\item On the next frame, all \code{RAM$actions} are set to FALSE before inputs are checked again.
+\item On the next frame, all \code{RAM$actions} are set to \code{0} before inputs are checked again.
 }
 }
 \section{Keybinds}{
@@ -43,10 +43,10 @@ Keybinds are set by the dev with, e.g.
 This stores the actions ('attack', 'up', etc.) and the keys (k, w, etc.) that, when input, activate the actions.
 These keybinds populate \code{RAM$actions} when RAM is \href{ram.init}{initialized}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{RAM$actions = c(attack = FALSE, up = FALSE, left = FALSE, down = FALSE. right = FALSE)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{RAM$actions = c(attack = 0, up = 0, left = 0, down = 0 right = 0)
 }\if{html}{\out{</div>}}
 
-When a key is registered, the corresponding action in \code{RAM$actions} is set to TRUE for one frame.
+When a key is registered, the corresponding action in \code{RAM$actions} is set to \code{1} for one frame. (If a key is pressed multiple times in the same input, e.g. \code{ww}, the action will be set to \code{2}, and so on. This is useful for allowing for more input combinations with a single button.)
 
 The game should read RAM$actions to control game behavior; see \code{vignette('rrio')} to see this in action.
 }

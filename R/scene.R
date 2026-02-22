@@ -120,7 +120,7 @@ render.object = function(scene, obj, RAM){
 			sprite = render.animate(obj$spritename, draw$timer, RAM$ROM$sprites, RAM$ROM$framerate) #retrieve which matrix to draw for animation
 		}
 
-		scene = render.sprite(scene, sprite, draw$x + draw$offset.x, draw$y + draw$offset.y, draw$layer, draw$palette)
+		scene = render.sprite(scene, sprite, floor(draw$x + draw$offset.x), floor(draw$y + draw$offset.y), draw$layer, draw$palette)
 	}
 
 	return(scene)

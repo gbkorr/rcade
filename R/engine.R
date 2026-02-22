@@ -109,7 +109,7 @@ ram.init = function(ROM){
 
 		n_inputs = 1, #number of inputs in `inputs.csv` processed
 		inputs = data.frame(timestamp = -1, text = 'init'),
-		actions = {\(){actions = as.list(rep(FALSE,length(ROM$keybinds)));
+		actions = {\(){actions = as.list(rep(0,length(ROM$keybinds)));
 			names(actions) = ROM$keybinds
 			return(actions)}}(),  #list of states for each action: pressed, held, released
 

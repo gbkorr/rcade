@@ -66,8 +66,9 @@ SuperRrio$startup = function(RAM){
 		x = floor(RAM$ROM$screen.width/2), #centered horizontally
 		y = floor(RAM$ROM$screen.height/2), #centered vertically
 
-		pos.x = 8,
-		pos.y = 8,
+		pos.x = 6,
+		pos.y = 4,
+		visual_y = 4, #only updated when grounded; used for screen scrolling
 
 		#velocity
 		vx = 0,
@@ -93,12 +94,12 @@ SuperRrio$startup = function(RAM){
 
 
                 rr
-                rrr
-         bbbb   rrr         bbbbbbb
                 rrrr
-                rrrr
-oooooooooooooooorrrrrooooooooo   ooooooooooooooooooooooooooooooo
-oooooooooooooooorrrrrooooooooo   ooooooooooooooooooooooooooooooo
+         bbbb   rrrr         bbbbbbb
+                rrrrrr
+                rrrrrr
+oooooooooooooooorrrrrrrrooooooooo   ooooooooooooooooooooooooooooooo
+oooooooooooooooorrrrrrrrooooooooo   ooooooooooooooooooooooooooooooo
 ',lookup=c(' '=0,o=1,b=2,r=3))
 	)
 
@@ -113,7 +114,7 @@ oooooooooooooooorrrrrooooooooo   ooooooooooooooooooooooooooooooo
 # ---- Collision Rendering ----
 SuperRrio$render.collision = function(scene, obj, RAM){
 	pos.x = RAM$objects$rrio$pos.x
-	pos.y = RAM$objects$rrio$pos.y
+	pos.y = RAM$objects$rrio$visual_y
 
 	collision = RAM$objects$collision$data
 
@@ -178,20 +179,41 @@ SuperRrio$assemble_collision_sprite = function(RAM, xrange, yrange){ #xrange and
 	return(sprite)
 }
 
+SuperRrio$vertical_scroll = function(RAM){
+	rrio = RAM$objects$rrio
+
+	#match screenscroll
+	rrio$y = floor(RAM$ROM$screen.height/2) + floor(RAM$ROM$tilesize * (rrio$visual_y - rrio$pos.y))
+
+	#scroll screen vertically if grounded and far enough
+	scroll_diff = rrio$visual_y - rrio$pos.y #in collision tiles
+	if (rrio$grounded){
+		rrio$visual_y	= rrio$visual_y - 0.1 * scroll_diff
+		if (abs(scroll_diff) < 0.5) rrio$visual_y = rrio$pos.y
+	}
+
+	RAM$objects$rrio = rrio
+
+	return(RAM)
+}
 # ---- Rrio Control ----
 SuperRrio$control_rrio = function(RAM){
 	rrio = RAM$objects$rrio
 
 	#can only control movement while grounded
 	if (rrio$grounded){
-		if (RAM$actions$jump) rrio$vy = rrio$jump_strength
-		if (RAM$actions$right) rrio$vx = rrio$speed #can jump and move on the same tick
+		if (RAM$actions$right) rrio$vx = rrio$speed #regular move; can jump and move on the same tick
 		else if (RAM$actions$left) rrio$vx = -rrio$speed
 		else {
 			#apply friction
 			if (abs(rrio$vx) - rrio$friction > 0) rrio$vx = rrio$vx - sign(rrio$vx) * rrio$friction
 			else rrio$vx = 0
 		}
+
+		#jump/slowwalk
+		if (RAM$actions$jump) rrio$vy = rrio$jump_strength
+		else if (RAM$actions$right == 1) rrio$vx = 2 * rrio$speed #dash, but can't dash and jump
+		else if (RAM$actions$left == 1) rrio$vx = -2 * rrio$speed
 	}
 
 	RAM$objects$rrio = rrio
@@ -201,9 +223,6 @@ SuperRrio$control_rrio = function(RAM){
 
 # ---- Physics ----
 SuperRrio$move_object = function(obj,collision){
-
-	#code controlling rrio will be in a function called before this one
-
 	#apply gravity
 	obj$vy = obj$vy - obj$gravity
 
@@ -238,17 +257,17 @@ SuperRrio$collide = function(obj,collision){
 	if (sum(collision[loc.y,loc.x]) > 0){
 
 		#land on ground: bottom of bounding box passes gridline
-		if (ceiling(obj$pos.y - obj$height) > floor(new.y - obj$height)){
+		if (ceiling(obj$pos.y - obj$height) > ceiling(new.y - obj$height)){
 			obj$grounded = TRUE #landed on the ground, so become grounded
 			obj$pos.y = 0.001 + ceiling(new.y - obj$height) + obj$height #snap to ground
 			obj$vy = 0 #stop moving vertically
 		}
 
 		#hit ceiling
-		#else if (floor(obj$pos.y) < ceiling(new.y)){
-		#	obj$pos.y = -0.01 + ceiling(new.y) #snap to ceiling
-		#	obj$vy = 0 #stop moving vertically
-		#}
+		else if (ceiling(obj$pos.y) < ceiling(new.y)){
+			obj$pos.y = floor(new.y) #snap to ceiling
+			obj$vy = 0 #stop moving vertically
+		}
 	}
 
 
@@ -260,8 +279,8 @@ SuperRrio$collide = function(obj,collision){
 	new.y = obj$pos.y + obj$vy
 
 	#horizontal and vertical span of tiles overlapped by obj bounding box
-	loc.x = ceiling(obj$pos.x):ceiling(obj$pos.x + obj$width)
-	loc.y = 1 + nrow(collision) - ceiling(obj$pos.y):ceiling(obj$pos.y - obj$height)
+	loc.x = ceiling(new.x):ceiling(new.x + obj$width)
+	loc.y = 1 + nrow(collision) - ceiling(new.y):ceiling(new.y - obj$height)
 
 	#clip inbounds
 	loc.x = loc.x[loc.x %in% 1:ncol(collision)]
@@ -277,8 +296,8 @@ SuperRrio$collide = function(obj,collision){
 		}
 
 		#left wall
-		if (floor(obj$pos.x) > ceiling(new.x)){
-			obj$pos.x = ceiling(new.x) #snap to wall
+		else if (floor(obj$pos.x) < ceiling(new.x)){
+			obj$pos.x = 0.01 + ceiling(new.x) #snap to wall
 			obj$vx = 0 #stop moving horizontally
 		}
 	}
@@ -300,6 +319,9 @@ SuperRrio$custom = function(RAM){
 	#control and move rrio
 	RAM = RAM$ROM$control_rrio(RAM)
 	RAM$objects$rrio = RAM$ROM$move_object(RAM$objects$rrio,RAM$objects$collision$data)
+
+	#vertical screenscroll
+	RAM = RAM$ROM$vertical_scroll(RAM)
 
 	#move enemies
 

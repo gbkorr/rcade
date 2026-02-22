@@ -1,9 +1,9 @@
 
-# Initialization ----
+# ---- Initialization ----
 #320, 200
 R2Studio = rom.init(100,30,framerate=1)
 
-# Graphics ----
+# ---- Graphics ----
 
 R2Studio$draw_ui = function(scene, obj, RAM){
 	#we do this live because we have plenty of time (at 1fps!) and because it lets us change things
@@ -60,7 +60,7 @@ R2Studio$draw_console = function(scene, obj, RAM){
 }
 
 
-# Plotting ----
+# ---- Plotting ----
 R2Studio$drawplot = function(scene, obj, RAM){
 	list2env(RAM$objects$plotwindow, envir = environment()) #load object data
 
@@ -116,20 +116,27 @@ R2Studio$drawplot = function(scene, obj, RAM){
 }
 
 R2Studio$pch = function(pch, cex){
-	size = floor(2 * 2 * cex)/2 #half width
+	size = floor((cex+0.9)*2.2)/2 #half width
 	sprite = matrix(0,size*2,size*2)
-	for (x in -0.5 + (1-size):size) for (y in -0.5 + (1-size):size){
+	for (x in -0.5 + (-size):size) for (y in -0.5 + (-size):size){
 		sprite[size + y + 0.5, size + x + 0.5] = switch(pch,
-				(floor(sqrt(x^2+y^2)) == (size - 1)) # STILL DOESNT WORK EXACTLY RIGHT TODOTODOTODOTODO
+				(sqrt(x^2+y^2) > size-1 && sqrt(x^2+y^2) < size), #circle
+				(ceiling(abs(x)+abs(y)) == floor(size)), #diamond
+				(ceiling(abs(x)) == floor(size) || ceiling(abs(y)) == floor(size)), #square
 
+				(floor(x) == 0 || floor(y) == 0), #plus
+				(floor(abs(x)) == floor(abs(y))), #cross
 
+				(sqrt(x^2+y^2) < size), #filled circle
+				(ceiling(abs(x)+abs(y)) <= floor(size)), #filled diamond
+				(ceiling(abs(x)) <= floor(size) || ceiling(abs(y)) <= floor(size)) #filled square
 		)
 	}
 	return(sprite)
 } #generates sprite on the spot for a given pch and cex
 
 
-# Hooked Functions ----
+# ---- Hooked Functions ----
 R2Studio$plot = function(RAM, x, y=NULL, xlim=NULL, ylim=NULL, xlab='', ylab='', main='', pch=1, cex=1, type='p'){
 	#just edits the plot window to agree with the new stuff
 
@@ -187,7 +194,7 @@ R2Studio$use.font = function(RAM, font = NULL, kerning = NULL, linespacing = NUL
 	return(RAM)
 }
 
-# Core ----
+# ---- Core ----
 R2Studio$evaluate = function(RAM,expr){
 
 	#hook functions
@@ -235,7 +242,7 @@ R2Studio$evaluate = function(RAM,expr){
 
 
 
-# Startup and Custom ----
+# ---- Startup and Custom ----
 R2Studio$startup = function(RAM){
 	RAM$font = fonts.3x5
 
@@ -284,7 +291,23 @@ R2Studio$custom = function(RAM){
 
 
 
-# Save ----
+# ---- Save ----
+
+#pch demo
+demo.pch = function(){
+	op = c()
+	for (pc in 1:8){
+		row = c()
+		for(i in c(0,0.2,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5)){
+			pt = R2Studio$pch(pc,i)
+			ln = 13 - nrow(pt)
+			for (j in 1:ln) pt = cbind(rbind(pt,0),0)
+			row = cbind(row,pt)
+		}
+		op = rbind(op,row)
+	}
+	op
+}
 
 
 #quickload(R2Studio)
