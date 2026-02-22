@@ -28,7 +28,7 @@ Simple sprites are just a static sprite matrix.
 
 Complex sprites are a list containing multiple frames of animation. Complex sprites can have the following properties:\tabular{llll}{
     \tab  \tab  \tab  \cr
-   \verb{$framerate} \tab \verb{  } \tab  \tab Framerate at which to play the animation. \cr
+   \verb{$framerate} \tab \verb{  } \tab Framerate at which to play the animation. \tab  \cr
     \tab  \tab  \tab  \cr
    \verb{$next_animation} \tab  \tab spritename of which animation from ROM$sprites to play next when all frames of this one have played. If \code{NULL}, animation loops. \tab  \cr
     \tab  \tab  \tab  \cr
@@ -45,5 +45,48 @@ Animated sprites can be tested using \code{\link[=render.test_animation]{render.
 \link{todo: example of simple animation}
 }
 \examples{
+\dontrun{
 #simple two-part animation using sprite$next_animation
+sprites = list(
+bar.loading = list(
+	framerate = 4, #frames per second
+	next_animation = 'bar.complete', #will transition into this animation automatically
+	frames = list(
+		render.makesprite('
+..........'),
+		render.makesprite('
+O.........'),
+		render.makesprite('
+OO........'),
+		render.makesprite('
+OOO.......'),
+		render.makesprite('
+OOOO......'),
+		render.makesprite('
+OOOOO.....'),
+		render.makesprite('
+OOOOOO....'),
+		render.makesprite('
+OOOOOOO...'),
+		render.makesprite('
+OOOOOOOO..'),
+		render.makesprite('
+OOOOOOOOO.'),
+		render.makesprite('
+OOOOOOOOOO')
+	)
+),
+bar.complete = list(
+	framerate = 2,
+	frames = list(
+		render.makesprite('
+OOOOOOOOOO'),
+		render.makesprite('
+..........')
+	)
+)
+)
+
+render.test_animation('bar.loading',sprites)
+}
 }

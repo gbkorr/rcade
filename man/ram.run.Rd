@@ -49,7 +49,7 @@ Functions are nested in the gameloop like so:
 }
 
 \examples{
-\donttest{
+\dontrun{
 RAM = ram.init(BadApple)
 RAM = ram.run(RAM)
 

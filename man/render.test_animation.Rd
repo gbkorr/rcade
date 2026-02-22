@@ -18,6 +18,42 @@ Plays a sprite's animation into the console. \verb{^C} to stop.
 This function is intended to aid in the sprite creation process.
 
 It handles \code{sprite$next_animation} properly, so it can be used to test multi-stage animations too.
+}
+\examples{
+\dontrun{
+sprites = list(
+bird.flap = list(
+	framerate = 12, #frames per second
+	frames = list(
+		render.makesprite('
+ O    O
+OOO  OO
+   OO
+ OOOOOOO
+OOOO
 
-\link{todo examples with mario runcycle}
+'),
+		render.makesprite('
+
+
+OOO  OOOO
+O OOOOOOO
+OOOO   OO
+
+'),
+		render.makesprite('
+
+
+
+   OOOOOO
+ OOOOO
+OO     OOO
+')
+	)
+)
+)
+
+
+render.test_animation('bird.flap',sprites)
+}
 }

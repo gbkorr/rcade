@@ -188,8 +188,6 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 #' |`$offset.y`||Offset relative to y.|
 #'
 #' Animated sprites can be tested using [render.test_animation()].
-#'
-#' [todo: example of simple animation]
 #' @returns
 #' Returns a sprite matrix suitable for `render.sprite()`.
 #' @param spritename String; name of sprite as defined in `sprites`.

@@ -50,7 +50,7 @@ Custom game code (in \code{\link[=rom.init]{RAM$ROM$custom}}) should typically o
 }
 
 \examples{
-\donttest{
+\dontrun{
 RAM = ram.init(Snake)
 View(RAM)
 }

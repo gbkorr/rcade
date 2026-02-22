@@ -43,7 +43,7 @@ If the game is paused and an input is entered, it will be processed next \verb{/
 }
 
 \examples{
-\donttest{
+\dontrun{
 quickload(Snake)
 #in a separate R session:
 inputs.listen()

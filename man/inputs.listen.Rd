@@ -37,7 +37,7 @@ Inputs are stored as rows in the \code{inputs.csv} dataframe, which has the foll
 
 Only one \code{inputs.csv} file exists and is read by the package; the file is wiped every time \code{\link[=ram.init]{ram.init()}} is called.
 @examples
-\donttest{
+\dontrun{
  quickload(Snake)
  #in a separate R session:
  inputs.listen()

@@ -22,7 +22,7 @@ Additionally, the RAM restores the R session's RNG after running game code, so t
 \link{WHY DOES THIS NOT WORK? I have confirmed that the RNG is set and stored properly with this function, not sure about in ram.tick}
 }
 \examples{
-\donttest{
+\dontrun{
 #example of a random situation:
 
 quickload(Snake)

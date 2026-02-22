@@ -23,7 +23,7 @@ Runs one tick (frame) of the RAM.
 This means calling \code{RAM$ROM$custom()} once (see \link{rom.init}).
 }
 \examples{
-\donttest{
+\dontrun{
 quickload(BadApple)
 #^C to pause
 RAM = ram.tick(RAM); render.ram(RAM)

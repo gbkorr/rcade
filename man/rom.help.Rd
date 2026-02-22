@@ -70,7 +70,7 @@ This is required due to how R handles nested lists; the format\cr \verb{for (obj
 }
 
 \examples{
-\donttest{
+\dontrun{
 #traceback demo:
 RAM = ram.init(Snake)
 RAM$ROM$sprites = NULL #this will make the game crash
