@@ -193,7 +193,7 @@ The package provides a convenient tool for this:
 intuitively as possible. The goal of this function is to remove the need
 for confusing matrix manipulation, and to follow the principle of
 WYSIWYG for maximal convenience: “what you see is what you get”.</p>
-<details><summary><strong>Example</strong>`
+<details><summary><strong>Example</strong>
 </summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">circle</span> <span class="op">=</span> <span class="fu"><a href="../reference/render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span>
 <span><span class="st">  OOO</span></span>
@@ -370,19 +370,10 @@ anything it covers. This uses the <code>invert</code> argument of
 <span></span>
 <span><span class="va">scene</span> <span class="op">=</span> <span class="fu"><a href="../reference/render.sprite.html">render.sprite</a></span><span class="op">(</span><span class="va">scene</span>,<span class="va">txt</span>,<span class="fl">2</span>,<span class="fl">1</span>,layer<span class="op">=</span><span class="st">'invert'</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/render.scene.html">render.scene</a></span><span class="op">(</span><span class="va">scene</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                                               [][][][][][][][][][][][][][][][][][][][]          </span></span>
-<span><span class="co">#&gt;   [][][]  [][][]  []  []  [][][]  [][][]        []      []      []      [][][][][][][]          </span></span>
-<span><span class="co">#&gt;     []    []  []  []  []  [][]    [][]    []  [][][]  [][]  []  []  []  [][][][][][][]          </span></span>
-<span><span class="co">#&gt;   [][][]  []  []    []    [][][]  []  [][]    [][]      []      []  []  [][][][][][][]          </span></span>
-<span><span class="co">#&gt;                                       [][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
-<span><span class="co">#&gt;                                     [][][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
-<span><span class="co">#&gt;   [][][]  [][][]          [][][]        []  [][][]      []      [][]    [][][][][][][]          </span></span>
-<span><span class="co">#&gt;   []  []  [][]            []    []  []  []  [][][]  []  []    [][][]  [][][][][][][][]          </span></span>
-<span><span class="co">#&gt;   [][][]  []              [][]  []      []      []      []  []  []    [][][][][][][][]          </span></span>
-<span><span class="co">#&gt;                             [][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
-<span><span class="co">#&gt;                           [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          </span></span>
-<span><span class="co">#&gt;                         [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/render.scene.html">render.scene</a></span><span class="op">(</span><span class="va">scene</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="images/render_1.png" alt="Zoom out if this is hard to read."><div class="figcaption">Zoom out if this is hard to read.</div>
+</div>
 </details>
 </div>
 </div>
@@ -566,8 +557,8 @@ console.</p>
 <h3 id="setup">9.1 Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h3>
 <ol style="list-style-type: lower-roman">
-<li><p>We start with an object called Blueberry It’s at the xy
-coordinates (5,6) and is on layer 5.</p></li>
+<li><p>We start with an object called Blueberry. It’s at the xy
+coordinates (5,6) and is on layer 5 of the game scene.</p></li>
 <li><p>Blueberry is stored in RAM as the list
 <code>RAM$objects$blueberry</code>, and has the following
 elements:</p></li>

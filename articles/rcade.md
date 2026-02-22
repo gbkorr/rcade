@@ -69,20 +69,20 @@ creation.
 
 ![](images/thumbnail_badapple.png)
 
-This ROM is a proof of concept for the graphical capabilities of rcade,
-which can comfortably play videos at resolutions exceeding 64x64.
+This ROM isn’t a game, but rather a proof of concept for the graphical
+capabilities of rcade.
 
 Bad Apple is the canonical video to demonstrate the graphical
 capabilities of hardware that… shouldn’t really have these graphical
-capabilities. People have run it on everything from original IBM
-[computers](https://www.youtube.com/watch?v=E0h8BUUboP0) to
+capabilities. People have run it on everything from original [IBM
+computers](https://www.youtube.com/watch?v=E0h8BUUboP0) to
 [oscilloscopes](https://www.youtube.com/watch?v=7pzvEouWino) to
 [calculators](https://www.youtube.com/watch?v=6pAeWf3NPNU) to glitching
 [pokemon](https://www.youtube.com/watch?v=ciIkpw3glH4) to run the video
 ingame via ACE.
 
 I’m certainly not the first to make this on a CLI console, nor [in
-R](https://www.youtube.com/watch?v=cCK_-yRJ0Ow). but I believe this is
+R](https://www.youtube.com/watch?v=cCK_-yRJ0Ow). But I believe this is
 the first time it’s been done on the R console.
 
 ### 3.4 R²Studio
@@ -99,7 +99,7 @@ Running a program in itself is the pinnacle of wacky software
 enginnering, in my mind.[²](#fn2) This really shows how robust rcade can
 be when pushed to its limits.
 
-(… yes, it can run itself too.)
+(…yes, it can run itself too.)
 
 ## 4. History and Motivation
 
@@ -160,7 +160,7 @@ and declaring function returns explicitly.
 Additionally, for the sake of organization, function names are prefixed
 by general context— e.g., functions pertaining to “the rendering
 process” take the form `render.foo()`. This is against S3 conventions
-(where the prefix indicates what class a function operates on) but I
+(where the suffix indicates what class a function operates on) but I
 find it to be an immensely valuable tool for writing understandable
 code.
 

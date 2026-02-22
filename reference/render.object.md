@@ -62,6 +62,10 @@ the default value (second column) will be used.
 |               |     |                |                                                                                                                                                |
 | `$y`          |     | `1`            | Y-coordinate.                                                                                                                                  |
 |               |     |                |                                                                                                                                                |
+| `$offset.x`   |     | `0`            | Pixels to offset sprite horizontally from obj\$x.                                                                                              |
+|               |     |                |                                                                                                                                                |
+| `$offset.y`   |     | `0`            | Vertical offset.                                                                                                                               |
+|               |     |                |                                                                                                                                                |
 | `$layer`      |     | `2`            | Layer on which to draw the sprite. See [render.scene](https://gbkorr.github.io/rcade/reference/render.scene.md); high layers are drawn on top. |
 |               |     |                |                                                                                                                                                |
 | `$timer`      |     | `RAM$timer`` ` | Tick count (ascending) for animations.                                                                                                         |
@@ -69,6 +73,15 @@ the default value (second column) will be used.
 | `$palette`    |     | `NULL`         | Vector to swap the colors of the object's sprite around, e.g. `c(0,2,1)` swaps values of 2 and 1. Index starts at 0. Defaults to no swapping.  |
 |               |     |                |                                                                                                                                                |
 | `$draw()`     |     | `NULL`         | Overwrites the default drawing behavior for the sprite; see above.                                                                             |
+
+## Offsets
+
+Both the `obj` and `sprite` can have optional `offset.x`/`offset.y`
+properties to offset the draw location of their sprite from their
+position. This can be useful for animation and aligning an object's
+sprite with its actual hitbox.
+
+If both object and sprite have an offset property, the two are added.
 
 ## Examples
 

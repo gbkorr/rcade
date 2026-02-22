@@ -80,345 +80,135 @@
 <span><span class="co">#&gt; Open `vignette("guide")` to get started!</span></span>
 <span><span class="co">#&gt; Warning in fun(libname, pkgname): Please use RStudio! rcade may not work in</span></span>
 <span><span class="co">#&gt; other environments.</span></span></code></pre>
-<p>intro</p>
-<p>This article will be a bit looser than
-<code><a href="../articles/snake.html">vignette("snake")</a></code>— rather than walking through every step
-of the code, it will instead cover the bigger-picture ideas of how the
-game operates and runs. Some code will be included, but a comprehensive
-amount; if you want a closer look at the code, just inspect the ROM
-itself: <code>View(SuperRrio)</code>.</p>
-<div class="section level3">
-<h3 id="the-plan">1. The Plan<a class="anchor" aria-label="anchor" href="#the-plan"></a>
-</h3>
-<p>I want this game to be a decently similar experience to playing
-<em>Super Mario Bros.</em>. To do this, I’ll want:</p>
-<ul>
-<li><p>A controllable character (Mario -&gt; Rrio) that can run and
-jump.</p></li>
-<li><p>A scrolling screen that always keeps Rrio at the center, and
-obstacles to land on.</p></li>
-<li><p>Moving enemies that Rrio can jump on to defeat.</p></li>
-</ul>
-<p>I don’t feel like making a whole game— one level should be a good
-enough proof of concept. (And will make it easy to add future
-levels!)</p>
-</div>
-<div class="section level3">
-<h3 id="initialization">2. Initialization<a class="anchor" aria-label="anchor" href="#initialization"></a>
-</h3>
-<p>Let’s create the ROM with <code>rom.init</code>. For settings, we’ll
-choose:</p>
-<ul>
-<li>96x32 resolution: horizontal features will be much more important in
-this game, so we don’t need much vertical space.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;And we’ll code it so that the dimensions can be easily
-adjusted without impacting gameplay.&lt;/p&gt;"><sup>1</sup></a>
-</li>
-</ul>
-<ul>
-<li>60fps framerate: for action games, we always want to be at 60fps for
-the smoothest experience.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;And even if the game struggles to draw at that speed,
-it’ll run at least as well as 30fps! See
-&lt;code&gt;&lt;a href="../articles/timing.html"&gt;vignette("timing")&lt;/a&gt;&lt;/code&gt;.&lt;/p&gt;'><sup>2</sup></a>
-</li>
-</ul>
-<ul>
-<li><p>Keybinds: <code>AD</code> to move left/right, <code>SPACE</code>
-to jump.</p></li>
-<li><p>We don’t need to set sprites or game code yet, since we’ll do
-that throughout the article.</p></li>
-</ul>
-<details><summary><code>rom.init()</code>
-</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SuperRrio</span> <span class="op">=</span> <span class="fu"><a href="../reference/rom.init.html">rom.init</a></span><span class="op">(</span></span>
-<span>  screen.width <span class="op">=</span> <span class="fl">96</span>, screen.height <span class="op">=</span> <span class="fl">32</span>,</span>
-<span>  framerate <span class="op">=</span> <span class="fl">60</span>,</span>
-<span>  keybinds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a<span class="op">=</span><span class="st">'left'</span>,d<span class="op">=</span><span class="st">'right'</span>,<span class="st">' '</span><span class="op">=</span><span class="st">'jump'</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</details>
-</div>
-<div class="section level3">
-<h3 id="controlling-rrio">3. Controlling Rrio<a class="anchor" aria-label="anchor" href="#controlling-rrio"></a>
-</h3>
-<p>Let’s get started by drawing Rrio, the most important character in
-the game!</p>
-<div class="section level4">
-<h4 id="pixel-art">3.1 Pixel Art<a class="anchor" aria-label="anchor" href="#pixel-art"></a>
-</h4>
-<p>Rrio will be animated and have a different animation depending on if
-he’s running, jumping, falling, etc. For now, let’s just start with a
-static sprite for standing.</p>
-<details><summary><code>SuperRrio$sprites$rrio.idle</code>
-</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">sprites</span><span class="op">$</span><span class="va">rrio.idle</span> <span class="op">=</span> <span class="fu"><a href="../reference/render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span>
-<span><span class="st"></span></span>
-<span><span class="st">   oo</span></span>
-<span><span class="st"> o oo o</span></span>
-<span><span class="st"> oooooo</span></span>
-<span><span class="st">   o o</span></span>
-<span><span class="st"></span></span>
-<span><span class="st">  ooo</span></span>
-<span><span class="st"> o o o</span></span>
-<span><span class="st">   o</span></span>
-<span><span class="st">   o</span></span>
-<span><span class="st">  o o</span></span>
-<span><span class="st">  o o</span></span>
-<span><span class="st">'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#test it:</span></span>
-<span><span class="fu"><a href="../reference/render.matrix.html">render.matrix</a></span><span class="op">(</span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">sprites</span><span class="op">$</span><span class="va">rrio.idle</span><span class="op">)</span></span>
-<span><span class="co">#&gt;               </span></span>
-<span><span class="co">#&gt;       [][]    </span></span>
-<span><span class="co">#&gt;   []  [][]  []</span></span>
-<span><span class="co">#&gt;   [][][][][][]</span></span>
-<span><span class="co">#&gt;       []  []  </span></span>
-<span><span class="co">#&gt;               </span></span>
-<span><span class="co">#&gt;     [][][]    </span></span>
-<span><span class="co">#&gt;   []  []  []  </span></span>
-<span><span class="co">#&gt;       []      </span></span>
-<span><span class="co">#&gt;       []      </span></span>
-<span><span class="co">#&gt;     []  []    </span></span>
-<span><span class="co">#&gt;     []  []</span></span></code></pre></div>
-</details>
-</div>
-<div class="section level4">
-<h4 id="drawing-rrio">3.2 *Drawing Rrio<a class="anchor" aria-label="anchor" href="#drawing-rrio"></a>
-</h4>
-<p>Because of the scrolling screen, Rrio will always stay centered
-horizontally. This is pretty convenient for drawing him, but will lead
-to some challenges when we want to draw everything else.</p>
-<p>To test, let’s spawn him in the center of the screen to make sure
-everything is worki</p>
-<details><summary><code>initializing RAM$objects$rrio</code>
-</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">startup</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">RAM</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">rrio</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">screen.width</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, <span class="co">#centered horizontally</span></span>
-<span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">screen.height</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, <span class="co">#centered vertically</span></span>
-<span>    </span>
-<span>    spritename <span class="op">=</span> <span class="st">'rrio.idle'</span></span>
-<span>  <span class="op">)</span>  </span>
-<span>  </span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</details><p>BAD CODE DEMO, THIS ISNT A WALKTHROUGH—- ITS A RECORD OF THE SYSTEMS
-IN THIS GAME</p>
-<p>Now when we run <code>quickload(SuperRrio)</code>, we see Rrio in the
-center of the screen.</p>
-<p>control stuff has to be after collision</p>
-<p>We’ll be adding stuff to rrio’s data in <code>startup</code> a lot
-throughout this guide.</p>
-<p>the impulse inputs present a bit of a problem for smooth control. the
-solution ive chosen is to implement different behavior depending on
-what’s pressed: A vs A+Jump vs when midair</p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="obstacles">4. Obstacles<a class="anchor" aria-label="anchor" href="#obstacles"></a>
-</h3>
+<p>[the rom] a downside is that a game like this deserves its own
+documentation (since it uses complex systems), which I don’t have reason
+enough to make… but this rom at least shows that rcade is capable of
+letting you do pretty much whatever you want in terms of gamedev if you
+know how</p>
+<p>#turning around?</p>
+<p>#vertical scrolling where? a staircase is a great demo for this</p>
+<div class="section level2">
+<h2 id="obstacles-the-collision">???. Obstacles: the Collision<a class="anchor" aria-label="anchor" href="#obstacles-the-collision"></a>
+</h2>
 <p>Before we can add more control to Rrio, we have to create ground for
 him to interact with. I’d like to take the approach <em>Super Mario
-Bros.</em> uses— if we store blocks of ground in a grid, it’s very easy
-to tweak and edit, and makes drawing a lot simpler as well.</p>
+Bros.</em> uses— if we store tiles of ground in a grid, it’s very easy
+to tweak and edit, and makes drawing a lot simpler as well. We’ll call
+this grid of tiles the <em>collision</em>.</p>
 <p><img src="images/rrio_1.jpeg"></p>
-<div class="section level4">
-<h4 id="collision-storage">4.1 Collision Storage<a class="anchor" aria-label="anchor" href="#collision-storage"></a>
-</h4>
-<p>We’ll store this grid of ground tiles—which I’ll refer to as “the
-collision”—in <code>RAM$objects$collision</code>. It’ll just be a
-sprite-like matrix, but instead of encoding individual pixels, it’ll
-encode which gridsquares are empty (0) or various kinds of tiles (1+).
-Because this matrix is sprite-like, we can make it with
-<code><a href="../reference/render.makesprite.html">render.makesprite()</a></code>! This is a huge boon for level
-creation, as it makes it even easier to create the collision for a
-level.</p>
-<details><summary><strong>Defining the Collision in SuperRrio$startup()</strong>
-</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">collision</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu"><a href="../reference/render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span>
-<span><span class="st">    </span></span>
-<span><span class="st">                  bbbb    </span></span>
-<span><span class="st">          </span></span>
-<span><span class="st">    </span></span>
-<span><span class="st">             bbbbbb             rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr</span></span>
-<span><span class="st">                                        rr        r       rrr</span></span>
-<span><span class="st">                                        r         r       rr</span></span>
-<span><span class="st">         bbbb        bbbb                                 r</span></span>
-<span><span class="st"></span></span>
-<span><span class="st"></span></span>
-<span><span class="st">oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</span></span>
-<span><span class="st">oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo                            </span></span>
-<span><span class="st">'</span>,lookup<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">' '</span><span class="op">=</span><span class="fl">0</span>,o<span class="op">=</span><span class="fl">1</span>,b<span class="op">=</span><span class="fl">2</span>,r<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</details>
-</div>
-<div class="section level4">
-<h4 id="drawing-collision">4.2 Drawing Collision<a class="anchor" aria-label="anchor" href="#drawing-collision"></a>
-</h4>
-<p>Each tile will occupy 4x4 pixels. Thus, we’ll want to make a 4x4
-sprite for each kind of tile we want to be able to draw:</p>
-<details><summary><strong>Tile Sprites</strong>
-</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">tilesize</span> <span class="op">=</span> <span class="fl">4</span></span>
-<span></span>
-<span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">sprites</span><span class="op">$</span><span class="va">ground_tile</span> <span class="op">=</span> <span class="fu"><a href="../reference/render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span>
-<span><span class="st">OOOO</span></span>
-<span><span class="st">O O</span></span>
-<span><span class="st"></span></span>
-<span><span class="st">   O                                               </span></span>
-<span><span class="st">'</span><span class="op">)</span></span>
-<span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">sprites</span><span class="op">$</span><span class="va">brick_tile</span> <span class="op">=</span> <span class="fu"><a href="../reference/render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span>
-<span><span class="st">OOOO</span></span>
-<span><span class="st">O OO</span></span>
-<span><span class="st">OO O</span></span>
-<span><span class="st">OOOO                                                  </span></span>
-<span><span class="st">'</span><span class="op">)</span></span>
-<span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">sprites</span><span class="op">$</span><span class="va">rock_tile</span> <span class="op">=</span> <span class="fu"><a href="../reference/render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span>
-<span><span class="st">OOOO</span></span>
-<span><span class="st"> O O</span></span>
-<span><span class="st">OOOO</span></span>
-<span><span class="st">O  O</span></span>
-<span><span class="st">'</span><span class="op">)</span></span></code></pre></div>
-</details><p>Now to draw the collision, we can just stick all the tile sprites
-together according to the collision matrix. The code for this is pretty
-dense, but what it does is rather simple.</p>
-<details><summary><strong>Stitching Tiles into a Sprite</strong>
-</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">assemble_collision_sprite</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">RAM</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="va">M</span> <span class="op">=</span> <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">collision</span><span class="op">$</span><span class="va">data</span> <span class="co">#collision matrix</span></span>
-<span>  </span>
-<span>  <span class="va">ts</span> <span class="op">=</span> <span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">tilesize</span> <span class="co">#= 4</span></span>
-<span>  <span class="co">#tilesize; this makes it easier to upgrade the graphics later if we wanted</span></span>
-<span>  </span>
-<span>  <span class="va">sprite</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0</span>,nrow<span class="op">=</span><span class="va">ts</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>,ncol<span class="op">=</span><span class="va">ts</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span> <span class="co">#the sprite will be 4x the size, since each tile is 4x4 pixels</span></span>
-<span>  </span>
-<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">y</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span> <span class="kw">for</span> <span class="op">(</span><span class="va">x</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="va">tile</span> <span class="op">=</span> <span class="va">M</span><span class="op">[</span><span class="va">y</span>,<span class="va">x</span><span class="op">]</span></span>
-<span>  </span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">tile</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">)</span><span class="op">{</span> <span class="co">#nonempty sprite</span></span>
-<span>      <span class="va">sprite</span><span class="op">[</span><span class="va">ts</span><span class="op">*</span><span class="va">y</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">ts</span><span class="op">)</span><span class="op">)</span>, <span class="va">ts</span><span class="op">*</span><span class="va">x</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">ts</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">=</span> <span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">sprites</span><span class="op">[[</span> <span class="co">#lookup sprite corresponding to tile and paste it in</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>          <span class="st">'ground_tile'</span>,</span>
-<span>          <span class="st">'brick_tile'</span>,</span>
-<span>          <span class="st">'rock_tile'</span></span>
-<span>        <span class="op">)</span><span class="op">[</span><span class="va">tile</span><span class="op">]</span> </span>
-<span>      <span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="va">ts</span><span class="op">:</span><span class="fl">1</span>,<span class="va">ts</span><span class="op">:</span><span class="fl">1</span><span class="op">]</span> <span class="co">#mirror twice because reasons</span></span>
-<span>    <span class="op">}</span></span>
-<span>    </span>
-<span>  <span class="op">}</span></span>
-<span>  </span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">sprite</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</details><p>And if we test this with <code><a href="../reference/render.matrix.html">render.matrix()</a></code> on the
-collision,</p>
-<details><summary><strong>IMAGE</strong>
-</summary><img src="images/rrio_2.png"></details><p>Success! Although I had to zoom out (<code>cmd -</code>) fully to get
-it to render properly.</p>
-<p>But we don’t actually want to do it this way. The whole level doesn’t
-fit onscreen at once, so <em>most tiles will be offscreen most of the
-time</em>. We can take advantage of this by <em>culling</em> and only
-looking at onscreen tiles to stitch.</p>
-<p>Luckily, this is as simple as subsetting the collision matrix:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>SuperRrio<span class="sc">$</span>assemble_collision_sprite <span class="ot">=</span> <span class="cf">function</span>(RAM, xrange, yrange){</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  M <span class="ot">=</span> RAM<span class="sc">$</span>objects<span class="sc">$</span>collision<span class="sc">$</span>data <span class="co">#collision matrix</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  M <span class="ot">=</span> M[yrange,xrange]</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  ...</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="co">#(some extra code to clip and pad this matrix is needed too)</span></span></code></pre></div>
-<p>Next we’ll figure out how to determine which tiles are actually
-onscreen so we know how to set the xrange and yrange.</p>
-</div>
-</div>
 <div class="section level3">
-<h3 id="screen-scrolling">5. Screen Scrolling<a class="anchor" aria-label="anchor" href="#screen-scrolling"></a>
+<h3 id="storing-the-collision">??? Storing the Collision<a class="anchor" aria-label="anchor" href="#storing-the-collision"></a>
 </h3>
-<p>In order to scroll the screen, we’ll have to keep track of Rrio’s
-position. Because <code>RAM$objects$rrio$x</code> and <code>$y</code>
-are used to determine where to draw Rrio on the screen (and we’re
-keeping him fixed in the center for now), we’ll have to make new
-variables to track Rrio’s position in the stage.</p>
-<p>We’ll define this as <code>RAM$objects$rrio$pos.x</code> and
-<code>$pos.y</code>. It’s most convenient if we scale these so one unit
-of <code>pos.x</code> corresponds to one unit on the collision matrix,
-or 4 pixels onscreen.</p>
-<p>Then we can do a bit of math with this to get the section of
-collision we want.</p>
-<p>NEED TO EXPLAIN THE NUDGING</p>
-<details><summary><strong>Scrolling Code (X only)</strong>
-</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#in ROM$startup(), when initializing collision</span></span>
-<span><span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">collision</span><span class="op">$</span><span class="va">draw</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">scene</span>, <span class="va">obj</span>, <span class="va">RAM</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="va">pos.x</span> <span class="op">=</span> <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">rrio</span><span class="op">$</span><span class="va">pos.x</span></span>
-<span>  <span class="va">screen_width_converted</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">screen.width</span> <span class="op">/</span> <span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">tilesize</span><span class="op">)</span> <span class="co">#screen width in units of collision matrix</span></span>
-<span>  </span>
-<span>  <span class="co">#range of columns in the collision matrix that should be onscreen</span></span>
-<span>  <span class="va">xrange</span> <span class="op">=</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">screen_width_converted</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">pos.x</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="co">#extra nudge for the sprite to scroll smoothly by pixel</span></span>
-<span>  <span class="va">remainder.x</span> <span class="op">=</span> <span class="va">remainder.x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">tilesize</span> <span class="op">*</span> <span class="op">(</span><span class="va">pos.x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">pos.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="va">sprite</span> <span class="op">=</span> <span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="fu">assemble_collision_sprite</span><span class="op">(</span><span class="va">RAM</span>,<span class="va">xrange</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="co">#manually defining the Y range here since we haven't set that up yet</span></span>
-<span>  <span class="va">scene</span> <span class="op">=</span> <span class="fu"><a href="../reference/render.sprite.html">render.sprite</a></span><span class="op">(</span><span class="va">scene</span>, <span class="va">sprite</span>, x<span class="op">=</span><span class="op">-</span><span class="va">remainder.x</span>, y<span class="op">=</span><span class="fl">1</span>, layer<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">scene</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</details><p>Et voilà— if we move Rrio (I’ve set his <code>$pos.x</code> to
-increase by a little every frame), the collision scrolls smoothly
-past.</p>
-<details><summary><strong>IMAGE</strong>
-</summary><img src="images/rrio_3.gif"></details><p>Unfortunately, we can see the characteristic flickering rcade gets at
-higher resolutions: it’s a limitation of <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code> and can’t be
-helped.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;See the end of vignette(‘render’) for more info.&lt;/p&gt;"><sup>3</sup></a></p>
-<p>RUNNING AT 30FPS ACTUALLY DOES MAKE IT LOOK NICER</p>
+<p>We can encode our grid of tiles with a matrix, where 0s indicate
+empty space and different numbers specify different tiles. For this
+game, we’ll end up treating all tiles the same—as solid tiles that block
+Rrio—but they’ll have different graphics depending on which tile they
+are.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="remember-to-do-this">remember to do this<a class="anchor" aria-label="anchor" href="#remember-to-do-this"></a>
+<h2 id="tile-graphics-make-sure-these-are-accurate-to-the-final">?? Tile Graphics (make sure these are accurate to the final)<a class="anchor" aria-label="anchor" href="#tile-graphics-make-sure-these-are-accurate-to-the-final"></a>
 </h2>
-<p>I’m gonna do something similar for Y, but only update it when Rrio
-lands. More on that later.</p>
+<p>Let’s make some sprites for the different tiles. I’ve already decided
+that I want each tile to occupy 4x4 pixels on the screen.</p>
+<p>&lt;&gt;&lt;&gt;&lt;&gt;&lt; |||||</p>
+<p>\-——-</p>
 <div class="section level3">
-<h3 id="collision-and-gravity">6. Collision and Gravity<a class="anchor" aria-label="anchor" href="#collision-and-gravity"></a>
+<h3 id="tile-stitching">??? Tile Stitching<a class="anchor" aria-label="anchor" href="#tile-stitching"></a>
 </h3>
-<p>Now to let Rrio interact with the collision. First, we’ll give him
-some physics:</p>
-<details><summary><strong>Basic Movement</strong>
-</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#in RAM$startup:</span></span>
-<span><span class="op">{</span></span>
-<span>  <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">rrio</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">screen.width</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, <span class="co">#centered horizontally</span></span>
-<span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">$</span><span class="va">ROM</span><span class="op">$</span><span class="va">screen.height</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, <span class="co">#centered vertically</span></span>
-<span>    </span>
-<span>    pos.x <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    pos.y <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>    </span>
-<span>    <span class="co">#velocity</span></span>
-<span>    vx <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>    vy <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>    </span>
-<span>    <span class="co">#gravity</span></span>
-<span>    gravity <span class="op">=</span> <span class="fl">9.8</span><span class="op">/</span><span class="fl">60</span>, <span class="co">#corresponds to earth gravity for 1 unit = 1 meter at 60fps</span></span>
-<span>    </span>
-<span>    spritename <span class="op">=</span> <span class="st">'rrio.idle'</span></span>
-<span>  <span class="op">)</span>  </span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="va">SuperRrio</span><span class="op">$</span><span class="va">move_rrio</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">RAM</span><span class="op">)</span><span class="op">{</span></span>
-<span>    <span class="va">rrio</span> <span class="op">=</span> <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">rrio</span></span>
-<span>    </span>
-<span>    <span class="co">#code controlling rrio will be in a function called before this one</span></span>
-<span></span>
-<span>    <span class="co">#apply gravity</span></span>
-<span>    <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">rrio</span><span class="op">$</span><span class="va">vy</span> <span class="op">=</span> <span class="va">rrio</span><span class="op">$</span><span class="va">vy</span> <span class="op">-</span> <span class="va">rrio</span><span class="op">$</span><span class="va">gravity</span></span>
-<span></span>
-<span>    <span class="co">#code for interacting with collision</span></span>
-<span></span>
-<span>    <span class="co">#code to move Rrio</span></span>
-<span>    <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">rrio</span><span class="op">$</span><span class="va">pos.x</span> <span class="op">=</span> <span class="va">rrio</span><span class="op">$</span><span class="va">pos.x</span> <span class="op">+</span> <span class="va">rrio</span><span class="op">$</span><span class="va">vx</span></span>
-<span>    <span class="va">RAM</span><span class="op">$</span><span class="va">objects</span><span class="op">$</span><span class="va">rrio</span><span class="op">$</span><span class="va">pos.y</span> <span class="op">=</span> <span class="va">rrio</span><span class="op">$</span><span class="va">pos.y</span> <span class="op">+</span> <span class="va">rrio</span><span class="op">$</span><span class="va">vy</span></span>
-<span></span>
-<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">RAM</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</details><p>Now I’m going</p>
-<p>ive reduced the screen width a bit temporarily to make it easier to
-see when testing</p>
+<p>To render the collision, we could draw each tile as its own sprite
+and location, but this is needessly expensive. Instead, we can use the
+collision matrix to fill in a single sprite corresponding to the
+onscreen portion of collision, and draw that sprite in a static
+location. Rather than make the <em>sprite</em> move its xy position, we
+let math move the tiles inside the sprite every time we generate it.</p>
+<p>#image</p>
+<details><summary><strong>Code TODOTODO</strong>
+</summary></details>
+</div>
+</div>
+<div class="section level2">
+<h2 id="collision-physics">???. Collision Physics<a class="anchor" aria-label="anchor" href="#collision-physics"></a>
+</h2>
+<p>Now for the main purpose of the collision: colliding. The collision
+is there to block Rrio’s (and other enemies’) motion, and provide
+surfaces for them to stand on.</p>
+<p>We implement this by checking each frame if a given physics object
+(like Rrio) has touched the collision, and resolving it if they did— by,
+for example, stopping them flush with the tile they hit instead of
+letting them phase through it. Objects experience ballistic freefall
+when they aren’t touching any collision, as you’d expect in the real
+world.</p>
+<p>I came up with this specific implementation of collision detection
+and resolution by myself, but I suspect many games have converged on the
+same implementation and I doubt the details are novel. There are
+definitely better systems out there too<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Some of which I’ve used in previous games!&lt;/p&gt;"><sup>1</sup></a>, but this one works
+well enough and is pretty satisfying!</p>
+<div class="section level3">
+<h3 id="checking-if-a-collision-has-happened">???.1 Checking if a Collision has Happened<a class="anchor" aria-label="anchor" href="#checking-if-a-collision-has-happened"></a>
+</h3>
+<p>The first step is to see if the object has actually hit anything. To
+do that, we see if the object’s <em>bounding box</em>—the invisible box
+around them that we use to check collision—has overlapped any tiles of
+collision this frame.</p>
+<p>I usually make the bounding box roughly match the positiona and size
+of the object’s sprite, but this doesn’t always have to be the case;
+giving an object a smaller bounding box than its sprite suggests can
+make it feel more lithe and mobile, and I set Rrio’s bounding box to
+have a height of 1.8 tiles so he can fit through 2-tile gaps.</p>
+<p><img src="images/rrio_collide_box.jpeg"></p>
+<p>This is achieved in code by calculating the subset of tiles the
+bounding box occupies (i.e. every tile the bounding box is present in),
+and seeing if any of those tiles are solid.</p>
+<details><summary><strong>Code TODOTODO</strong>
+</summary></details>
+</div>
+<div class="section level3">
+<h3 id="checking-collision-direction">???.2 Checking Collision Direction<a class="anchor" aria-label="anchor" href="#checking-collision-direction"></a>
+</h3>
+<p>If a collision occurred, the next step is resolve it. We’d like to
+move the object’s bounding box flush with the edge of the tile it hit<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This is our intuitive expectation; if I drop a book on
+the ground, it’s going to lay flush with the ground. Code is needed to
+make that happen.&lt;/p&gt;"><sup>2</sup></a>, but to do
+that, we first need to know which edge that is.</p>
+<p>Luckily, we don’t actually need to know anything about the tile to
+see which edge was entered. We can do some [[][][]][ thinking:</p>
+<ul>
+<li><p>We already know a collision has occurred, so we must have hit at
+least one tile somewhere.</p></li>
+<li><p>We can only going to collide with tiles in the direction we’re
+moving.</p></li>
+<li><p>We can only collide with tiles if we pass a gridline, e.g our
+position goes from <code>2.5</code> to <code>3.2</code> (passing the
+<code>3</code> gridline).</p></li>
+</ul>
+<p>This gives us enough to assert that if the leading edge (i.e. the one
+going forwards) of our object’s bounding box passes a gridline, we’ve
+collided with a block on that edge.</p>
+<p><img src="images/rrio_collide_edge.jpeg"></p>
+<p>However, this reasoning only works in one dimension. So we do this
+collision checking process twice: once vertically (landing on tiles),
+then horizontally.</p>
+<details><summary><strong>Code TODOTODO</strong>
+</summary></details>
+</div>
+<div class="section level3">
+<h3 id="landing">??.3 Landing<a class="anchor" aria-label="anchor" href="#landing"></a>
+</h3>
+<p>The player expects to start falling if they walk off a cliff. We have
+to add some code<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Present in the previous sections’ code.&lt;/p&gt;"><sup>3</sup></a> to make sure that happens.</p>
+<p>Generally, this is done by pretending the player is falling every
+frame; this causes them to immediately reland on whatever surface they
+were on. And if they’ve walked off of something, they’ll just start
+falling.</p>
+<p>I usually track falling status with a property called
+<code>grounded</code> for objects with gravity; <code>grounded</code> is
+true if the object is sitting on a surface. Then at the start of the
+collision function we set <code>grounded</code> to false, and then reset
+it to true if the object lands on a flat surface; since this is entirely
+contained in the function, the rest of the game code will think the
+object has been grounded this whole time.</p>
+<p>#[[]]] GIF or DRAWING of a guy falling off a cliff or ledge</p>
 </div>
 </div>
 

@@ -132,7 +132,7 @@ this function is to remove the need for confusing matrix manipulation,
 and to follow the principle of WYSIWYG for maximal convenience: “what
 you see is what you get”.
 
-**Example**\`
+**Example**
 
 ``` r
 circle = render.makesprite('
@@ -330,19 +330,11 @@ txt = render.text('inversion\nof colors')
 scene = render.sprite(scene,txt,2,1,layer='invert')
 
 render.scene(scene)
-#>                                               [][][][][][][][][][][][][][][][][][][][]          
-#>   [][][]  [][][]  []  []  [][][]  [][][]        []      []      []      [][][][][][][]          
-#>     []    []  []  []  []  [][]    [][]    []  [][][]  [][]  []  []  []  [][][][][][][]          
-#>   [][][]  []  []    []    [][][]  []  [][]    [][]      []      []  []  [][][][][][][]          
-#>                                       [][][][][][][][][][][][][][][][][][][][][][][][]          
-#>                                     [][][][][][][][][][][][][][][][][][][][][][][][][]          
-#>   [][][]  [][][]          [][][]        []  [][][]      []      [][]    [][][][][][][]          
-#>   []  []  [][]            []    []  []  []  [][][]  []  []    [][][]  [][][][][][][][]          
-#>   [][][]  []              [][]  []      []      []      []  []  []    [][][][][][][][]          
-#>                             [][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          
-#>                           [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]          
-#>                         [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 ```
+
+![Zoom out if this is hard to read.](images/render_1.png)
+
+Zoom out if this is hard to read.
 
 ## 6. Drawing the RAM
 
@@ -538,8 +530,8 @@ console.
 
 ### 9.1 Setup
 
-1.  We start with an object called Blueberry It’s at the xy coordinates
-    (5,6) and is on layer 5.
+1.  We start with an object called Blueberry. It’s at the xy coordinates
+    (5,6) and is on layer 5 of the game scene.
 
 2.  Blueberry is stored in RAM as the list `RAM$objects$blueberry`, and
     has the following elements:

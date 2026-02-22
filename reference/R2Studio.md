@@ -1,4 +1,4 @@
-# R\\^2\\Studio
+# R^2Studio
 
 RStudio in RStudio! Type R code into the input session to execute it in
 a simulated R console.
@@ -33,7 +33,7 @@ as you would in the regular IDE!
 Entering a `plot` command will draw the plot inside the game display.
 All other plotting commands are unsupported.
 
-R\\^2\\Studio's scatterplots respect several parameters from
+R²Studio's scatterplots respect several parameters from
 [`base::plot()`](https://rdrr.io/r/base/plot.html):
 
     x

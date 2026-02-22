@@ -199,7 +199,7 @@ changing the ROM’s palette— from `c(' ','[]',' ')` to
 actually do this for any game; just run `ROM$palette = c('[]',' ','[]')`
 before quickloading.
 
-## 6. R³Studio
+### 6. R³Studio
 
 We can also… boot up the R²Studio ROM in this environment. rcade is
 actually functional in this state, but you have to influence and update

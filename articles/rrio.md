@@ -9,390 +9,148 @@
     #> Warning in fun(libname, pkgname): Please use RStudio! rcade may not work in
     #> other environments.
 
-intro
+\[the rom\] a downside is that a game like this deserves its own
+documentation (since it uses complex systems), which I don’t have reason
+enough to make… but this rom at least shows that rcade is capable of
+letting you do pretty much whatever you want in terms of gamedev if you
+know how
 
-This article will be a bit looser than
-[`vignette("snake")`](https://gbkorr.github.io/rcade/articles/snake.md)—
-rather than walking through every step of the code, it will instead
-cover the bigger-picture ideas of how the game operates and runs. Some
-code will be included, but a comprehensive amount; if you want a closer
-look at the code, just inspect the ROM itself: `View(SuperRrio)`.
+\#turning around?
 
-### 1. The Plan
+\#vertical scrolling where? a staircase is a great demo for this
 
-I want this game to be a decently similar experience to playing *Super
-Mario Bros.*. To do this, I’ll want:
-
-- A controllable character (Mario -\> Rrio) that can run and jump.
-
-- A scrolling screen that always keeps Rrio at the center, and obstacles
-  to land on.
-
-- Moving enemies that Rrio can jump on to defeat.
-
-I don’t feel like making a whole game— one level should be a good enough
-proof of concept. (And will make it easy to add future levels!)
-
-### 2. Initialization
-
-Let’s create the ROM with `rom.init`. For settings, we’ll choose:
-
-- 96x32 resolution: horizontal features will be much more important in
-  this game, so we don’t need much vertical space.[¹](#fn1)
-
-&nbsp;
-
-- 60fps framerate: for action games, we always want to be at 60fps for
-  the smoothest experience.[²](#fn2)
-
-&nbsp;
-
-- Keybinds: `AD` to move left/right, `SPACE` to jump.
-
-- We don’t need to set sprites or game code yet, since we’ll do that
-  throughout the article.
-
-`rom.init()`
-
-``` r
-SuperRrio = rom.init(
-  screen.width = 96, screen.height = 32,
-  framerate = 60,
-  keybinds = c(a='left',d='right',' '='jump')
-)
-```
-
-### 3. Controlling Rrio
-
-Let’s get started by drawing Rrio, the most important character in the
-game!
-
-#### 3.1 Pixel Art
-
-Rrio will be animated and have a different animation depending on if
-he’s running, jumping, falling, etc. For now, let’s just start with a
-static sprite for standing.
-
-`SuperRrio$sprites$rrio.idle`
-
-``` r
-SuperRrio$sprites$rrio.idle = render.makesprite('
-
-   oo
- o oo o
- oooooo
-   o o
-
-  ooo
- o o o
-   o
-   o
-  o o
-  o o
-')
-
-#test it:
-render.matrix(SuperRrio$sprites$rrio.idle)
-#>               
-#>       [][]    
-#>   []  [][]  []
-#>   [][][][][][]
-#>       []  []  
-#>               
-#>     [][][]    
-#>   []  []  []  
-#>       []      
-#>       []      
-#>     []  []    
-#>     []  []
-```
-
-#### 3.2 \*Drawing Rrio
-
-Because of the scrolling screen, Rrio will always stay centered
-horizontally. This is pretty convenient for drawing him, but will lead
-to some challenges when we want to draw everything else.
-
-To test, let’s spawn him in the center of the screen to make sure
-everything is worki
-
-`initializing RAM$objects$rrio`
-
-``` r
-SuperRrio$startup = function(RAM){
-  RAM$objects$rrio = list(
-    x = floor(RAM$ROM$screen.width/2), #centered horizontally
-    y = floor(RAM$ROM$screen.height/2), #centered vertically
-    
-    spritename = 'rrio.idle'
-  )  
-  
-  return(RAM)
-}
-```
-
-BAD CODE DEMO, THIS ISNT A WALKTHROUGH—- ITS A RECORD OF THE SYSTEMS IN
-THIS GAME
-
-Now when we run `quickload(SuperRrio)`, we see Rrio in the center of the
-screen.
-
-control stuff has to be after collision
-
-We’ll be adding stuff to rrio’s data in `startup` a lot throughout this
-guide.
-
-the impulse inputs present a bit of a problem for smooth control. the
-solution ive chosen is to implement different behavior depending on
-what’s pressed: A vs A+Jump vs when midair
-
-### 4. Obstacles
+## ???. Obstacles: the Collision
 
 Before we can add more control to Rrio, we have to create ground for him
 to interact with. I’d like to take the approach *Super Mario Bros.*
-uses— if we store blocks of ground in a grid, it’s very easy to tweak
-and edit, and makes drawing a lot simpler as well.
+uses— if we store tiles of ground in a grid, it’s very easy to tweak and
+edit, and makes drawing a lot simpler as well. We’ll call this grid of
+tiles the *collision*.
 
 ![](images/rrio_1.jpeg)
 
-#### 4.1 Collision Storage
+### ??? Storing the Collision
 
-We’ll store this grid of ground tiles—which I’ll refer to as “the
-collision”—in `RAM$objects$collision`. It’ll just be a sprite-like
-matrix, but instead of encoding individual pixels, it’ll encode which
-gridsquares are empty (0) or various kinds of tiles (1+). Because this
-matrix is sprite-like, we can make it with
-[`render.makesprite()`](https://gbkorr.github.io/rcade/reference/render.makesprite.md)!
-This is a huge boon for level creation, as it makes it even easier to
-create the collision for a level.
+We can encode our grid of tiles with a matrix, where 0s indicate empty
+space and different numbers specify different tiles. For this game,
+we’ll end up treating all tiles the same—as solid tiles that block
+Rrio—but they’ll have different graphics depending on which tile they
+are.
 
-**Defining the Collision in SuperRrio\$startup()**
+## ?? Tile Graphics (make sure these are accurate to the final)
 
-``` r
-RAM$objects$collision = list(
-    data = render.makesprite('
-    
-                  bbbb    
-          
-    
-             bbbbbb             rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-                                        rr        r       rrr
-                                        r         r       rr
-         bbbb        bbbb                                 r
+Let’s make some sprites for the different tiles. I’ve already decided
+that I want each tile to occupy 4x4 pixels on the screen.
 
+\<\>\<\>\<\>\< \|\|\|\|\|
 
-oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo                            
-',lookup=c(' '=0,o=1,b=2,r=3))
-)
-```
+\\——-
 
-#### 4.2 Drawing Collision
+### ??? Tile Stitching
 
-Each tile will occupy 4x4 pixels. Thus, we’ll want to make a 4x4 sprite
-for each kind of tile we want to be able to draw:
+To render the collision, we could draw each tile as its own sprite and
+location, but this is needessly expensive. Instead, we can use the
+collision matrix to fill in a single sprite corresponding to the
+onscreen portion of collision, and draw that sprite in a static
+location. Rather than make the *sprite* move its xy position, we let
+math move the tiles inside the sprite every time we generate it.
 
-**Tile Sprites**
+\#image
 
-``` r
-SuperRrio$tilesize = 4
+**Code TODOTODO**
 
-SuperRrio$sprites$ground_tile = render.makesprite('
-OOOO
-O O
+## ???. Collision Physics
 
-   O                                               
-')
-SuperRrio$sprites$brick_tile = render.makesprite('
-OOOO
-O OO
-OO O
-OOOO                                                  
-')
-SuperRrio$sprites$rock_tile = render.makesprite('
-OOOO
- O O
-OOOO
-O  O
-')
-```
+Now for the main purpose of the collision: colliding. The collision is
+there to block Rrio’s (and other enemies’) motion, and provide surfaces
+for them to stand on.
 
-Now to draw the collision, we can just stick all the tile sprites
-together according to the collision matrix. The code for this is pretty
-dense, but what it does is rather simple.
+We implement this by checking each frame if a given physics object (like
+Rrio) has touched the collision, and resolving it if they did— by, for
+example, stopping them flush with the tile they hit instead of letting
+them phase through it. Objects experience ballistic freefall when they
+aren’t touching any collision, as you’d expect in the real world.
 
-**Stitching Tiles into a Sprite**
+I came up with this specific implementation of collision detection and
+resolution by myself, but I suspect many games have converged on the
+same implementation and I doubt the details are novel. There are
+definitely better systems out there too[¹](#fn1), but this one works
+well enough and is pretty satisfying!
 
-``` r
-SuperRrio$assemble_collision_sprite = function(RAM){
-  M = RAM$objects$collision$data #collision matrix
-  
-  ts = RAM$ROM$tilesize #= 4
-  #tilesize; this makes it easier to upgrade the graphics later if we wanted
-  
-  sprite = matrix(0,nrow=ts*nrow(M),ncol=ts*ncol(M)) #the sprite will be 4x the size, since each tile is 4x4 pixels
-  
-  for (y in 1:nrow(M)) for (x in 1:ncol(M)){
-    tile = M[y,x]
-  
-    if (tile != 0){ #nonempty sprite
-      sprite[ts*y + (1 - 1:(ts)), ts*x + (1 - 1:(ts))] = RAM$ROM$sprites[[ #lookup sprite corresponding to tile and paste it in
-        c(
-          'ground_tile',
-          'brick_tile',
-          'rock_tile'
-        )[tile] 
-      ]][ts:1,ts:1] #mirror twice because reasons
-    }
-    
-  }
-  
-  return(sprite)
-}
-```
+### ???.1 Checking if a Collision has Happened
 
-And if we test this with
-[`render.matrix()`](https://gbkorr.github.io/rcade/reference/render.matrix.md)
-on the collision,
+The first step is to see if the object has actually hit anything. To do
+that, we see if the object’s *bounding box*—the invisible box around
+them that we use to check collision—has overlapped any tiles of
+collision this frame.
 
-**IMAGE**
+I usually make the bounding box roughly match the positiona and size of
+the object’s sprite, but this doesn’t always have to be the case; giving
+an object a smaller bounding box than its sprite suggests can make it
+feel more lithe and mobile, and I set Rrio’s bounding box to have a
+height of 1.8 tiles so he can fit through 2-tile gaps.
 
-![](images/rrio_2.png)
+![](images/rrio_collide_box.jpeg)
 
-Success! Although I had to zoom out (`cmd -`) fully to get it to render
-properly.
+This is achieved in code by calculating the subset of tiles the bounding
+box occupies (i.e. every tile the bounding box is present in), and
+seeing if any of those tiles are solid.
 
-But we don’t actually want to do it this way. The whole level doesn’t
-fit onscreen at once, so *most tiles will be offscreen most of the
-time*. We can take advantage of this by *culling* and only looking at
-onscreen tiles to stitch.
+**Code TODOTODO**
 
-Luckily, this is as simple as subsetting the collision matrix:
+### ???.2 Checking Collision Direction
 
-``` r
-SuperRrio$assemble_collision_sprite = function(RAM, xrange, yrange){
-  M = RAM$objects$collision$data #collision matrix
-  M = M[yrange,xrange]
-  ...
-  #(some extra code to clip and pad this matrix is needed too)
-```
+If a collision occurred, the next step is resolve it. We’d like to move
+the object’s bounding box flush with the edge of the tile it
+hit[²](#fn2), but to do that, we first need to know which edge that is.
 
-Next we’ll figure out how to determine which tiles are actually onscreen
-so we know how to set the xrange and yrange.
+Luckily, we don’t actually need to know anything about the tile to see
+which edge was entered. We can do some \[\[\]\[\]\[\]\]\[ thinking:
 
-### 5. Screen Scrolling
+- We already know a collision has occurred, so we must have hit at least
+  one tile somewhere.
 
-In order to scroll the screen, we’ll have to keep track of Rrio’s
-position. Because `RAM$objects$rrio$x` and `$y` are used to determine
-where to draw Rrio on the screen (and we’re keeping him fixed in the
-center for now), we’ll have to make new variables to track Rrio’s
-position in the stage.
+- We can only going to collide with tiles in the direction we’re moving.
 
-We’ll define this as `RAM$objects$rrio$pos.x` and `$pos.y`. It’s most
-convenient if we scale these so one unit of `pos.x` corresponds to one
-unit on the collision matrix, or 4 pixels onscreen.
+- We can only collide with tiles if we pass a gridline, e.g our position
+  goes from `2.5` to `3.2` (passing the `3` gridline).
 
-Then we can do a bit of math with this to get the section of collision
-we want.
+This gives us enough to assert that if the leading edge (i.e. the one
+going forwards) of our object’s bounding box passes a gridline, we’ve
+collided with a block on that edge.
 
-NEED TO EXPLAIN THE NUDGING
+![](images/rrio_collide_edge.jpeg)
 
-**Scrolling Code (X only)**
+However, this reasoning only works in one dimension. So we do this
+collision checking process twice: once vertically (landing on tiles),
+then horizontally.
 
-``` r
-#in ROM$startup(), when initializing collision
-RAM$objects$collision$draw = function(scene, obj, RAM){
-  pos.x = RAM$objects$rrio$pos.x
-  screen_width_converted = ceiling(RAM$ROM$screen.width / RAM$ROM$tilesize) #screen width in units of collision matrix
-  
-  #range of columns in the collision matrix that should be onscreen
-  xrange = (1:screen_width_converted) + floor(pos.x)
-  
-  #extra nudge for the sprite to scroll smoothly by pixel
-  remainder.x = remainder.x = floor(RAM$ROM$tilesize * (pos.x - floor(pos.x)))
-  
-  sprite = RAM$ROM$assemble_collision_sprite(RAM,xrange,5:12) #manually defining the Y range here since we haven't set that up yet
-  scene = render.sprite(scene, sprite, x=-remainder.x, y=1, layer=2)
-  return(scene)
-}
-```
+**Code TODOTODO**
 
-Et voilà— if we move Rrio (I’ve set his `$pos.x` to increase by a little
-every frame), the collision scrolls smoothly past.
+### ??.3 Landing
 
-**IMAGE**
+The player expects to start falling if they walk off a cliff. We have to
+add some code[³](#fn3) to make sure that happens.
 
-![](images/rrio_3.gif)
+Generally, this is done by pretending the player is falling every frame;
+this causes them to immediately reland on whatever surface they were on.
+And if they’ve walked off of something, they’ll just start falling.
 
-Unfortunately, we can see the characteristic flickering rcade gets at
-higher resolutions: it’s a limitation of
-[`cat()`](https://rdrr.io/r/base/cat.html) and can’t be helped.[³](#fn3)
+I usually track falling status with a property called `grounded` for
+objects with gravity; `grounded` is true if the object is sitting on a
+surface. Then at the start of the collision function we set `grounded`
+to false, and then reset it to true if the object lands on a flat
+surface; since this is entirely contained in the function, the rest of
+the game code will think the object has been grounded this whole time.
 
-RUNNING AT 30FPS ACTUALLY DOES MAKE IT LOOK NICER
-
-## remember to do this
-
-I’m gonna do something similar for Y, but only update it when Rrio
-lands. More on that later.
-
-### 6. Collision and Gravity
-
-Now to let Rrio interact with the collision. First, we’ll give him some
-physics:
-
-**Basic Movement**
-
-``` r
-#in RAM$startup:
-{
-  RAM$objects$rrio = list(
-    x = floor(RAM$ROM$screen.width/2), #centered horizontally
-    y = floor(RAM$ROM$screen.height/2), #centered vertically
-    
-    pos.x = 1,
-    pos.y = 1,
-    
-    #velocity
-    vx = 0,
-    vy = 0,
-    
-    #gravity
-    gravity = 9.8/60, #corresponds to earth gravity for 1 unit = 1 meter at 60fps
-    
-    spritename = 'rrio.idle'
-  )  
-}
-
-SuperRrio$move_rrio = function(RAM){
-    rrio = RAM$objects$rrio
-    
-    #code controlling rrio will be in a function called before this one
-
-    #apply gravity
-    RAM$objects$rrio$vy = rrio$vy - rrio$gravity
-
-    #code for interacting with collision
-
-    #code to move Rrio
-    RAM$objects$rrio$pos.x = rrio$pos.x + rrio$vx
-    RAM$objects$rrio$pos.y = rrio$pos.y + rrio$vy
-
-    return(RAM)
-}
-```
-
-Now I’m going
-
-ive reduced the screen width a bit temporarily to make it easier to see
-when testing
+\#\[\[\]\]\] GIF or DRAWING of a guy falling off a cliff or ledge
 
 ------------------------------------------------------------------------
 
-1.  And we’ll code it so that the dimensions can be easily adjusted
-    without impacting gameplay.
+1.  Some of which I’ve used in previous games!
 
-2.  And even if the game struggles to draw at that speed, it’ll run at
-    least as well as 30fps! See
-    [`vignette("timing")`](https://gbkorr.github.io/rcade/articles/timing.md).
+2.  This is our intuitive expectation; if I drop a book on the ground,
+    it’s going to lay flush with the ground. Code is needed to make that
+    happen.
 
-3.  See the end of vignette(‘render’) for more info.
+3.  Present in the previous sections’ code.

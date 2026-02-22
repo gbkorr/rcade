@@ -8,7 +8,7 @@ using
 ## Usage
 
 ``` r
-render.sprite(scene, sprite, x, y, layer = 1, palette = NULL)
+render.sprite(scene, sprite, x = 1, y = 1, layer = 1, palette = NULL)
 ```
 
 ## Arguments
