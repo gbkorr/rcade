@@ -177,7 +177,7 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 #' Complex sprites are a list containing multiple frames of animation. Complex sprites can have the following properties:
 #' |||||
 #' |-|-|-|-|
-#' |`$framerate`|\verb{  }||Framerate at which to play the animation.|
+#' |`$framerate`|\verb{  }|Framerate at which to play the animation.|
 #' ||||
 #' |`$next_animation`||spritename of which animation from ROM$sprites to play next when all frames of this one have played. If `NULL`, animation loops.|
 #' ||||
@@ -197,11 +197,55 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 #' @param sprites `RAM$ROM$sprites`; list of sprites.
 #' @param render_framerate `RAM$ROM$framerate`; game framerate.
 #' @examples
+#' \dontrun{
 #' #simple two-part animation using sprite$next_animation
+#' sprites = list(
+#' bar.loading = list(
+#' 	framerate = 4, #frames per second
+#' 	next_animation = 'bar.complete', #will transition into this animation automatically
+#' 	frames = list(
+#' 		render.makesprite('
+#' ..........'),
+#' 		render.makesprite('
+#' O.........'),
+#' 		render.makesprite('
+#' OO........'),
+#' 		render.makesprite('
+#' OOO.......'),
+#' 		render.makesprite('
+#' OOOO......'),
+#' 		render.makesprite('
+#' OOOOO.....'),
+#' 		render.makesprite('
+#' OOOOOO....'),
+#' 		render.makesprite('
+#' OOOOOOO...'),
+#' 		render.makesprite('
+#' OOOOOOOO..'),
+#' 		render.makesprite('
+#' OOOOOOOOO.'),
+#' 		render.makesprite('
+#' OOOOOOOOOO')
+#' 	)
+#' ),
+#' bar.complete = list(
+#' 	framerate = 2,
+#' 	frames = list(
+#' 		render.makesprite('
+#' OOOOOOOOOO'),
+#' 		render.makesprite('
+#' ..........')
+#' 	)
+#' )
+#' )
+#'
+#' render.test_animation('bar.loading',sprites)
+#' }
 #' @export
 render.animate = function(spritename, timer, sprites, render_framerate = 60){ #timer = frame of animation
 	sprite = sprites[[spritename]]
 
+	if (is.null(sprite)) stop('Empty Sprite, is spritename correct?')
 	if (is.null(sprite$framerate)) stop(paste('Sprite ',spritename,': No framerate set.',sep=''))
 
 	n_frames = length(sprite$frames)
@@ -210,6 +254,8 @@ render.animate = function(spritename, timer, sprites, render_framerate = 60){ #t
 	#next animation (otherwise just loops)
 	if (!is.null(sprite$next_animation) && timer > n_frames * frametime) render.animate(sprite$next_animation, timer - n_frames * frametime, sprites, render_framerate)
 	#this recursively goes through animations until it hits one that loops. usually not important, but it's nice and robust
+
+	#bug: shows one frame of the first animation frame, why?
 
 	else {
 		frame = (ceiling(timer/frametime) %% n_frames) + 1
@@ -230,7 +276,43 @@ render.animate = function(spritename, timer, sprites, render_framerate = 60){ #t
 #'
 #' It handles `sprite$next_animation` properly, so it can be used to test multi-stage animations too.
 #'
-#' [todo examples with mario runcycle]
+#' @examples
+#' \dontrun{
+#'sprites = list(
+#'	bird.flap = list(
+#'		framerate = 12, #frames per second
+#'		frames = list(
+#'			render.makesprite('
+#'  O    O
+#' OOO  OO
+#'    OO
+#'  OOOOOOO
+#' OOOO
+#'
+#''),
+#'			render.makesprite('
+#'
+#'
+#' OOO  OOOO
+#'O OOOOOOO
+#' OOOO   OO
+#'
+#''),
+#'			render.makesprite('
+#'
+#'
+#'
+#'    OOOOOO
+#'  OOOOO
+#'OO     OOO
+#'')
+#'		)
+#'	)
+#')
+#'
+#'
+#'render.test_animation('bird.flap',sprites)
+#'}
 #' @export
 render.test_animation = function(spritename, sprites){
 	timer = 1

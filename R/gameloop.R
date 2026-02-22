@@ -12,7 +12,7 @@
 #' This saves RAM in the environment in which `quickload()` was called, so the RAM can be accessed afterwards as if it were run manually.
 #' @param ROM [ROM][rom.init] to play.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' quickload(Snake)
 #' }
 #' @export
@@ -61,7 +61,7 @@ quickload = function(ROM){
 #' \verb{				}[render.overlay()] for every layer in `scene$layers`\cr
 #' \verb{			}[render.matrix()]
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' RAM = ram.init(BadApple)
 #' RAM = ram.run(RAM)
 #'
@@ -124,7 +124,7 @@ ram.run = function(RAM, start_at = NULL){
 #' @param RAM [RAM](ram.init) object to update.
 #' @seealso `vignette("timing")` for more detail on how time is synced.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'
 #' #ram.run() contains the following code:
 #' while(TRUE) RAM = ram.update(RAM)
@@ -172,7 +172,7 @@ ram.update = function(RAM){
 #' * `RAM = RAM$ROM$custom(RAM)` is run.\cr (the game code is run once on the RAM)\cr
 #' * `RAM$backup` is occasionally updated; see [ram.rollback].\cr (the game is occasionally backed up)
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' quickload(BadApple)
 #' #^C to pause
 #' RAM = ram.tick(RAM); render.ram(RAM)
