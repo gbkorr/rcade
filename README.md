@@ -2,6 +2,8 @@ In-progress package for a game engine in vanilla RStudio.
 
 The goal is to make it to CRAN!
 
+though I think I'll release here, and put on CRAN (which requires a lot of annoying version-checking) once I finish Rrio
+
 readme needs to be finished! or maybe just merge with vignette('rcade')
 
 ![](vignettes/images/thumbnail.png)
