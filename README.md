@@ -1,6 +1,6 @@
 In-progress package for a game engine in vanilla RStudio.
 
-`install_github("gbkorr/rcade")`
+`install_github("gbkorr/rcade")` but in orange or something so it's more visible here
 
 The goal is to make it to CRAN!
 
