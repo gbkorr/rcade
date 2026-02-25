@@ -16,7 +16,6 @@ render.makefont(char_group = "uppercase", width, txt)
 \description{
 Fonts are used to draw text ingame with \code{\link[=render.text]{render.text()}}. A font is a list including \verb{$sprites}, a list of sprites for each character supported by the font.
 
-\link{really try/consider adding random demo photos all over the vignettes: they (esp. inputs and render) are way too dense. even in render you could replace some console examples with images}
 All fonts are monospaced.
 }
 \details{

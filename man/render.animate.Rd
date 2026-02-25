@@ -41,8 +41,6 @@ Complex sprites are a list containing multiple frames of animation. Complex spri
 
 
 Animated sprites can be tested using \code{\link[=render.test_animation]{render.test_animation()}}.
-
-\link{todo: example of simple animation}
 }
 \examples{
 \dontrun{

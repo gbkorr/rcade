@@ -30,14 +30,14 @@
 #' `inputs.csv` is stored in [`tools::R_user_dir('rcade')`][tools::R_user_dir], the directory for storing package data.
 #'
 #'  Only one `inputs.csv` file exists and is read by the package; the file is wiped every time [ram.init()] is called.
-#'  @examples
+#' @examples
 #'  \dontrun{
 #'  quickload(Snake)
 #'  #in a separate R session:
 #'  inputs.listen()
 #'  #type 'd' and press Enter.
 #'  }
-#'  @export
+#' @export
 inputs.listen = function(){
 	path = paste(tools::R_user_dir('rcade'),'/inputs',sep='')
 

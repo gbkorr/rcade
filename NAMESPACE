@@ -2,6 +2,7 @@
 
 export(inputs.command)
 export(inputs.get)
+export(inputs.listen)
 export(inputs.process)
 export(inputs.read)
 export(quickload)
