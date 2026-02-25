@@ -78,7 +78,7 @@ R2Studio$drawplot = function(scene, obj, RAM){
 	plotwindow = matrix(1, height, width)
 	plotwindow[2:(nrow(plotwindow) - 1), 2:(ncol(plotwindow) - 1)] = 2 #white opaque background to block out the console text
 
-	if (length(xvals)) {
+	if (length(xvals) > 1) {
 		#limits
 		if (is.null(xlim)) {
 			xlim = range(xvals)

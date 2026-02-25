@@ -270,29 +270,29 @@ window, and you’ll want to zoom out with <code>cmd -</code> or
 equivalent.</p>
 <p>The second sessions is the <strong>input session</strong> and will be
 where you’ll interact with the game once it starts.</p>
-<p><a href="A%20good%20setup.%20The%20display%20session%20is%20large%20and%20zoomed%20out,%20and%20the%20input%20session%20is%20accessible.">IMAGE
+<p>#<a href="A%20good%20setup.%20The%20display%20session%20is%20large%20and%20zoomed%20out,%20and%20the%20input%20session%20is%20accessible.">IMAGE
 OF A GOOD SETUP</a></p>
 <p>Once you have those two windows open, follow these steps:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Both sessions</strong> need to load the package with
 <code>library(rcade)</code>.</li>
 <li>In the <strong>display session</strong>, start the game you want to
-play. I recommend <code>SuperRrio</code>:</li>
+play. I recommend <code>Snake</code>:</li>
 </ol>
-<pre><code>quickload(SuperRrio)</code></pre>
+<pre><code>quickload(Snake)</code></pre>
 <ol start="3" style="list-style-type: decimal">
+<li>Press Enter to skip the dialog and play the game with default
+settings.</li>
 <li>Then, go to the <strong>input session</strong> and run</li>
 </ol>
 <pre><code>inputs.listen()</code></pre>
-<ol start="4" style="list-style-type: decimal">
+<ol start="5" style="list-style-type: decimal">
 <li>You should now be able to enter text in the input session to control
-the game!<br />
-The control scheme for Super Rrio is <code>A/D</code> to move and
-<code>SPACE</code> to jump.</li>
+the game! Snake uses WASD.</li>
 </ol>
 <p>Because of how R works, you have to <strong>press Enter</strong>
-every time you want to send an input. So to jump right, you’d press the
-keys <code>W-SPACE-ENTER</code> in succession.</p>
+every time you want to send an input. So to turn to the right, you’d
+have to press <code>D-ENTER</code> in succession.</p>
 <p><a href>GIF of this!</a></p>
 </div>
 <div id="prebuilt-games" class="section level2">
@@ -310,6 +310,7 @@ settings or change the speed and boundaries of the game.</p>
 <div id="super_rrio" class="section level3">
 <h3>Super_Rrio</h3>
 <p><a href>IMAGE</a></p>
+<p>all these need controls too</p>
 </div>
 <div id="bad-apple" class="section level3">
 <h3>Bad Apple</h3>
@@ -322,7 +323,6 @@ input session needed.</p>
 <p><a href>IMAGE</a> desc Pronounced “r-squared studio”— it’s a pun
 on the Pearson r<sup>2</sup>, and the fact that it’s RStudio in
 RStudio!</p>
-<p><a href>TODOTDO</a></p>
 </div>
 </div>
 <div id="making-games" class="section level2">
@@ -339,7 +339,8 @@ development.</p>
 <hr />
 <ol>
 <li id="fn1"><p>This package only works in RStudio, since regular R
-doesn’t support console wiping with <code>cat(&#39;\f&#39;)</code>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+doesn’t support console wiping with <code>cat(&#39;\f&#39;)</code>. Though I may
+have found a workaround…<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

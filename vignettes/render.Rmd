@@ -206,7 +206,7 @@ Now that we can combine sprites, we run into the issue of convenient **ordering*
 
 rcade addresses this with `render.scene()`. We create a 'scene' object containing **layers**, each of which is their own `background` from the previous section. The engine draws sprites onto specific layers, and then finally takes all the layers and overlays them one-by-one to produce the final matrix to be drawn.
 
-#[would like an image of this: sprites -> layer (like stickers), then layers stacked like paper]
+![`render.scene()` stacks individuals layers in a scene into a single sprite matrix to be drawn by `render.matrix()`.](images/render_layers.png)
 
 To draw a sprite onto a layer, we use `render.sprite()`, which is really just a wrapper for `render.overlay(layer,sprite)`.
 
@@ -275,17 +275,17 @@ It is often useful to override this basic drawing behavior--- for example, if an
 Note that `obj$draw()` should return the `scene`, and thus must not include any code that changes values in the object itself; those changes should occur in game code in `ROM$custom()` (see `vignette("engine")`).
 
 ## 7. Animations
-Now to the topic of animations. If we have a game object change its sprite every few frames, it will .............
+Now to the topic of animations. All we have to do is make a game object change its sprite every few frames:
 
-[VIDEO EXAMPLE]
+![](images/render_2.gif)
 
-This is achieved by calling `render.animate()` when we retrieve an object's sprite in `render.object()`. For sprites we want to animate, instead of storing just the pixel art matrix, we store a list containing each frame of animation and some other information about the animation. `render.animate()` then parses these to figure out what frame of animation it should return.
+This is facilitated by calling `render.animate()` when we retrieve an object's sprite in `render.object()`. For sprites we want to animate, instead of storing just the pixel art matrix, we store a list containing each frame of animation and some other information about the animation. `render.animate()` then parses these to figure out what frame of animation it should return.
 
 We can also specify whether an animation should loop or transition to a different sprite after completing.
 
-[NEED VIDEO EXAMPLE OF THIS]()
+![](images/render_3.gif)
 
-So for the game dev, all that's needed to animate a sprite is to store it as a complex sprite in `ROM$sprites`. Very convenient! Sprite animations can also be tested with `render.test_animation` to ensure they look as they should.
+So for the game dev, all that's needed to animate a sprite is to store it as a complex sprite in `ROM$sprites` and add some metadata about the animation. Very convenient! Sprite animations can also be tested with `render.test_animation` to ensure they look as they should.
 
 ## 8. Text
 Now for the topic of rendering a piece of text ingame. We could just `render.sprite()` each character individually, but this is needlessly ineffecient; instead, the best solution is to combine all the characters into one sprite and render that in a single `render.sprite()` call. This is the purpose of `render.text()`.

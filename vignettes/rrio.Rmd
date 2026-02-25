@@ -23,7 +23,7 @@ library(rcade)
 This ROM and article are not finished yet! Here you can see a sneak peek of some of the systems and parts of it.
 
 
-
+![](images/render_3.gif)
 
 ## Intro
 
