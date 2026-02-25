@@ -5,18 +5,15 @@ Devlog](https://gbkorr.github.io/rcade/articles/snake.html) and
 [Rendering System](https://gbkorr.github.io/rcade/articles/render.html),
 but I think all the articles are fun to read :)
 
-The package lets you play and develop games in vanilla R, played right
-on the console!
-
-![](reference/figures/thumbnail.png)
-
-Install with:
-
     devtools::install_github("gbkorr/rcade")
 
-and check out the
+The package lets you play and develop games in vanilla R, played right
+on the console!  
+Check out the
 [website](https://gbkorr.github.io/rcade/articles/rcade.html) to learn
 more about more about the package and browse the documentation.
+
+![](reference/figures/thumbnail.png)
 
 # Package index
 
