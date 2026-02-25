@@ -20,6 +20,10 @@ A [font](https://gbkorr.github.io/rcade/reference/render.makefont.md); a
 list containing font-related properties and a list of sprites for each
 character.
 
+## Details
+
+![](figures/fonts_3x3.png)
+
 ## See also
 
-`fonts.3x5`
+[`fonts.3x5`](https://gbkorr.github.io/rcade/reference/fonts.3x5.md)

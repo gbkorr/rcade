@@ -38,7 +38,7 @@ restore it in a
 
 ``` r
 if (FALSE) { # \dontrun{
-RAM = ram.init(SuperRrio)
+RAM = ram.init(Snake)
 
 #copy
 RAM_copy = RAM

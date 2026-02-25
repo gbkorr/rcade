@@ -32,6 +32,8 @@ BadApple.data
 
 ## Details
 
+![](figures/thumbnail_badapple.png)
+
 This is a proof of concept for rendering video in rcade. It's actually
 easier to render video by reading from a local file, but to fit a video
 to come preinstalled with the package, I had to compress it.

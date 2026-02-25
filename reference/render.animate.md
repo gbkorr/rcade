@@ -40,18 +40,18 @@ Simple sprites are just a static sprite matrix.
 Complex sprites are a list containing multiple frames of animation.
 Complex sprites can have the following properties:
 
-|                   |     |                                                                                                                                   |                                           |
-|-------------------|-----|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-|                   |     |                                                                                                                                   |                                           |
-| `$framerate`      | ` ` |                                                                                                                                   | Framerate at which to play the animation. |
-|                   |     |                                                                                                                                   |                                           |
-| `$next_animation` |     | spritename of which animation from ROM\$sprites to play next when all frames of this one have played. If `NULL`, animation loops. |                                           |
-|                   |     |                                                                                                                                   |                                           |
-| `$frames`         |     | list of sprite matrices (simple sprites).                                                                                         |                                           |
-|                   |     |                                                                                                                                   |                                           |
-| `$offset.x`       |     | Offsets the location at which the sprite is drawn; see [render.object](https://gbkorr.github.io/rcade/reference/render.object.md) |                                           |
-|                   |     |                                                                                                                                   |                                           |
-| `$offset.y`       |     | Offset relative to y.                                                                                                             |                                           |
+|                   |     |                                                                                                                                   |     |
+|-------------------|-----|-----------------------------------------------------------------------------------------------------------------------------------|-----|
+|                   |     |                                                                                                                                   |     |
+| `$framerate`      | ` ` | Framerate at which to play the animation.                                                                                         |     |
+|                   |     |                                                                                                                                   |     |
+| `$next_animation` |     | spritename of which animation from ROM\$sprites to play next when all frames of this one have played. If `NULL`, animation loops. |     |
+|                   |     |                                                                                                                                   |     |
+| `$frames`         |     | list of sprite matrices (simple sprites).                                                                                         |     |
+|                   |     |                                                                                                                                   |     |
+| `$offset.x`       |     | Offsets the location at which the sprite is drawn; see [render.object](https://gbkorr.github.io/rcade/reference/render.object.md) |     |
+|                   |     |                                                                                                                                   |     |
+| `$offset.y`       |     | Offset relative to y.                                                                                                             |     |
 
 Animated sprites can be tested using
 [`render.test_animation()`](https://gbkorr.github.io/rcade/reference/render.test_animation.md).
@@ -61,5 +61,48 @@ todo: example of simple animation
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 #simple two-part animation using sprite$next_animation
+sprites = list(
+bar.loading = list(
+  framerate = 4, #frames per second
+  next_animation = 'bar.complete', #will transition into this animation automatically
+  frames = list(
+    render.makesprite('
+..........'),
+    render.makesprite('
+O.........'),
+    render.makesprite('
+OO........'),
+    render.makesprite('
+OOO.......'),
+    render.makesprite('
+OOOO......'),
+    render.makesprite('
+OOOOO.....'),
+    render.makesprite('
+OOOOOO....'),
+    render.makesprite('
+OOOOOOO...'),
+    render.makesprite('
+OOOOOOOO..'),
+    render.makesprite('
+OOOOOOOOO.'),
+    render.makesprite('
+OOOOOOOOOO')
+  )
+),
+bar.complete = list(
+  framerate = 2,
+  frames = list(
+    render.makesprite('
+OOOOOOOOOO'),
+    render.makesprite('
+..........')
+  )
+)
+)
+
+render.test_animation('bar.loading',sprites)
+} # }
 ```

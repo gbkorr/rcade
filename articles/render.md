@@ -297,8 +297,13 @@ own `background` from the previous section. The engine draws sprites
 onto specific layers, and then finally takes all the layers and overlays
 them one-by-one to produce the final matrix to be drawn.
 
-\#\[would like an image of this: sprites -\> layer (like stickers), then
-layers stacked like paper\]
+![render.scene() stacks individuals layers in a scene into a single
+sprite matrix to be drawn by render.matrix().](images/render_layers.png)
+
+[`render.scene()`](https://gbkorr.github.io/rcade/reference/render.scene.md)
+stacks individuals layers in a scene into a single sprite matrix to be
+drawn by
+[`render.matrix()`](https://gbkorr.github.io/rcade/reference/render.matrix.md).
 
 To draw a sprite onto a layer, we use
 [`render.sprite()`](https://gbkorr.github.io/rcade/reference/render.sprite.md),
@@ -425,12 +430,12 @@ should occur in game code in `ROM$custom()` (see
 
 ## 7. Animations
 
-Now to the topic of animations. If we have a game object change its
-sprite every few frames, it will ………….
+Now to the topic of animations. All we have to do is make a game object
+change its sprite every few frames:
 
-\[VIDEO EXAMPLE\]
+![](images/render_2.gif)
 
-This is achieved by calling
+This is facilitated by calling
 [`render.animate()`](https://gbkorr.github.io/rcade/reference/render.animate.md)
 when we retrieve an object’s sprite in
 [`render.object()`](https://gbkorr.github.io/rcade/reference/render.object.md).
@@ -444,12 +449,12 @@ return.
 We can also specify whether an animation should loop or transition to a
 different sprite after completing.
 
-[NEED VIDEO EXAMPLE OF THIS](https://gbkorr.github.io/rcade/articles/)
+![](images/render_3.gif)
 
 So for the game dev, all that’s needed to animate a sprite is to store
-it as a complex sprite in `ROM$sprites`. Very convenient! Sprite
-animations can also be tested with `render.test_animation` to ensure
-they look as they should.
+it as a complex sprite in `ROM$sprites` and add some metadata about the
+animation. Very convenient! Sprite animations can also be tested with
+`render.test_animation` to ensure they look as they should.
 
 ## 8. Text
 

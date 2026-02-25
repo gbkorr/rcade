@@ -57,7 +57,7 @@ frame-by-frame.
 
 ``` r
 if (FALSE) { # \dontrun{
-quickload(SuperRrio)
+quickload(Snake)
 #in a separate R session:
 inputs.listen()
 #now input these lines:

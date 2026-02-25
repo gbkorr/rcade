@@ -75,7 +75,8 @@ See <code>vignette("badapple")</code> for more details.</p>
 <table class="table table"><tr><td><code>BadApple</code></td><td><code>      </code></td><td>A <a href="rom.init.html">ROM</a> object.</td></tr></table><table class="table table"><tr><td><code>BadApple.data</code></td><td><code> </code></td><td>Compressed video frames; a list of vectors indicating which pixels flip each frame.</td></tr></table></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This is a proof of concept for rendering video in rcade. It's actually easier to render video by reading from a local file, but to fit a video to come preinstalled with the package, I had to compress it.</p>
+    <p><img src="figures/thumbnail_badapple.png" alt=""></p>
+<p>This is a proof of concept for rendering video in rcade. It's actually easier to render video by reading from a local file, but to fit a video to come preinstalled with the package, I had to compress it.</p>
 <p><code>BadApple$startup()</code> reconstructs the video when the RAM is initialized, saving the resultant frames as a single animation in <code>RAM$ROM$sprites</code>. A single object then loops the animation constantly.</p>
 <p>The frames are from <a href="https://github.com/Timendus/chip-8-bad-apple" class="external-link">https://github.com/Timendus/chip-8-bad-apple</a>. rcade can actually run the high-resolution version at full speed, but it experiences significant flickering due to the high volume of pixels.</p>
     </div>

@@ -80,9 +80,9 @@ ROM, which lets you run RStudio… in RStudio. See its documentation
 be a detailed walkthrough and instead just provides an overview of how
 this ROM works. You can always inspect the ROM object
 (<code>View(R2Studio)</code>) to take a closer look at its code.</p>
-<div class="section level3">
-<h3 id="goals">1. Goals<a class="anchor" aria-label="anchor" href="#goals"></a>
-</h3>
+<div class="section level2">
+<h2 id="goals">1. Goals<a class="anchor" aria-label="anchor" href="#goals"></a>
+</h2>
 <p>I wanted this ROM to provide the full R console experience and have
 some basic plotting capabilities. The goals were as follows:</p>
 <ul>
@@ -96,9 +96,9 @@ some basic plotting capabilities. The goals were as follows:</p>
 <p>Since the console is basically a static screen, we won’t need a very
 high framerate. One frame per second should be plenty.</p>
 </div>
-<div class="section level3">
-<h3 id="ui">2. UI<a class="anchor" aria-label="anchor" href="#ui"></a>
-</h3>
+<div class="section level2">
+<h2 id="ui">2. UI<a class="anchor" aria-label="anchor" href="#ui"></a>
+</h2>
 <p><code>R2Studio$draw_ui():</code></p>
 <p>The UI is inspired by RStudio and features a console and plotting
 window. The sprites are reconstructed and drawn every frame in
@@ -107,9 +107,9 @@ the display resolution. All the function really does is make a few
 bordered boxes with a little text.</p>
 <p><img src="images/r2studio_ui.png"></p>
 </div>
-<div class="section level3">
-<h3 id="r-console">3. R Console<a class="anchor" aria-label="anchor" href="#r-console"></a>
-</h3>
+<div class="section level2">
+<h2 id="r-console">3. R Console<a class="anchor" aria-label="anchor" href="#r-console"></a>
+</h2>
 <p><code>R2Studio$evaluate():</code></p>
 <p>Running R code isn’t very hard, since it’s ultimately running in the
 main R instance. All we have to do is capture and evaluate whatever
@@ -141,9 +141,12 @@ both it and the result’s string as entries in
 <span>            <span class="co">#(this error is then caught as the output of the eval, and correctly added to the R2Studio console)</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-</details><div class="section level4">
-<h4 id="multiline-expressions">3.1 Multiline Expressions<a class="anchor" aria-label="anchor" href="#multiline-expressions"></a>
-</h4>
+</details><p><code><a href="https://rdrr.io/r/base/parse.html" class="external-link">base::parse()</a></code> has some quirks I haven’t ironed out yet,
+mainly misinterpreting expressions that use double quotes
+<code>"</code>.</p>
+<div class="section level3">
+<h3 id="multiline-expressions">3.1 Multiline Expressions<a class="anchor" aria-label="anchor" href="#multiline-expressions"></a>
+</h3>
 <p>There’s also a little code to render multiline expressions properly,
 e.g.</p>
 <pre><code>&gt; sample(
@@ -157,9 +160,9 @@ back together before passing them as an expression string. Then newlines
 in the string are identified to figure out where to add that little ‘+’
 on subsequent lines.</p>
 </div>
-<div class="section level4">
-<h4 id="rendering-the-console">3.2 Rendering the Console<a class="anchor" aria-label="anchor" href="#rendering-the-console"></a>
-</h4>
+<div class="section level3">
+<h3 id="rendering-the-console">3.2 Rendering the Console<a class="anchor" aria-label="anchor" href="#rendering-the-console"></a>
+</h3>
 <p><code>R2Studio$draw_console():</code></p>
 <p>With expressions and outputs saved in order in
 <code>RAM$objects$console$text</code>, rendering the console is as easy
@@ -173,9 +176,9 @@ it’d be harder to read overall.</p>
 <p><img src="images/r2studio_console.png"></p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="plotting">4. Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
-</h3>
+<div class="section level2">
+<h2 id="plotting">4. Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
+</h2>
 <p><code>R2Studio$draw_plot():</code></p>
 <p>Since this is more of a proof of concept, I don’t need terribly
 advanced plotting functionality— I just want to be able to make a nice
@@ -195,13 +198,12 @@ makes little geometric shapes at the desired <code>cex</code> size.</p>
 <code>cex = c(0,0.2,0.5,1,1.5,2,2.5,...)</code>
 </div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="todotdo-xlim-ylim-and-title-main">TODOTDO xlim ylim and title (main)<a class="anchor" aria-label="anchor" href="#todotdo-xlim-ylim-and-title-main"></a>
-</h2>
-<div class="section level4">
-<h4 id="hooking-plot">4.1 Hooking <code>plot()</code><a class="anchor" aria-label="anchor" href="#hooking-plot"></a>
-</h4>
+<p><code>xlim</code> and <code>ylim</code> work as plot arguments like
+they do in regular R, and you can use <code>main</code> to change the
+plot title.</p>
+<div class="section level3">
+<h3 id="hooking-plot">4.1 Hooking <code>plot()</code><a class="anchor" aria-label="anchor" href="#hooking-plot"></a>
+</h3>
 <p>In order to recognize <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> calls, and have them not be
 interpreted as real <code><a href="https://rdrr.io/r/base/plot.html" class="external-link">base::plot()</a></code> calls (which would be
 rendered in the actual RStudio window), <code>R2Studio$evaluate()</code>
@@ -216,9 +218,10 @@ code can edit the RAM; we can use this here to save the new plot info to
 RAM also lets us change its ‘settings’, as shown in the next
 section:</p>
 </div>
-<div class="section level3">
-<h3 id="meta-functions">5. Meta Functions<a class="anchor" aria-label="anchor" href="#meta-functions"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="meta-functions">5. Meta Functions<a class="anchor" aria-label="anchor" href="#meta-functions"></a>
+</h2>
 <p>The approach to swapping out <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> for a custom
 function also lets us create our own new custom functions that only work
 in the R<sup>2</sup>Studio environment.</p>
@@ -228,25 +231,25 @@ they do is edit <code>RAM$ROM</code> properties, and the game is
 rendered in such a way that respects live changes to these— almost
 everything draws through <code>obj$draw()</code> rather than the default
 sprite system.</p>
-<div class="section level4">
-<h4 id="use-size">5.1 use.size()<a class="anchor" aria-label="anchor" href="#use-size"></a>
-</h4>
+<div class="section level3">
+<h3 id="use-size">5.1 use.size()<a class="anchor" aria-label="anchor" href="#use-size"></a>
+</h3>
 <p><code>use.size(width = NULL, height = NULL, plot.width = NULL)</code></p>
-<p>Resizes the whole display or plot window.</p>
-<p>#[[[[[[image of a couple different UI sizes (incl. the command in the
-console)]]]]]</p>
+<p>Resizes the whole display or plot window; <code>plot.width = 0</code>
+hides the plot window.</p>
+<p><img src="images/r2studio_resize.png"></p>
 </div>
-<div class="section level4">
-<h4 id="use-font">5.2 use.font()<a class="anchor" aria-label="anchor" href="#use-font"></a>
-</h4>
+<div class="section level3">
+<h3 id="use-font">5.2 use.font()<a class="anchor" aria-label="anchor" href="#use-font"></a>
+</h3>
 <p><code>use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)</code></p>
 <p>Alters the display’s font. <code>darkmode=TRUE</code> inverts the
 colors of the entire display.</p>
-<p>#give image example w/ 3x3</p>
+<p><img src="images/r2studio_fonts.png"></p>
 </div>
-<div class="section level4">
-<h4 id="darkmode">5.3 Darkmode<a class="anchor" aria-label="anchor" href="#darkmode"></a>
-</h4>
+<div class="section level3">
+<h3 id="darkmode">5.3 Darkmode<a class="anchor" aria-label="anchor" href="#darkmode"></a>
+</h3>
 <p>The color inversion in <code>use.font(darkmode = TRUE)</code> is
 achieved by just changing the ROM’s palette— from
 <code>c('  ','[]','  ')</code> to <code>c('[]','  ','[]')</code>,
@@ -255,19 +258,22 @@ for any game; just run <code>ROM$palette = c('[]','  ','[]')</code>
 before quickloading.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="r3studio">6. R<sup>3</sup>Studio<a class="anchor" aria-label="anchor" href="#r3studio"></a>
-</h3>
+<div class="section level2">
+<h2 id="r3studio">6. R<sup>3</sup>Studio<a class="anchor" aria-label="anchor" href="#r3studio"></a>
+</h2>
 <p>We can also… boot up the R<sup>2</sup>Studio ROM in this environment.
 rcade is actually functional in this state, but you have to influence
 and update it manually: by using <code><a href="../reference/ram.input.html">ram.input()</a></code> and
 <code><a href="../reference/ram.tick.html">ram.tick()</a></code>. <code><a href="../reference/ram.run.html">ram.run()</a></code> won’t work for several
 reasons, so games can only display individual frames rather than running
 in realtime.</p>
-<p>[hello world image]</p>
-<p>How cool is that! Rendering RStudio in a render of RStudio in
-RStudio.</p>
+<div class="float">
+<img src="images/r2studio_r3studio.png" alt="Sending text is buggy, so I just had it print pi."><div class="figcaption">Sending text is buggy, so I just had it print
+pi.</div>
 </div>
+<p>How cool is that! Rendering RStudio in a render of RStudio in
+RStudio. If you zoom in you can even see the <code>[]</code> pixels made
+up of tinier <code>[]</code> pixels.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

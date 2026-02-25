@@ -340,8 +340,12 @@ their own <code>background</code> from the previous section. The engine
 draws sprites onto specific layers, and then finally takes all the
 layers and overlays them one-by-one to produce the final matrix to be
 drawn.</p>
-<p>#[would like an image of this: sprites -&gt; layer (like stickers),
-then layers stacked like paper]</p>
+<div class="float">
+<img src="images/render_layers.png" alt="render.scene() stacks individuals layers in a scene into a single sprite matrix to be drawn by render.matrix()."><div class="figcaption">
+<code><a href="../reference/render.scene.html">render.scene()</a></code> stacks individuals
+layers in a scene into a single sprite matrix to be drawn by
+<code><a href="../reference/render.matrix.html">render.matrix()</a></code>.</div>
+</div>
 <p>To draw a sprite onto a layer, we use <code><a href="../reference/render.sprite.html">render.sprite()</a></code>,
 which is really just a wrapper for
 <code>render.overlay(layer,sprite)</code>.</p>
@@ -465,10 +469,10 @@ values in the object itself; those changes should occur in game code in
 <div class="section level2">
 <h2 id="animations">7. Animations<a class="anchor" aria-label="anchor" href="#animations"></a>
 </h2>
-<p>Now to the topic of animations. If we have a game object change its
-sprite every few frames, it will ………….</p>
-<p>[VIDEO EXAMPLE]</p>
-<p>This is achieved by calling <code><a href="../reference/render.animate.html">render.animate()</a></code> when we
+<p>Now to the topic of animations. All we have to do is make a game
+object change its sprite every few frames:</p>
+<p><img src="images/render_2.gif"></p>
+<p>This is facilitated by calling <code><a href="../reference/render.animate.html">render.animate()</a></code> when we
 retrieve an object’s sprite in <code><a href="../reference/render.object.html">render.object()</a></code>. For sprites
 we want to animate, instead of storing just the pixel art matrix, we
 store a list containing each frame of animation and some other
@@ -476,12 +480,12 @@ information about the animation. <code><a href="../reference/render.animate.html
 parses these to figure out what frame of animation it should return.</p>
 <p>We can also specify whether an animation should loop or transition to
 a different sprite after completing.</p>
-<p><a href="">NEED VIDEO EXAMPLE OF THIS</a></p>
+<p><img src="images/render_3.gif"></p>
 <p>So for the game dev, all that’s needed to animate a sprite is to
-store it as a complex sprite in <code>ROM$sprites</code>. Very
-convenient! Sprite animations can also be tested with
-<code>render.test_animation</code> to ensure they look as they
-should.</p>
+store it as a complex sprite in <code>ROM$sprites</code> and add some
+metadata about the animation. Very convenient! Sprite animations can
+also be tested with <code>render.test_animation</code> to ensure they
+look as they should.</p>
 </div>
 <div class="section level2">
 <h2 id="text">8. Text<a class="anchor" aria-label="anchor" href="#text"></a>

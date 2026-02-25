@@ -13,7 +13,7 @@ this article is not meant to be a detailed walkthrough and instead just
 provides an overview of how this ROM works. You can always inspect the
 ROM object (`View(R2Studio)`) to take a closer look at its code.
 
-### 1. Goals
+## 1. Goals
 
 I wanted this ROM to provide the full R console experience and have some
 basic plotting capabilities. The goals were as follows:
@@ -28,7 +28,7 @@ basic plotting capabilities. The goals were as follows:
 Since the console is basically a static screen, we won’t need a very
 high framerate. One frame per second should be plenty.
 
-### 2. UI
+## 2. UI
 
 `R2Studio$draw_ui():`
 
@@ -40,7 +40,7 @@ with a little text.
 
 ![](images/r2studio_ui.png)
 
-### 3. R Console
+## 3. R Console
 
 `R2Studio$evaluate():`
 
@@ -83,7 +83,11 @@ output = utils::capture.output(
 )
 ```
 
-#### 3.1 Multiline Expressions
+[`base::parse()`](https://rdrr.io/r/base/parse.html) has some quirks I
+haven’t ironed out yet, mainly misinterpreting expressions that use
+double quotes `"`.
+
+### 3.1 Multiline Expressions
 
 There’s also a little code to render multiline expressions properly,
 e.g.
@@ -100,7 +104,7 @@ together before passing them as an expression string. Then newlines in
 the string are identified to figure out where to add that little ‘+’ on
 subsequent lines.
 
-#### 3.2 Rendering the Console
+### 3.2 Rendering the Console
 
 `R2Studio$draw_console():`
 
@@ -118,7 +122,7 @@ harder to read overall.
 
 ![](images/r2studio_console.png)
 
-### 4. Plotting
+## 4. Plotting
 
 `R2Studio$draw_plot():`
 
@@ -144,9 +148,10 @@ c(0,0.2,0.5,1,1.5,2,2.5,...)](images/r2studio_pch.png)
 
 Different pch sprites at `cex = c(0,0.2,0.5,1,1.5,2,2.5,...)`
 
-## TODOTDO xlim ylim and title (main)
+`xlim` and `ylim` work as plot arguments like they do in regular R, and
+you can use `main` to change the plot title.
 
-#### 4.1 Hooking `plot()`
+### 4.1 Hooking `plot()`
 
 In order to recognize
 [`plot()`](https://rdrr.io/r/graphics/plot.default.html) calls, and have
@@ -163,7 +168,7 @@ the RAM; we can use this here to save the new plot info to
 plot. Access to the RAM also lets us change its ‘settings’, as shown in
 the next section:
 
-### 5. Meta Functions
+## 5. Meta Functions
 
 The approach to swapping out
 [`plot()`](https://rdrr.io/r/graphics/plot.default.html) for a custom
@@ -176,25 +181,25 @@ do is edit `RAM$ROM` properties, and the game is rendered in such a way
 that respects live changes to these— almost everything draws through
 `obj$draw()` rather than the default sprite system.
 
-#### 5.1 use.size()
+### 5.1 use.size()
 
 `use.size(width = NULL, height = NULL, plot.width = NULL)`
 
-Resizes the whole display or plot window.
+Resizes the whole display or plot window; `plot.width = 0` hides the
+plot window.
 
-\#\[\[\[\[\[\[image of a couple different UI sizes (incl. the command in
-the console)\]\]\]\]\]
+![](images/r2studio_resize.png)
 
-#### 5.2 use.font()
+### 5.2 use.font()
 
 `use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)`
 
 Alters the display’s font. `darkmode=TRUE` inverts the colors of the
 entire display.
 
-\#give image example w/ 3x3
+![](images/r2studio_fonts.png)
 
-#### 5.3 Darkmode
+### 5.3 Darkmode
 
 The color inversion in `use.font(darkmode = TRUE)` is achieved by just
 changing the ROM’s palette— from `c(' ','[]',' ')` to
@@ -202,7 +207,7 @@ changing the ROM’s palette— from `c(' ','[]',' ')` to
 actually do this for any game; just run `ROM$palette = c('[]',' ','[]')`
 before quickloading.
 
-### 6. R³Studio
+## 6. R³Studio
 
 We can also… boot up the R²Studio ROM in this environment. rcade is
 actually functional in this state, but you have to influence and update
@@ -214,6 +219,11 @@ and
 work for several reasons, so games can only display individual frames
 rather than running in realtime.
 
-\[hello world image\]
+![Sending text is buggy, so I just had it print
+pi.](images/r2studio_r3studio.png)
+
+Sending text is buggy, so I just had it print pi.
 
 How cool is that! Rendering RStudio in a render of RStudio in RStudio.
+If you zoom in you can even see the `[]` pixels made up of tinier `[]`
+pixels.

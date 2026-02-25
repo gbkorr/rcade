@@ -62,9 +62,10 @@ creation.
 
 [`vignette("rrio")`](https://gbkorr.github.io/rcade/articles/rrio.md)
 
-![](images/thumbnail_rrio.png) Super Rrio is rcade’s premier game, a
-platformer in the style of *Super Mario Bros.*. ROM and article
-currently in the works!
+![](images/thumbnail_rrio.png)
+
+Super Rrio is rcade’s premier game, a platformer in the style of *Super
+Mario Bros.*. ROM and article currently in the works!
 
 ### 3.3 Bad Apple
 
@@ -115,12 +116,15 @@ do with it:
 
 2.  I need to finish Super Rrio and its devlog article.
 
-3.  I want to make an addon package for online multiplayer
+3.  I’d like to release to CRAN at some point and maybe promote the
+    project more in the R sphere.
+
+4.  I want to make an addon package for online multiplayer
     functionality, with a *Tron* ROM+devlog for reference.
 
-4.  A game demonstrating the ASCII (and/or unicode) capabilites of rcade
+5.  A game demonstrating the ASCII (and/or unicode) capabilites of rcade
     could be cool— the package is capable of much prettier things than
-    I’ve demonstrated so far.
+    I’ve shown so far.
 
 ## 5. History and Motivation
 
@@ -237,7 +241,7 @@ to do the port.
 
 4.  Which is particularly important for this project; the systems and
     concepts are generalizable to other languages and might actually be
-    a good resource for making an engine like this.
+    a good framework for this sort of engine.
 
 5.  Except for when Google results suggested a function before I could
     click on Stackexchgange, of course.

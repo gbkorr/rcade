@@ -3,8 +3,8 @@
 Basic
 [font](https://gbkorr.github.io/rcade/reference/render.makefont.md) with
 all common characters. Horizontally compact, but much more readable than
-[fonts.3x3](https://gbkorr.github.io/rcade/reference/fonts.3x3.md). This
-should be the preferred low-res font for most situations.
+[`fonts.3x3`](https://gbkorr.github.io/rcade/reference/fonts.3x3.md).
+This should be the preferred low-res font for most situations.
 
 Made by yours truly. Some of these sprites are pretty snazzy.
 
@@ -23,6 +23,10 @@ A [font](https://gbkorr.github.io/rcade/reference/render.makefont.md); a
 list containing font-related properties and a list of sprites for each
 character.
 
+## Details
+
+![](figures/fonts_3x5.png)
+
 ## See also
 
-`fonts.3x3`
+[`fonts.3x3`](https://gbkorr.github.io/rcade/reference/fonts.3x3.md)

@@ -1,16 +1,9 @@
 # Game: Super Rrio Platformer
 
-    #> 
-    #> [][][]  [][][]    []    [][]    [][][]
-    #> [][]    []      [][][]  []  []  [][]
-    #> []  []  [][][]  []  []  [][]    [][][]  v1.0.0
-    #> 
-    #> Open `vignette("guide")` to get started!
-    #> Warning in fun(libname, pkgname): Please use RStudio! rcade may not work in
-    #> other environments.
-
 This ROM and article are not finished yet! Here you can see a sneak peek
 of some of the systems and parts of it.
+
+![](images/render_3.gif)
 
 ## Intro
 

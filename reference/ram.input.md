@@ -34,7 +34,7 @@ The input is set to occur on the next tick unless specified by
 
 ``` r
 if (FALSE) { # \dontrun{
-RAM = ram.init(SuperRrio)
+RAM = ram.init(Snake)
 RAM = ram.input(RAM,'d ',30) #will jump one second after the game starts
 RAM = ram.run(RAM) #start the game
 } # }

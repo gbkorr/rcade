@@ -1,23 +1,22 @@
-In-progress package for a game engine in vanilla RStudio.
+`rcade` is a fully documented R package with detailed articles on its
+systems and their application. Some of my best writing is in the
+articles for the [Snake
+Devlog](https://gbkorr.github.io/rcade/articles/snake.html) and
+[Rendering System](https://gbkorr.github.io/rcade/articles/render.html),
+but I think all the articles are fun to read :)
 
-The goal is to make it to CRAN!
+The package lets you play and develop games in vanilla R, played right
+on the console!
 
-readme needs to be finished! or maybe just merge with vignette(‘rcade’)
+![](thumbnail.png)
 
-![](articles/images/thumbnail.png)
+Install with:
 
-\[why is this image broken on only the website?\]
+    devtools::install_github("gbkorr/rcade")
 
-[`vignette("snake")`](https://gbkorr.github.io/rcade/articles/snake.md)
-and
-[`vignette("render")`](https://gbkorr.github.io/rcade/articles/render.md)
-are perhaps the best pieces here (and maybe
-[`vignette("timing")`](https://gbkorr.github.io/rcade/articles/timing.md)
-too)
-
-The package is fully documented and written up; see the
-[website](https://gbkorr.github.io/rcade/articles/rcade.html) for
-convenient navigation.
+and check out the
+[website](https://gbkorr.github.io/rcade/articles/rcade.html) to learn
+more about more about the package and browse the documentation.
 
 # Package index
 

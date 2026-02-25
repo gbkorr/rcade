@@ -87,11 +87,10 @@ This is required due to how R handles nested lists; the format
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 #traceback demo:
-RAM = ram.init(SuperRrio)
-#> Error: object 'SuperRrio' not found
+RAM = ram.init(Snake)
 RAM$ROM$sprites = NULL #this will make the game crash
-#> Error: object 'RAM' not found
 RAM = ram.run(RAM)
-#> Error: object 'RAM' not found
+} # }
 ```

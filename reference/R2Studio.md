@@ -20,6 +20,8 @@ A game [ROM](https://gbkorr.github.io/rcade/reference/rom.init.md); see
 
 ## Details
 
+![](figures/thumbnail_r2studio.png)
+
 To start, run `quickload(R2Studio)` and start the input session with
 [`inputs.listen()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
 in a separate RStudio window (as usual).

@@ -81,13 +81,56 @@
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>A sprite defined in <code>ROM$sprites</code> can either be <em>simple</em> or <em>complex</em>;</p>
 <p>Simple sprites are just a static sprite matrix.</p>
-<p>Complex sprites are a list containing multiple frames of animation. Complex sprites can have the following properties:</p><table class="table table"><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$framerate</code></td><td><code>  </code></td><td></td><td>Framerate at which to play the animation.</td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$next_animation</code></td><td></td><td>spritename of which animation from ROM$sprites to play next when all frames of this one have played. If <code>NULL</code>, animation loops.</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$frames</code></td><td></td><td>list of sprite matrices (simple sprites).</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$offset.x</code></td><td></td><td>Offsets the location at which the sprite is drawn; see <a href="render.object.html">render.object</a></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$offset.y</code></td><td></td><td>Offset relative to y.</td><td></td></tr></table><p>Animated sprites can be tested using <code><a href="render.test_animation.html">render.test_animation()</a></code>.</p>
+<p>Complex sprites are a list containing multiple frames of animation. Complex sprites can have the following properties:</p><table class="table table"><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$framerate</code></td><td><code>  </code></td><td>Framerate at which to play the animation.</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$next_animation</code></td><td></td><td>spritename of which animation from ROM$sprites to play next when all frames of this one have played. If <code>NULL</code>, animation loops.</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$frames</code></td><td></td><td>list of sprite matrices (simple sprites).</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$offset.x</code></td><td></td><td>Offsets the location at which the sprite is drawn; see <a href="render.object.html">render.object</a></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$offset.y</code></td><td></td><td>Offset relative to y.</td><td></td></tr></table><p>Animated sprites can be tested using <code><a href="render.test_animation.html">render.test_animation()</a></code>.</p>
 <p>todo: example of simple animation</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#simple two-part animation using sprite$next_animation</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co">#simple two-part animation using sprite$next_animation</span></span></span>
+<span class="r-in"><span><span class="va">sprites</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>bar.loading <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  framerate <span class="op">=</span> <span class="fl">4</span>, <span class="co">#frames per second</span></span></span>
+<span class="r-in"><span>  next_animation <span class="op">=</span> <span class="st">'bar.complete'</span>, <span class="co">#will transition into this animation automatically</span></span></span>
+<span class="r-in"><span>  frames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">..........'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">O.........'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OO........'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOO.......'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOO......'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOOO.....'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOOOO....'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOOOOO...'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOOOOOO..'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOOOOOOO.'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOOOOOOOO'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>bar.complete <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  framerate <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  frames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">OOOOOOOOOO'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="render.makesprite.html">render.makesprite</a></span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">..........'</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="render.test_animation.html">render.test_animation</a></span><span class="op">(</span><span class="st">'bar.loading'</span>,<span class="va">sprites</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

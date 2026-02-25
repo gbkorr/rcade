@@ -30,7 +30,7 @@ inputs.process(RAM)
 The following is an outline of the process from a player entering an
 input to it being registered by the game.
 
-1.  Player types out "wa" in the
+1.  Player types out "`wa`" in the
     [`inputs.listen()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
     listener.  
 
@@ -71,12 +71,13 @@ that, when input, activate the actions. These keybinds populate
 `RAM$actions` when RAM is
 [initialized](https://gbkorr.github.io/rcade/reference/ram.init):
 
-    RAM$actions = c(attack = 0, up = 0, left = 0, down = 0 right = 0)
+    RAM$actions = list(attack = 0, up = 0, left = 0, down = 0, right = 0)
 
 When a key is registered, the corresponding action in `RAM$actions` is
 set to `1` for one frame. (If a key is pressed multiple times in the
-same input, e.g. `ww`, the action will be set to `2`, and so on. This is
-useful for allowing for more input combinations with a single button.)
+same input, e.g. "`ww`", the action will be set to `2`, and so on. This
+is useful for allowing for more input combinations with a single
+button.)
 
 The game should read RAM\$actions to control game behavior; see
 [`vignette('rrio')`](https://gbkorr.github.io/rcade/articles/rrio.md) to

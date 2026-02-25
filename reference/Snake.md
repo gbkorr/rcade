@@ -15,6 +15,10 @@ Snake
 A game [ROM](https://gbkorr.github.io/rcade/reference/rom.init.md); see
 [`vignette("engine")`](https://gbkorr.github.io/rcade/articles/engine.md).
 
+## Details
+
+![](figures/thumbnail_snake.png)
+
 ## How to Play
 
 WASD to move the snake. `ENTER` *must* be pressed after each input for
@@ -27,7 +31,7 @@ Follow these steps:
 2.  Follow console prompt.
 
 3.  Open new R session and load `rcade` with
-    [`library(rcade)`](https://gbkorr.github.io/rcade/).
+    [`library(rcade)`](https://gbkorr.github.io/rcade/articles/rcade.html).
 
 4.  [`inputs.listen()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
     in that new session.
