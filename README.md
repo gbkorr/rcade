@@ -1,6 +1,12 @@
 In-progress package for a game engine in vanilla RStudio.
 
+`install_github("gbkorr/rcade")` but in orange or something so it's more visible here
+
 The goal is to make it to CRAN!
+
+though I think I'll release here, and put on CRAN (which requires a lot of annoying version-checking) once I finish Rrio
+
+github pacakges are still convenient to install with install_github('author/repo'), but there's still concerns about version compatibility
 
 readme needs to be finished! or maybe just merge with vignette('rcade')
 
