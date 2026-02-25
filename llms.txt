@@ -8,7 +8,7 @@ but I think all the articles are fun to read :)
 The package lets you play and develop games in vanilla R, played right
 on the console!
 
-![](thumbnail.png)
+![](reference/figures/thumbnail.png)
 
 Install with:
 

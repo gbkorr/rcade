@@ -74,10 +74,7 @@ Each input is only submitted when the Enter key is pressed. This can make intera
 
 
 <p><code>inputs.csv</code> is stored in <code>tools::R_user_dir('rcade')</code>, the directory for storing package data.</p>
-<p>Only one <code>inputs.csv</code> file exists and is read by the package; the file is wiped every time <code><a href="ram.init.html">ram.init()</a></code> is called.
-@examples
-
-@export</p>
+<p>Only one <code>inputs.csv</code> file exists and is read by the package; the file is wiped every time <code><a href="ram.init.html">ram.init()</a></code> is called.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -85,6 +82,16 @@ Each input is only submitted when the Enter key is pressed. This can make intera
 <p><code><a href="inputs.process.html">inputs.process()</a></code> provides a more focused description of how an input gets from the player's keyboard to the game code.</p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span> <span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="quickload.html">quickload</a></span><span class="op">(</span><span class="va">Snake</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="co">#in a separate R session:</span></span></span>
+<span class="r-in"><span> <span class="fu">inputs.listen</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="co">#type 'd' and press Enter.</span></span></span>
+<span class="r-in"><span> <span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -82,7 +82,6 @@
     <p>A sprite defined in <code>ROM$sprites</code> can either be <em>simple</em> or <em>complex</em>;</p>
 <p>Simple sprites are just a static sprite matrix.</p>
 <p>Complex sprites are a list containing multiple frames of animation. Complex sprites can have the following properties:</p><table class="table table"><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$framerate</code></td><td><code>  </code></td><td>Framerate at which to play the animation.</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$next_animation</code></td><td></td><td>spritename of which animation from ROM$sprites to play next when all frames of this one have played. If <code>NULL</code>, animation loops.</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$frames</code></td><td></td><td>list of sprite matrices (simple sprites).</td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$offset.x</code></td><td></td><td>Offsets the location at which the sprite is drawn; see <a href="render.object.html">render.object</a></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><code>$offset.y</code></td><td></td><td>Offset relative to y.</td><td></td></tr></table><p>Animated sprites can be tested using <code><a href="render.test_animation.html">render.test_animation()</a></code>.</p>
-<p>todo: example of simple animation</p>
     </div>
 
     <div class="section level2">

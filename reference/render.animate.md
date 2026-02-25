@@ -56,8 +56,6 @@ Complex sprites can have the following properties:
 Animated sprites can be tested using
 [`render.test_animation()`](https://gbkorr.github.io/rcade/reference/render.test_animation.md).
 
-todo: example of simple animation
-
 ## Examples
 
 ``` r

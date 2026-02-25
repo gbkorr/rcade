@@ -5,10 +5,7 @@ Fonts are used to draw text ingame with
 A font is a list including `$sprites`, a list of sprites for each
 character supported by the font.
 
-really try/consider adding random demo photos all over the vignettes:
-they (esp. inputs and render) are way too dense. even in render you
-could replace some console examples with images All fonts are
-monospaced.
+All fonts are monospaced.
 
 ## Usage
 

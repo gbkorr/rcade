@@ -31,7 +31,7 @@ Follow these steps:
 2.  Follow console prompt.
 
 3.  Open new R session and load `rcade` with
-    [`library(rcade)`](https://gbkorr.github.io/rcade/articles/rcade.html).
+    [`library(rcade)`](https://gbkorr.github.io/rcade).
 
 4.  [`inputs.listen()`](https://gbkorr.github.io/rcade/reference/inputs.listen.md)
     in that new session.

@@ -27,7 +27,7 @@ SETUP](https://gbkorr.github.io/rcade/articles/A%20good%20setup.%20The%20display
 Once you have those two windows open, follow these steps:
 
 1.  **Both sessions** need to load the package with
-    [`library(rcade)`](https://gbkorr.github.io/rcade/articles/rcade.html).
+    [`library(rcade)`](https://gbkorr.github.io/rcade).
 2.  In the **display session**, start the game you want to play. I
     recommend `Snake`:
 
