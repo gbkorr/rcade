@@ -87,9 +87,10 @@ Now, we also want to draw the game, and to make it feel smooth, we only
 want to do this when the game is “at” the current frame— ahead of the
 white bar. So the logic for timing the game is:
 
-    1.  if within of the current frame, sleep (wait) until the game is just behind the current frame
+    1.  if within the current frame, sleep (wait) until 
+    the game is just behind the current frame
     2.  update the RAM (advance a frame)
-    3.  if within of the current frame, draw the RAM
+    3.  if within the current frame, draw the RAM
     4.  repeat
 
 This mirrors the code found in
