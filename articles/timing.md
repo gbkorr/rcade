@@ -22,7 +22,7 @@ game runs in realtime at the correct speed, by taking advantage of
 [`base::Sys.time()`](https://rdrr.io/r/base/Sys.time.html)’s high
 precision.
 
-### 1.1. Goal
+### 1.1 Goal
 
 But first: what do we want to do on each frame? What even *is* a frame?
 
