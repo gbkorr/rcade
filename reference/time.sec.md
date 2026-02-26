@@ -23,5 +23,5 @@ since 1970 with sub-millisecond precision.
 
 ``` r
 print(time.sec(),digits=20)
-#> [1] 1772148749.6673424244
+#> [1] 1772149007.5146763325
 ```
