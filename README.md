@@ -1,7 +1,7 @@
 `rcade` is a fully documented R package with detailed articles on its systems and their application.  
 Some of my best writing is in the articles for the [Snake Devlog](https://gbkorr.github.io/rcade/articles/snake.html) and [Rendering System](https://gbkorr.github.io/rcade/articles/render.html), but I think all the articles are fun to read :)
 
-The package is around 1200 lines of code and 20000 words of documentation.
+The package has around 1,200 lines of code and 20,000 words of documentation.
 
 ```
 devtools::install_github("gbkorr/rcade")
