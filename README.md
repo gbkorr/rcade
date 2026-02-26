@@ -9,5 +9,5 @@ devtools::install_github("gbkorr/rcade")
 
 The package lets you play and develop games in vanilla R, played right on the console!  
 Check out the [website](https://gbkorr.github.io/rcade/articles/rcade.html) to learn more about more about the package and browse the documentation.
-
+ 
 ![](man/figures/thumbnail.png)
