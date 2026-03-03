@@ -90,9 +90,10 @@ window, and you’ll want to zoom out with <code>cmd -</code> or
 equivalent.</p>
 <p>The second sessions is the <strong>input session</strong> and will be
 where you’ll interact with the game once it starts.</p>
-<p>#<a href="A%20good%20setup.%20The%20display%20session%20is%20large%20and%20zoomed%20out,%20and%20the%20input%20session%20is%20accessible.">IMAGE
-OF A GOOD SETUP</a></p>
-<p>Once you have those two windows open, follow these steps:</p>
+<details><summary><strong>Example: [click to expand]</strong>
+</summary>
+An example of a good setup: the display session console is large and
+zoomed out, with the input session accessible. <img src="images/guide_example.jpg"></details><p>Once you have those two windows open, follow these steps:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>Both sessions</strong> need to load the package with
@@ -114,7 +115,11 @@ the game! Snake uses WASD.</li>
 <p>Because of how R works, you have to <strong>press Enter</strong>
 every time you want to send an input. So to turn to the right, you’d
 have to press <code>D-ENTER</code> in succession.</p>
-<p><a href="">GIF of this!</a></p>
+<details><summary><strong>Demonstration:</strong>
+</summary>
+Here’s a demonstration of this process in action. The functions at the
+start are equivalent to running <code><a href="../reference/quickload.html">quickload()</a></code>, and then I
+drag over the input session and send input with it. <img src="images/snake_4.gif"></details>
 </div>
 <div class="section level2">
 <h2 id="prebuilt-games">2. Prebuilt Games<a class="anchor" aria-label="anchor" href="#prebuilt-games"></a>
@@ -122,33 +127,34 @@ have to press <code>D-ENTER</code> in succession.</p>
 <p>Below are the ROMs (games) I’ve made to be included in the package.
 To run one, follow the steps above with the desired ROM in
 <code><a href="../reference/quickload.html">quickload()</a></code>.</p>
+<p>You can find more info on these in <code>vignette(rcade)</code>.</p>
 <div class="section level3">
 <h3 id="snake">Snake<a class="anchor" aria-label="anchor" href="#snake"></a>
 </h3>
 <pre><code><span><span class="fu"><a href="../reference/quickload.html">quickload</a></span><span class="op">(</span><span class="va">Snake</span><span class="op">)</span></span></code></pre>
-<p><a href="">IMAGE</a> Classic Snake game controlled with WASD. When
-you load the ROM, you’ll be prompted if you want to use the default
-settings or change the speed and boundaries of the game.</p>
-</div>
-<div class="section level3">
-<h3 id="super_rrio">Super_Rrio<a class="anchor" aria-label="anchor" href="#super_rrio"></a>
-</h3>
-<p><a href="">IMAGE</a></p>
-<p>all these need controls too</p>
+<p><img src="images/thumbnail_snake.png"></p>
+<p>Classic Snake game controlled with WASD. When you load the ROM,
+you’ll be prompted if you want to use the default settings or change the
+speed and boundaries of the game.</p>
 </div>
 <div class="section level3">
 <h3 id="bad-apple">Bad Apple<a class="anchor" aria-label="anchor" href="#bad-apple"></a>
 </h3>
-<p><a href="">IMAGE</a> This one isn’t a game, just a tech demo for the
-graphics engine. Running this will render a video to the console, no
-input session needed.</p>
+<pre><code><span><span class="fu"><a href="../reference/quickload.html">quickload</a></span><span class="op">(</span><span class="va">BadApple</span><span class="op">)</span></span></code></pre>
+<p><img src="images/thumbnail_badapple.png"></p>
+<p>This one isn’t a game, just a tech demo for the graphics engine.
+Running this will render a video to the console, no input session
+needed.</p>
 </div>
 <div class="section level3">
 <h3 id="r2studio">R<sup>2</sup>Studio<a class="anchor" aria-label="anchor" href="#r2studio"></a>
 </h3>
-<p><a href="">IMAGE</a> desc Pronounced “r-squared studio”— it’s a pun
-on the Pearson r<sup>2</sup>, and the fact that it’s RStudio in
-RStudio!</p>
+<pre><code><span><span class="fu"><a href="../reference/quickload.html">quickload</a></span><span class="op">(</span><span class="va">R2Studio</span><span class="op">)</span></span></code></pre>
+<p><img src="images/thumbnail_r2studio.png"></p>
+<p>Pronounced “r-squared studio”— it’s a pun on the Pearson
+r<sup>2</sup>, and the fact that it’s RStudio in RStudio! Renders a mini
+console and UI, which you can run commands in like a regular R session.
+Basic scatterplotting is supported.</p>
 </div>
 </div>
 <div class="section level2">
@@ -158,9 +164,9 @@ RStudio!</p>
 <code>vignette("Snake")</code> is a full devlog of the process of making
 the Snake ROM from start to finish. Once you’ve made a ROM, you can run
 it just like the games above!</p>
-<p>The other game articles above go into more detail about game logic
-and technical implementations and may be useful for advanced game
-development.</p>
+<p>The other game articles (see <code>vignette(rcade)</code>) go into
+more detail about game logic and technical implementations and may be
+useful for advanced game development.</p>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

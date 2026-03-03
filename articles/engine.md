@@ -71,6 +71,10 @@ From here, the player can `^C` in the display session to interrupt
 (pause) the game and inspect the RAM object, continue the game, or even
 edit the ROM.[³](#fn3)
 
+**Demonstration: \[click to expand\]**
+
+![](images/snake_4.gif)
+
 ## 3. The Gameloop
 
 Once the RAM is run, it executes the **gameloop** over and over. This is

@@ -164,7 +164,7 @@ Snake$move_head = function(RAM){
 Putting this all together, we already have a working prototype where we
 can control the head!
 
-**FULL CODE SO FAR:**
+**Code SO FAR:**
 
 ``` r
 Snake = rom.init(16,8,framerate=2,sprites=list(pixel=matrix(1)))
@@ -314,7 +314,7 @@ snake will grow any time we don’t delete the tail segment, so let’s
 prevent that code from running every, say, 5 ticks. Let’s also speed up
 the game a little so it’s easier to test.
 
-**FULL CODE SO FAR:**
+**Code so far:**
 
 ``` r
 Snake = rom.init(16,8,framerate=5,sprites=list(pixel=matrix(1)))
@@ -589,7 +589,7 @@ area and won, since that would hang this `while` loop.
 
 Now our code looks like this:
 
-**FULL CODE SO FAR:**
+**Code so far:**
 
 ``` r
 Snake = rom.init(16,8,framerate=5,sprites=list(pixel=matrix(1)))
@@ -914,7 +914,7 @@ especially as the snake gets long.
 Here’s the (almost) final code for the `Snake` ROM, and a GIF of a
 complete game session.
 
-**FULL CODE SO FAR:**
+**Code so far:**
 
 ``` r
 Snake = rom.init(32,16,framerate=5,sprites=list(pixel=matrix(1)))

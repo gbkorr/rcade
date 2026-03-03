@@ -21,8 +21,11 @@ to zoom out with `cmd -` or equivalent.
 The second sessions is the **input session** and will be where you’ll
 interact with the game once it starts.
 
-\#[IMAGE OF A GOOD
-SETUP](https://gbkorr.github.io/rcade/articles/A%20good%20setup.%20The%20display%20session%20is%20large%20and%20zoomed%20out,%20and%20the%20input%20session%20is%20accessible.)
+**Example: \[click to expand\]**
+
+An example of a good setup: the display session console is large and
+zoomed out, with the input session accessible.
+![](images/guide_example.jpg)
 
 Once you have those two windows open, follow these steps:
 
@@ -50,7 +53,13 @@ Because of how R works, you have to **press Enter** every time you want
 to send an input. So to turn to the right, you’d have to press `D-ENTER`
 in succession.
 
-[GIF of this!](https://gbkorr.github.io/rcade/articles/)
+**Demonstration:**
+
+Here’s a demonstration of this process in action. The functions at the
+start are equivalent to running
+[`quickload()`](https://gbkorr.github.io/rcade/reference/quickload.md),
+and then I drag over the input session and send input with it.
+![](images/snake_4.gif)
 
 ## 2. Prebuilt Games
 
@@ -58,32 +67,37 @@ Below are the ROMs (games) I’ve made to be included in the package. To
 run one, follow the steps above with the desired ROM in
 [`quickload()`](https://gbkorr.github.io/rcade/reference/quickload.md).
 
+You can find more info on these in `vignette(rcade)`.
+
 ### Snake
 
     quickload(Snake)
 
-[IMAGE](https://gbkorr.github.io/rcade/articles/) Classic Snake game
-controlled with WASD. When you load the ROM, you’ll be prompted if you
-want to use the default settings or change the speed and boundaries of
-the game.
+![](images/thumbnail_snake.png)
 
-### Super_Rrio
-
-[IMAGE](https://gbkorr.github.io/rcade/articles/)
-
-all these need controls too
+Classic Snake game controlled with WASD. When you load the ROM, you’ll
+be prompted if you want to use the default settings or change the speed
+and boundaries of the game.
 
 ### Bad Apple
 
-[IMAGE](https://gbkorr.github.io/rcade/articles/) This one isn’t a game,
-just a tech demo for the graphics engine. Running this will render a
-video to the console, no input session needed.
+    quickload(BadApple)
+
+![](images/thumbnail_badapple.png)
+
+This one isn’t a game, just a tech demo for the graphics engine. Running
+this will render a video to the console, no input session needed.
 
 ### R²Studio
 
-[IMAGE](https://gbkorr.github.io/rcade/articles/) desc Pronounced
-“r-squared studio”— it’s a pun on the Pearson r², and the fact that it’s
-RStudio in RStudio!
+    quickload(R2Studio)
+
+![](images/thumbnail_r2studio.png)
+
+Pronounced “r-squared studio”— it’s a pun on the Pearson r², and the
+fact that it’s RStudio in RStudio! Renders a mini console and UI, which
+you can run commands in like a regular R session. Basic scatterplotting
+is supported.
 
 ## 3. Making Games
 
@@ -93,9 +107,9 @@ You can make your own game with
 ROM from start to finish. Once you’ve made a ROM, you can run it just
 like the games above!
 
-The other game articles above go into more detail about game logic and
-technical implementations and may be useful for advanced game
-development.
+The other game articles (see `vignette(rcade)`) go into more detail
+about game logic and technical implementations and may be useful for
+advanced game development.
 
 ------------------------------------------------------------------------
 

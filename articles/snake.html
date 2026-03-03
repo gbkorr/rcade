@@ -223,7 +223,7 @@ RAM has access to a copy of ROM.</p>
 </h3>
 <p>Putting this all together, we already have a working prototype where
 we can control the head!</p>
-<details><summary><strong>FULL CODE SO FAR:</strong>
+<details><summary><strong>Code SO FAR:</strong>
 </summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Snake</span> <span class="op">=</span> <span class="fu"><a href="../reference/rom.init.html">rom.init</a></span><span class="op">(</span><span class="fl">16</span>,<span class="fl">8</span>,framerate<span class="op">=</span><span class="fl">2</span>,sprites<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pixel<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -365,7 +365,7 @@ remove it.</p>
 The snake will grow any time we don’t delete the tail segment, so let’s
 prevent that code from running every, say, 5 ticks. Let’s also speed up
 the game a little so it’s easier to test.</p>
-<details><summary><strong>FULL CODE SO FAR:</strong>
+<details><summary><strong>Code so far:</strong>
 </summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Snake</span> <span class="op">=</span> <span class="fu"><a href="../reference/rom.init.html">rom.init</a></span><span class="op">(</span><span class="fl">16</span>,<span class="fl">8</span>,framerate<span class="op">=</span><span class="fl">5</span>,sprites<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pixel<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -624,7 +624,7 @@ loop.</p>
 <h3 id="testing-2">8.3 Testing<a class="anchor" aria-label="anchor" href="#testing-2"></a>
 </h3>
 <p>Now our code looks like this:</p>
-<details><summary><strong>FULL CODE SO FAR:</strong>
+<details><summary><strong>Code so far:</strong>
 </summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Snake</span> <span class="op">=</span> <span class="fu"><a href="../reference/rom.init.html">rom.init</a></span><span class="op">(</span><span class="fl">16</span>,<span class="fl">8</span>,framerate<span class="op">=</span><span class="fl">5</span>,sprites<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pixel<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -928,7 +928,7 @@ especially as the snake gets long.</p>
 </h2>
 <p>Here’s the (almost) final code for the <code>Snake</code> ROM, and a
 GIF of a complete game session.</p>
-<details><summary><strong>FULL CODE SO FAR:</strong>
+<details><summary><strong>Code so far:</strong>
 </summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Snake</span> <span class="op">=</span> <span class="fu"><a href="../reference/rom.init.html">rom.init</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">16</span>,framerate<span class="op">=</span><span class="fl">5</span>,sprites<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pixel<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>

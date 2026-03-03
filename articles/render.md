@@ -446,8 +446,15 @@ other information about the animation.
 then parses these to figure out what frame of animation it should
 return.
 
+\#example clode
+
+**Example**
+
+code for the animation above, incl. test_animation
+
 We can also specify whether an animation should loop or transition to a
-different sprite after completing.
+different sprite after completing, by giving the list a value for
+`next_animation`.
 
 ![](images/render_3.gif)
 
@@ -476,6 +483,8 @@ list of sprites for each character.
 [`?render.makefont`](https://gbkorr.github.io/rcade/reference/render.makefont.md)
 provides more detail on this, and inspecting `View(fonts.3x3)` may be
 useful as well.
+
+![](images/fonts_3x3.png)
 
 ### 8.2 render.text()
 
@@ -631,4 +640,6 @@ making it the package’s default, but haven’t gotten around to it yet.
 
 4.  Though this code could use some improvement. It does its job but
     isn’t very robust— I figured it was already too niche to warrant
-    more attention.
+    more attention. Apparently r also has a dedicated
+    [`base::strwrap()`](https://rdrr.io/r/base/strwrap.html) function
+    for this already…\`

@@ -51,8 +51,8 @@ R²Studio's scatterplots respect several parameters from
 The appearance of the console can be changed with a couple commands
 (entered in the input session like any other code for R\\^2\\Studio).
 
-`use.size(width = NULL, height = NULL, plot.width = NULL)`: resize
-display or plot window
+`use.size(width = NULL, height = NULL, plot.width = NULL)`  
+` `resize display or plot window
 
-`use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)`:
-change or edit console font
+`use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)`  
+` `change or edit console font
