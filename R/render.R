@@ -179,9 +179,9 @@ render.overlay = function(background, sprite, x = 1, y = 1, invert = FALSE){
 #' |-|-|-|-|
 #' |`$framerate`|\verb{  }|Framerate at which to play the animation.|
 #' ||||
-#' |`$next_animation`||spritename of which animation from ROM$sprites to play next when all frames of this one have played. If `NULL`, animation loops.|
+#' |`$next_animation`||`spritename` of which animation from ROM$sprites to play next when all frames of this one have played. If `NULL`, animation loops.|
 #' ||||
-#' |`$frames`||list of sprite matrices (simple sprites).|
+#' |`$frames`||List of sprite matrices (simple sprites).|
 #' ||||
 #' |`$offset.x`||Offsets the location at which the sprite is drawn; see [render.object]|
 #' ||||

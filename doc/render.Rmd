@@ -281,7 +281,14 @@ Now to the topic of animations. All we have to do is make a game object change i
 
 This is facilitated by calling `render.animate()` when we retrieve an object's sprite in `render.object()`. For sprites we want to animate, instead of storing just the pixel art matrix, we store a list containing each frame of animation and some other information about the animation. `render.animate()` then parses these to figure out what frame of animation it should return.
 
-We can also specify whether an animation should loop or transition to a different sprite after completing.
+#example clode
+<details>
+  <summary>**Example**</summary>
+  code for the animation above, incl. test_animation
+</details>
+
+
+We can also specify whether an animation should loop or transition to a different sprite after completing, by giving the list a value for `next_animation`.
 
 ![](images/render_3.gif)
 
@@ -289,6 +296,8 @@ So for the game dev, all that's needed to animate a sprite is to store it as a c
 
 ## 8. Text
 Now for the topic of rendering a piece of text ingame. We could just `render.sprite()` each character individually, but this is needlessly ineffecient; instead, the best solution is to combine all the characters into one sprite and render that in a single `render.sprite()` call. This is the purpose of `render.text()`.
+
+![](images/fonts_3x3.png)
 
 ### 8.1 Fonts
 But first, how should store the sprites for each character? rcade handles these pretty simply--- it has *font* objects which contain some information about the size/spacing of the characters, and also contain a list of sprites for each character. `?render.makefont` provides more detail on this, and inspecting `View(fonts.3x3)` may be useful as well.
@@ -298,7 +307,7 @@ The basic functionality of `render.text()` is stitching together character sprit
 
 Additionally, some code is included to provide the option to wrap words to fit in a given width of pixels, and align them to the left/right/center.[^10]
 
-[^10]: Though this code could use some improvement. It does its job but isn't very robust--- I figured it was already too niche to warrant more attention.
+[^10]: Though this code could use some improvement. It does its job but isn't very robust--- I figured it was already too niche to warrant more attention. Apparently r also has a dedicated `base::strwrap()` function for this already...`
 
 Here's an example of `render.text()`'s stitching:
 

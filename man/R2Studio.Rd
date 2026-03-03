@@ -42,9 +42,11 @@ cex
 
 The appearance of the console can be changed with a couple commands (entered in the input session like any other code for R\eqn{^2}Studio).
 
-\code{use.size(width = NULL, height = NULL, plot.width = NULL)}: resize display or plot window
+\code{use.size(width = NULL, height = NULL, plot.width = NULL)}\cr
+\verb{    }resize display or plot window
 
-\code{use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)}: change or edit console font
+\code{use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)}\cr
+\verb{    }change or edit console font
 }
 
 \keyword{datasets}

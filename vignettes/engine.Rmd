@@ -68,6 +68,11 @@ From here, the player can `^C` in the display session to interrupt (pause) the g
 
 [^3]: Note: since the ROM is loaded into the RAM, changes to the ROM will have to pushed to the RAM with `RAM$ROM = newrom`. It's almost always better to just restart the game by rerunning `ram.init()`.
 
+<details>
+  <summary>**Demonstration: [click to expand]**</summary>
+![](images/snake_4.gif)
+</details>
+
 ## 3. The Gameloop
 Once the RAM is run, it executes the **gameloop** over and over. This is where all the code dedicated to running the engine, drawing the game, running game logic, etc. is called. 
 

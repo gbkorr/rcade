@@ -30,9 +30,9 @@ Complex sprites are a list containing multiple frames of animation. Complex spri
     \tab  \tab  \tab  \cr
    \verb{$framerate} \tab \verb{  } \tab Framerate at which to play the animation. \tab  \cr
     \tab  \tab  \tab  \cr
-   \verb{$next_animation} \tab  \tab spritename of which animation from ROM$sprites to play next when all frames of this one have played. If \code{NULL}, animation loops. \tab  \cr
+   \verb{$next_animation} \tab  \tab \code{spritename} of which animation from ROM$sprites to play next when all frames of this one have played. If \code{NULL}, animation loops. \tab  \cr
     \tab  \tab  \tab  \cr
-   \verb{$frames} \tab  \tab list of sprite matrices (simple sprites). \tab  \cr
+   \verb{$frames} \tab  \tab List of sprite matrices (simple sprites). \tab  \cr
     \tab  \tab  \tab  \cr
    \verb{$offset.x} \tab  \tab Offsets the location at which the sprite is drawn; see \link{render.object} \tab  \cr
     \tab  \tab  \tab  \cr

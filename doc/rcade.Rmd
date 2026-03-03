@@ -57,6 +57,7 @@ A port of the classic game Snake, running quite smoothly. Demonstrates the inter
 `vignette("rrio")`
 
 ![](images/thumbnail_rrio.png)
+
 Super Rrio is rcade's premier game, a platformer in the style of *Super Mario Bros.*. ROM and article currently in the works!
 
 ### 3.3 Bad Apple
@@ -92,6 +93,8 @@ The package's code and systems are complete, but there's plenty more to do with 
 1. I found a way to completely remove the flickering present when rendering at higher resolutions--- I'll need to rewrite and redocument some things to implement this.
 
 2. I need to finish Super Rrio and its devlog article.
+
+3. I'd like to release to CRAN at some point and maybe promote the project more in the R sphere.
 
 3. I want to make an addon package for online multiplayer functionality, with a *Tron* ROM+devlog for reference.
 

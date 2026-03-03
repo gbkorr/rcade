@@ -90,7 +90,6 @@
 
 
 
-#R2STUDIO DOCUMENTATION: short description, how to use section, plotting section, settings section
 #' R^2Studio
 #'
 #' @description
@@ -122,7 +121,9 @@
 #' @section Settings:
 #' The appearance of the console can be changed with a couple commands (entered in the input session like any other code for R\eqn{^2}Studio).
 #'
-#' `use.size(width = NULL, height = NULL, plot.width = NULL)`: resize display or plot window
+#' `use.size(width = NULL, height = NULL, plot.width = NULL)`\cr
+#' \verb{    }resize display or plot window
 #'
-#' `use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)`: change or edit console font
+#' `use.font(font = NULL, kerning = NULL, linespacing = NULL, darkmode = NULL)`\cr
+#' \verb{    }change or edit console font
 'R2Studio'
