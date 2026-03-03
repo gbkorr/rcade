@@ -126,7 +126,7 @@ One of the big questions when making a gaming device is "How will I get the fram
 
 `rcade` uses a very simple and robust timing system to ensure that the game runs in realtime at the correct speed, by taking advantage of `base::Sys.time()`'s high precision.
 
-### 1.1. Goal
+### 1.1 Goal
 
 But first: what do we want to do on each frame? What even *is* a frame?
 
@@ -199,9 +199,10 @@ animate(c('begin','time passes','time passes; RAM is now behind current frame','
 Now, we also want to draw the game, and to make it feel smooth, we only want to do this when the game is "at" the current frame--- ahead of the white bar. So the logic for timing the game is:
 
 ```         
-1.  if within of the current frame, sleep (wait) until the game is just behind the current frame
+1.  if within the current frame, sleep (wait) until 
+the game is just behind the current frame
 2.  update the RAM (advance a frame)
-3.  if within of the current frame, draw the RAM
+3.  if within the current frame, draw the RAM
 4.  repeat
 ```
 
