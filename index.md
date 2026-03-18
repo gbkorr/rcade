@@ -18,5 +18,4 @@ more about more about the package and browse the documentation.
 
 ![](reference/figures/thumbnail.png)
 
-Source Code:
-[https://github.com/gbkorr/rcade](https://gbkorr.github.io/rcade/)
+Source Code: <https://github.com/gbkorr/rcade>
