@@ -159,7 +159,7 @@ Both packages are obscure and nearly a decade old— may the R gods be merciful 
 ### 7.3 AI Disclaimer
 **No LLMs** were used[^11] in the making of this package. All writing and code was done by me!
 
-[^11]: Except for when Google results suggested a function before I could click on Stackexchgange, of course.
+[^11]: Except for when Google results suggested a function before I could click on Stackexchange, of course.
 
 ## 8. But Can it Run Doom?
 Absolutely, but I’m not good at making 3D games. Someone else will have to do the port.
