@@ -12,4 +12,4 @@ Check out the [website](https://gbkorr.github.io/rcade/articles/rcade.html) to l
  
 ![](man/figures/thumbnail.png)
 
-Source Code: [https://github.com/gbkorr/rcade]()
+Source Code: [https://github.com/gbkorr/rcade](https://github.com/gbkorr/rcade)
