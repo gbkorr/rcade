@@ -244,4 +244,4 @@ to do the port.
     a good framework for this sort of engine.
 
 5.  Except for when Google results suggested a function before I could
-    click on Stackexchgange, of course.
+    click on Stackexchange, of course.
