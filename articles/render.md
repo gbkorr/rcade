@@ -446,11 +446,9 @@ other information about the animation.
 then parses these to figure out what frame of animation it should
 return.
 
-\#example clode
-
-**Example**
-
-code for the animation above, incl. test_animation
+**Example: TODO**. See
+[`render.animate()`](https://gbkorr.github.io/rcade/reference/render.animate.md)
+in the meantime.
 
 We can also specify whether an animation should loop or transition to a
 different sprite after completing, by giving the list a value for
