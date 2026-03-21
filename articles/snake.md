@@ -4,7 +4,7 @@ This article goes through the full process of making and testing the
 `Snake` ROM. Snake is a good game to demonstrate the basic input and
 gamelogic functionality of the package, and it doesn’t require fancy
 graphics; graphical capabilities are explored in
-`vignette("rcade.super_rrio")`.
+[`vignette("rrio")`](https://gbkorr.github.io/rcade/articles/rrio.md).
 
 This article includes all of the code in the `Snake` ROM, in collapsible
 chunks like this:
