@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This article talks about the package itself. For how to use it, see `vignettes("guide")`.
+This article talks about the package itself. For how to use it, see `vignette("guide")`.
 
 ## 1. Manifest
 Why does this package exist?
