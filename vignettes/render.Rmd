@@ -302,7 +302,7 @@ The basic functionality of `render.text()` is stitching together character sprit
 
 Additionally, some code is included to provide the option to wrap words to fit in a given width of pixels, and align them to the left/right/center.[^10]
 
-[^10]: Though this code could use some improvement. It does its job but isn't very robust--- I figured it was already too niche to warrant more attention. Apparently r also has a dedicated `base::strwrap()` function for this already...`
+[^10]: Though this code could use some improvement. It does its job but isn't very robust--- I figured it was already too niche to warrant more attention. Apparently r also has a dedicated `base::strwrap()` function for this already...
 
 Here's an example of `render.text()`'s stitching:
 
