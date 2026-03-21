@@ -281,12 +281,7 @@ Now to the topic of animations. All we have to do is make a game object change i
 
 This is facilitated by calling `render.animate()` when we retrieve an object's sprite in `render.object()`. For sprites we want to animate, instead of storing just the pixel art matrix, we store a list containing each frame of animation and some other information about the animation. `render.animate()` then parses these to figure out what frame of animation it should return.
 
-#example clode
-<details>
-  <summary>**Example**</summary>
-  code for the animation above, incl. test_animation
-</details>
-
+**Example: TODO**. See `render.animate()` in the meantime.
 
 We can also specify whether an animation should loop or transition to a different sprite after completing, by giving the list a value for `next_animation`.
 
