@@ -640,4 +640,4 @@ making it the package’s default, but haven’t gotten around to it yet.
     isn’t very robust— I figured it was already too niche to warrant
     more attention. Apparently r also has a dedicated
     [`base::strwrap()`](https://rdrr.io/r/base/strwrap.html) function
-    for this already…\`
+    for this already…
