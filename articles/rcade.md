@@ -1,7 +1,7 @@
 # The 'rcade' Package
 
 This article talks about the package itself. For how to use it, see
-`vignettes("guide")`.
+[`vignette("guide")`](https://gbkorr.github.io/rcade/articles/guide.md).
 
 ## 1. Manifest
 
