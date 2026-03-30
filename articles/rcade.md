@@ -43,6 +43,13 @@ describes how the engine **captures and interprets user input**.
 [`vignette("render")`](https://gbkorr.github.io/rcade/articles/render.md)
 details everything that goes into **drawing the game** to the console.
 
+### 2.3 Function Documentation
+
+The [Reference](https://gbkorr.github.io/rcade/reference/index.html)
+page has a link to the documentation page for every function in the
+package. You can also find specific functions with the search bar or by
+clicking on them in an article.
+
 ## 3. Prebuilt ROMs
 
 Rcade comes with several games included to demonstrate the various
