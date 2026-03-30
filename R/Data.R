@@ -58,7 +58,7 @@
 #'
 #' @description
 #' A ROM that plays the video [Bad Apple](https://www.youtube.com/watch?v=FtutLA63Cp8).\cr
-#' See `vignette("badapple")` for more details.
+#' See `vignette("rcade")` for more details.
 #'
 #' ```
 #' quickload(BadApple)
